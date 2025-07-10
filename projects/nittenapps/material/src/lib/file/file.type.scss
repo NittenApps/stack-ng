@@ -1,0 +1,15 @@
+.files-container {
+  position: relative;
+  min-height: 48px;
+
+  .mdc-icon-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    .ng-fa-icon {
+      position: relative;
+      top: -2px;
+    }
+  }
+}

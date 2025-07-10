@@ -1,0 +1,29 @@
+<div class="files-container">
+  <h4>{{props.label}} {{props.required ? '*' : ''}}</h4>
+  @if (!props.readonly && !props.disabled) {
+  <button mat-icon-button type="button" [matTooltip]="title" [ariaLabel]="title" (click)="selectFile()">
+    <fa-icon [icon]="multiple ? faPlus : faPencil" />
+  </button>
+  }
+  <div class="row row-cols-1" [ngClass]="{'row-cols-md-3': multiple}" style="padding-top: 8px; text-align: center;">
+    @for (file of field.formControl.value; track file.textValue) {
+    <!--div class="col">
+      <div class="file-item">
+        <span class="file-name">{{file.name}}</span>
+        @if (!props.readonly && !props.disabled) {
+        <button mat-icon-button type="button" [matTooltip]="'Eliminar archivo'" [ariaLabel]="'Eliminar archivo'"
+          (click)="removeFile(file)">
+          <fa-icon [icon]="faTrash" />
+        </button>
+        }
+      </div-->
+    <a href="{{apiConfig.baseUrl}}/files/v1{{file.textValue}}" target="_blank">
+      @if (file.codeValue.match('^(png|jpe?g|gif|tiff)$')) {
+      <img src="{{apiConfig.baseUrl}}/files/v1{{file.textValue}}" />
+      } @else {
+      <fa-icon [icon]="icons[file.codeValue] || faFile" size="6x" />
+      }
+    </a>
+    }
+  </div>
+</div>
