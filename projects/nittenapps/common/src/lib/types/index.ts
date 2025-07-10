@@ -1,5 +1,9 @@
+export { Activity } from './activity';
 export { AttributeValue } from './attribute-value';
 export { Catalog } from './catalog';
 export { CatalogValue } from './catalog-value';
 export { DialogData } from './dialog-data';
 export { DirtyAware } from './dirty-aware';
+export { FieldGroup } from './field-group';
+export { Field } from './field';
+export { Module } from './module';
