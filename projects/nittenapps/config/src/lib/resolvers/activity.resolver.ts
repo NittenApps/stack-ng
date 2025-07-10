@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
+import { Activity } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
-import { Activity } from '../types/activity';
 
 export const activityResolver: ResolveFn<Activity> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);

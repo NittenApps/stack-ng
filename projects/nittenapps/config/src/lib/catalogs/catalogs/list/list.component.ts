@@ -6,7 +6,7 @@ import { Column, Filter, ListComponent as StackListComponent, ListToolbarCompone
 @Component({
   selector: 'nas-catalogs-list',
   standalone: true,
-  imports: [FormsModule, ListToolbarComponent, StackListComponent, MatInputModule],
+  imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
   templateUrl: './list.component.html',
 })
 export class ListComponent {
@@ -40,7 +40,7 @@ export class ListComponent {
       filter['code'] = '%' + this._filter.code.toUpperCase() + '%';
     }
     if (!!this._filter.name) {
-      filter['name'] = '%' + this._filter.name.toUpperCase() + '%';
+      filter['name'] = '%' + this._filter.name + '%';
     }
     this.filter = filter;
   }

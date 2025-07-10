@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { ConfigService, NAS_API_CONFIG } from '@nittenapps/api';
+import { Catalog } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsModule } from '@nittenapps/forms';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'nas-attribute',
@@ -17,6 +21,9 @@ export class AttributeComponent {
   options: StackFormOptions = {};
 
   constructor() {
+    const data = inject(MAT_DIALOG_DATA);
+    const configService = new ConfigService(inject(NAS_API_CONFIG), inject(HttpClient));
+
     setTimeout(() => {
       this.fields = [
         {
@@ -29,9 +36,12 @@ export class AttributeComponent {
                 label: 'Tipo',
                 required: true,
                 options: [
-                  { value: 'CD', label: 'Código' },
+                  { value: 'AN', label: 'Alfanumérico' },
+                  { value: 'NM', label: 'Numérico' },
+                  { value: 'DO', label: 'Fecha' },
+                  { value: 'DT', label: 'Fecha y Hora' },
+                  { value: 'BL', label: 'Booleano' },
                   { value: 'CT', label: 'Catálogo' },
-                  { value: 'ST', label: 'Texto' },
                 ],
               },
             },
@@ -58,9 +68,49 @@ export class AttributeComponent {
                 label: 'Descripción',
               },
             },
+            {
+              key: 'required',
+              type: 'toggle',
+              props: {
+                label: 'Requerido',
+              },
+              expressions: {
+                hide: 'model.type === "BL"',
+              },
+            },
+            {
+              key: 'multiple',
+              type: 'toggle',
+              props: {
+                label: 'Múltiple',
+              },
+              expressions: {
+                hide: 'model.type !== "CT"',
+              },
+            },
+            {
+              key: 'definition.catalog',
+              type: 'select',
+              props: {
+                label: 'Catálogo',
+                options: configService
+                  .getCatalogs()
+                  .pipe(
+                    map((items: Catalog[]) =>
+                      items.map((catalog) => ({ value: catalog.code, label: `${catalog.code} - ${catalog.name}` }))
+                    )
+                  ),
+              },
+              expressions: {
+                hide: 'model.type !== "CT"',
+                'props.required': 'model.type === "CT"',
+              },
+            },
           ],
         },
       ];
+
+      this.model = data;
     });
   }
 }

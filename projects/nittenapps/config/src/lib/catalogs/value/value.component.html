@@ -1,10 +1,16 @@
-<h2 mat-dialog-title>{{model.code}} - {{model.name}}</h2>
+<h2 mat-dialog-title>
+  @if (this.model.id) {
+  {{catalog.code}} - {{model.code}}
+  } @else {
+  {{catalog.code}} - Nuevo
+  }
+</h2>
 <mat-dialog-content>
   <form [formGroup]="form" novalidate>
     <nas-form [model]="model" [fields]="fields" [options]="options" [form]="form" />
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button [mat-dialog-close]="model" [disabled]="form.invalid">Aceptar</button>
+  <button mat-raised-button [disabled]="form.invalid" (click)="save()">Aceptar</button>
   <button mat-button mat-dialog-close>Cancelar</button>
 </mat-dialog-actions>

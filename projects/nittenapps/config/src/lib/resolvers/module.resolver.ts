@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
-import { Catalog } from '@nittenapps/common';
+import { Module } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
 
-export const catalogResolver: ResolveFn<Catalog> = (route: ActivatedRouteSnapshot) => {
+export const moduleResolver: ResolveFn<Module> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const id = route.paramMap.get('id')!;
-  const activityService = new ActivityService(inject(NAS_API_CONFIG), inject(HttpClient), 'configCatalogs');
+  const activityService = new ActivityService(inject(NAS_API_CONFIG), inject(HttpClient), 'configModules');
 
   if (id === '__NEW__') {
     return {
@@ -18,9 +18,9 @@ export const catalogResolver: ResolveFn<Catalog> = (route: ActivatedRouteSnapsho
 
   return activityService.getObject(id).pipe(
     map((response) => response.body.object),
-    mergeMap((catalog) => {
-      if (catalog) {
-        return of(catalog);
+    mergeMap((activity) => {
+      if (activity) {
+        return of(activity);
       }
       router.navigate(['..']);
       return EMPTY;

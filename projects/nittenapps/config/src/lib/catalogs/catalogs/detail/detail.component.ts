@@ -1,7 +1,8 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Catalog } from '@nittenapps/api';
+import { Catalog, FieldGroup } from '@nittenapps/common';
 import { BaseDetailComponent, DetailToolbarComponent } from '@nittenapps/components';
 import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import {
@@ -10,13 +11,15 @@ import {
   StackMatTableModule,
   StackMatToggleModule,
 } from '@nittenapps/material';
-import { AttributeComponent } from '../../attribute/attribute.component';
 import { Observable } from 'rxjs';
+
+import { AttributeComponent } from '../../attribute/attribute.component';
 
 @Component({
   selector: 'nas-catalogs-detail',
   standalone: true,
   imports: [
+    AsyncPipe,
     DetailToolbarComponent,
     ReactiveFormsModule,
     StackFormsModule,
@@ -32,26 +35,14 @@ export class DetailComponent extends BaseDetailComponent<Catalog> {
     super();
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit();
-
-    this.route.data.subscribe((data) => {
-      this.model = data['catalog'];
-    });
-  }
-
-  protected override getActivity(): string {
-    return 'configCatalogs';
-  }
-
-  protected override initFields(): StackFieldConfig[] {
+  protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [
       {
         fieldGroupClassName: 'row row-cols-1 row-cols-md-4',
         fieldGroup: [
           {
             key: 'code',
-            type: 'input',
+            type: 'uppercase',
             props: {
               label: 'Código',
               required: true,
@@ -102,6 +93,7 @@ export class DetailComponent extends BaseDetailComponent<Catalog> {
           addable: true,
           editable: true,
           add: this.addAttribute.bind(this),
+          edit: this.editAttribute.bind(this),
         },
         fieldArray: {
           fieldGroup: [
@@ -115,7 +107,15 @@ export class DetailComponent extends BaseDetailComponent<Catalog> {
     ];
   }
 
+  protected override getActivity(): string {
+    return 'configCatalogs';
+  }
+
   private addAttribute(): Observable<any> {
-    return this.dialog.open(AttributeComponent, { data: {}, width: '90%', height: '80%' }).afterClosed();
+    return this.dialog.open(AttributeComponent, { data: {}, width: '90%' }).afterClosed();
+  }
+
+  private editAttribute(_: StackFieldConfig, value: any): Observable<any> {
+    return this.dialog.open(AttributeComponent, { data: { ...value }, width: '90%' }).afterClosed();
   }
 }

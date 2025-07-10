@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Catalog, ConfigService, NAS_API_CONFIG } from '@nittenapps/api';
-import { CommonModule } from '@nittenapps/common';
+import { Catalog, CommonModule, Field, FieldGroup } from '@nittenapps/common';
 import { BaseDetailComponent, DetailToolbarComponent } from '@nittenapps/components';
 import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import {
@@ -12,12 +11,12 @@ import {
   StackMatToggleModule,
 } from '@nittenapps/material';
 import { map } from 'rxjs';
-import { Field } from '../../../types/field';
 
 @Component({
   selector: 'nas-field-detail',
   standalone: true,
   imports: [
+    AsyncPipe,
     CommonModule,
     DetailToolbarComponent,
     ReactiveFormsModule,
@@ -31,23 +30,7 @@ import { Field } from '../../../types/field';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent extends BaseDetailComponent<Field> {
-  private configService!: ConfigService;
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-
-    this.route.data.subscribe((data) => {
-      this.model = data['field'];
-    });
-  }
-
-  protected override getActivity(): string {
-    return 'configFields';
-  }
-
-  protected override initFields(): StackFieldConfig[] {
-    this.configService = new ConfigService(inject(NAS_API_CONFIG), inject(HttpClient));
-
+  protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [
       {
         fieldGroupClassName: 'row row-cols-1 row-cols-md-4',
@@ -121,6 +104,16 @@ export class DetailComponent extends BaseDetailComponent<Field> {
                 },
                 expressions: {
                   hide: 'model.type === "BL"',
+                },
+              },
+              {
+                key: 'definition.multiple',
+                type: 'toggle',
+                props: {
+                  label: 'Mútiple',
+                },
+                expressions: {
+                  hide: '!["CT","DC"].includes(model.type)',
                 },
               },
               {
@@ -219,5 +212,9 @@ export class DetailComponent extends BaseDetailComponent<Field> {
         ],
       },
     ];
+  }
+
+  protected override getActivity(): string {
+    return 'configFields';
   }
 }

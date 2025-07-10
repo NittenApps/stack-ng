@@ -9,14 +9,15 @@
             <nas-form [model]="model" [fields]="definitionFields" [options]="options" [form]="form" />
           </div>
         </mat-tab>
-        <mat-tab label="Campos">
+        <mat-tab label="Actividades">
           <div class="nas-tab-content">
             <p-picklist [dragdrop]="true" filterBy="name" scrollHeight="40rem" [showSourceControls]="false"
-              [source]="sourceFields" sourceHeader="Campos disponibles"
-              [sourceStyle]="{display: 'block',height: '40rem'}" [target]="targetFields"
-              targetHeader="Campos seleccionados" [targetStyle]="{display: 'block',height: '40rem'}" [trackBy]="trackBy"
-              (onMoveAllToSource)="markDirty()" (onMoveAllToTarget)="markDirty()" (onMoveToSource)="markDirty()"
-              (onMoveToTarget)="markDirty()" (onTargetReorder)="markDirty()">
+              [source]="sourceActivities" sourceHeader="Actividades disponibles"
+              [sourceStyle]="{display: 'block',height: '40rem'}" [target]="targetActivities"
+              targetHeader="Actividades seleccionadas" [targetStyle]="{display: 'block',height: '40rem'}"
+              [trackBy]="trackBy" (onMoveAllToSource)="form.markAsDirty()" (onMoveAllToTarget)="form.markAsDirty()"
+              (onMoveToSource)="form.markAsDirty()" (onMoveToTarget)="form.markAsDirty()"
+              (onTargetReorder)="form.markAsDirty()">
               <ng-template let-item pTemplate="item">
                 {{item.code}} - {{item.name}}
               </ng-template>

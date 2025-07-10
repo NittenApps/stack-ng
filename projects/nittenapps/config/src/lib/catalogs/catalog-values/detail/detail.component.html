@@ -1,0 +1,55 @@
+<div class="activity-detail">
+  <nas-detail-toolbar [allowSave]="false">
+    <ng-template #leftActions>
+      <button mat-icon-button matTooltip="Nuevo valor" aria-label="Nuevo valor" (click)="addValue()">
+        <fa-duotone-icon [icon]="faPlus" swapOpacity="true" />
+      </button>
+    </ng-template>
+  </nas-detail-toolbar>
+  <div class="main-container">
+    <div class="row row-cols-2 row-cols-md-4">
+      <mat-form-field>
+        <mat-label>Código</mat-label>
+        <input matInput name="code" autocomplete="off" [(ngModel)]="_filter.code" (change)="applyFilter()">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput name="name" autocomplete="off" [(ngModel)]="_filter.name" (change)="applyFilter()">
+      </mat-form-field>
+    </div>
+    <div class="flex flex-colum v-full overflow-hidden">
+      <table mat-table [dataSource]="data" matSort matSortActive="code" matSortDirection="asc" matSortDisableClear
+        style="flex: auto">
+        <ng-container matColumnDef="button">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button type="button" (click)="editValue(item)">
+              <fa-duotone-icon [icon]="faPencil" />
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+          <td mat-cell *matCellDef="let item">{{item.code}}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let item">{{item.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="updatedBy">
+          <th mat-header-cell *matHeaderCellDef>Usuario</th>
+          <td mat-cell *matCellDef="let item">{{item.updatedBy}}</td>
+        </ng-container>
+        <ng-container matColumnDef="updatedOn">
+          <th mat-header-cell *matHeaderCellDef>Última Actualización</th>
+          <td mat-cell *matCellDef="let item">{{item.updatedOn | date: 'dd/MM/yyyy HH:mm' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let item; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <mat-paginator [length]="totalItems" [pageSize]="15" [pageSizeOptions]="[10, 15, 20]"
+      aria-label="Seleccionar página" />
+  </div>
+</div>

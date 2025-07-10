@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ListComponent as StackListComponent, ListToolbarComponent, Column, Filter } from '@nittenapps/components';
 
 @Component({
-  selector: 'nas-field-groups-list',
+  selector: 'nas-moduless-list',
   standalone: true,
   imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
   templateUrl: './list.component.html',

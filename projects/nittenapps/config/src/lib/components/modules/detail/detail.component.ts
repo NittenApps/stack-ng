@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Data } from '@angular/router';
 import { ListBody } from '@nittenapps/api';
-import { Field, FieldGroup } from '@nittenapps/common';
+import { Activity, FieldGroup, Module } from '@nittenapps/common';
 import { BaseDetailComponent, DetailToolbarComponent } from '@nittenapps/components';
 import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import {
@@ -16,7 +16,7 @@ import {
 import { PickListModule } from 'primeng/picklist';
 
 @Component({
-  selector: 'nas-field-groups-detail',
+  selector: 'nas-activities-detail',
   standalone: true,
   imports: [
     CommonModule,
@@ -33,10 +33,10 @@ import { PickListModule } from 'primeng/picklist';
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailComponent extends BaseDetailComponent<FieldGroup> {
+export class DetailComponent extends BaseDetailComponent<Module> {
   definitionFields: StackFieldConfig[];
-  sourceFields: Field[] = [];
-  targetFields: Field[] = [];
+  sourceActivities: Activity[] = [];
+  targetActivities: Activity[] = [];
 
   constructor() {
     super();
@@ -57,11 +57,7 @@ export class DetailComponent extends BaseDetailComponent<FieldGroup> {
     ];
   }
 
-  markDirty(): void {
-    this.form.markAsDirty();
-  }
-
-  trackBy(_index: number, item: Field): any {
+  trackBy(_index: number, item: Activity): any {
     return item.id;
   }
 
@@ -72,7 +68,7 @@ export class DetailComponent extends BaseDetailComponent<FieldGroup> {
         fieldGroup: [
           {
             key: 'code',
-            type: 'uppercase',
+            type: 'input',
             props: {
               label: 'Código',
               required: true,
@@ -109,25 +105,25 @@ export class DetailComponent extends BaseDetailComponent<FieldGroup> {
   }
 
   protected override getActivity(): string {
-    return 'configFieldGroups';
+    return 'configModules';
   }
 
   protected override initModel(data: Data): void {
     super.initModel(data);
 
-    this.activityService.get('getFields', {}).subscribe({
-      next: (fields) => {
-        this.targetFields = this.model.fields || [];
+    this.activityService.get('getActivities', {}).subscribe({
+      next: (activities) => {
+        this.targetActivities = this.model.activities || [];
 
-        const ids = this.targetFields.map((field) => field.id);
-        this.sourceFields = (fields.body as ListBody<Field>).items.filter((item) => !ids.includes(item.id));
+        const ids = this.targetActivities.map((fieldGroup) => fieldGroup.id);
+        this.sourceActivities = (activities.body as ListBody<Activity>).items.filter((item) => !ids.includes(item.id));
       },
     });
   }
 
   protected override prepareValue(): any {
     const value = super.prepareValue();
-    value.fields = this.targetFields;
+    value.activities = this.targetActivities;
     return value;
   }
 }

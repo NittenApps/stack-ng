@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { ListComponent as StackListComponent, ListToolbarComponent, Column, Filter } from '@nittenapps/components';
+import { Column, Filter, ListComponent as StackListComponent, ListToolbarComponent } from '@nittenapps/components';
 
 @Component({
-  selector: 'nas-field-groups-list',
+  selector: 'nas-catalog-values-list',
   standalone: true,
-  imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
+  imports: [FormsModule, ListToolbarComponent, StackListComponent, MatInputModule],
   templateUrl: './list.component.html',
 })
 export class ListComponent {

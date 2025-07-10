@@ -1,6 +1,16 @@
 <div class="activity-list">
   <nas-list-toolbar />
   <div class="list-container">
-    <nas-list activity="configActivities" activeSort="code" [columns]="columns" />
+    <div class="row row-cols-2 row-cols-md-4">
+      <mat-form-field>
+        <mat-label>Código</mat-label>
+        <input matInput name="code" [(ngModel)]="_filter.code" (change)="applyFilter()">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput name="name" [(ngModel)]="_filter.name" (change)="applyFilter()">
+      </mat-form-field>
+    </div>
+    <nas-list activity="configActivities" activeSort="code" [columns]="columns" [filter]="filter" />
   </div>
 </div>

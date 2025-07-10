@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
+import { Data } from '@angular/router';
 import { ListBody } from '@nittenapps/api';
+import { Activity, FieldGroup } from '@nittenapps/common';
 import { BaseDetailComponent, DetailToolbarComponent } from '@nittenapps/components';
 import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import {
@@ -12,9 +14,6 @@ import {
   StackMatToggleModule,
 } from '@nittenapps/material';
 import { PickListModule } from 'primeng/picklist';
-import { combineLatest, tap } from 'rxjs';
-import { Activity } from '../../../types/activity';
-import { FieldGroup } from '../../../types/field-group';
 
 @Component({
   selector: 'nas-activities-detail',
@@ -58,33 +57,11 @@ export class DetailComponent extends BaseDetailComponent<Activity> {
     ];
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit();
-
-    combineLatest([this.route.data, this.activityService.get('getFieldGroups', {})])
-      .pipe(tap(console.log))
-      .subscribe({
-        next: ([data, fieldGroups]) => {
-          this.model = data['activity'];
-          this.targetFieldGroups = this.model.fieldGroups || [];
-
-          const ids = this.targetFieldGroups.map((fieldGroup) => fieldGroup.id);
-          this.sourceFieldGroups = (fieldGroups.body as ListBody<FieldGroup>).items.filter(
-            (item) => !ids.includes(item.id)
-          );
-        },
-      });
-  }
-
   trackBy(_index: number, item: FieldGroup): any {
     return item.id;
   }
 
-  protected override getActivity(): string {
-    return 'configActivities';
-  }
-
-  protected override initFields(): StackFieldConfig[] {
+  protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [
       {
         fieldGroupClassName: 'row row-cols-1 row-cols-md-4',
@@ -125,6 +102,25 @@ export class DetailComponent extends BaseDetailComponent<Activity> {
         ],
       },
     ];
+  }
+
+  protected override getActivity(): string {
+    return 'configActivities';
+  }
+
+  protected override initModel(data: Data): void {
+    super.initModel(data);
+
+    this.activityService.get('getFieldGroups', {}).subscribe({
+      next: (fieldGroups) => {
+        this.targetFieldGroups = this.model.fieldGroups || [];
+
+        const ids = this.targetFieldGroups.map((fieldGroup) => fieldGroup.id);
+        this.sourceFieldGroups = (fieldGroups.body as ListBody<FieldGroup>).items.filter(
+          (item) => !ids.includes(item.id)
+        );
+      },
+    });
   }
 
   protected override prepareValue(): any {
