@@ -1,9 +1,9 @@
 import { Component, OnInit, Type } from '@angular/core';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
 import { StackFieldSelectProps } from '@nittenapps/forms/select';
-import { FieldType, StackFieldProps } from '../form-field';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, Observable, of, startWith, switchMap, tap } from 'rxjs';
+import { FieldType, StackFieldProps } from '../form-field';
 
 interface AutocompleteProps extends StackFieldProps, StackFieldSelectProps {
   multiple?: boolean;
@@ -36,7 +36,6 @@ export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<Autocomple
   ngOnInit(): void {
     this.filteredOptions = this.formControl.valueChanges.pipe(
       startWith(''),
-      tap(console.log),
       switchMap((term) => this.filterOptions(term))
     );
   }

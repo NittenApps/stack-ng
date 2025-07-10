@@ -16,6 +16,9 @@
     <ng-container *ngIf="props.multiple && props.selectAllOption" [ngTemplateOutlet]="selectAll"
       [ngTemplateOutletContext]="{ selectOptions: selectOptions }">
     </ng-container>
+    @if (!props.multiple) {
+    <mat-option [value]="null"></mat-option>
+    }
     <ng-container *ngFor="let item of selectOptions">
       <mat-optgroup *ngIf="item.group" [label]="item.label || ''">
         <mat-option *ngFor="let child of item.group" [value]="child.value" [disabled]="child.disabled">

@@ -5,7 +5,7 @@ import { FieldType } from '../form-field';
 
 export interface StackFieldProps extends CoreStackFieldProps {
   allowNegative?: boolean;
-  format?: 'uppercase' | 'lowercase' | 'integer' | 'decimal' | 'date' | 'datetime' | string;
+  format?: 'uppercase' | 'lowercase' | 'integer' | 'decimal' | 'percent' | 'date' | 'datetime' | string;
 }
 
 export interface StackInputFieldConfig extends StackFieldConfig<StackFieldProps> {
@@ -16,6 +16,7 @@ export interface StackInputFieldConfig extends StackFieldConfig<StackFieldProps>
 @Component({
   selector: 'nas-field-mat-input',
   templateUrl: './input.type.html',
+  styleUrl: './input.type.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>> {
@@ -35,6 +36,8 @@ export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>>
         switch (this.props.format) {
           case 'decimal':
             return 'separator.2';
+          case 'integer':
+            return 'separator.0';
           default:
             return this.props.format || 'separator.0';
         }
@@ -47,6 +50,8 @@ export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>>
           default:
             return this.props.format || 'dd/MM/yyyy HH:mm';
         }
+      case 'percent':
+        return this.props.format || 'percent.2';
       default:
         return this.props.format || '';
     }

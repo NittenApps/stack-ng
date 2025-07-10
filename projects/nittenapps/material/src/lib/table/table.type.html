@@ -1,19 +1,23 @@
 <table mat-table #formTable [dataSource]="dataSource" multiTemplateDataRows>
-  @for (f of fieldsToRender; track f; let i = $index) {
+  @for (f of fieldsToRender; track f.key; let i = $index) {
   <ng-container [matColumnDef]="f.key">
-    <th mat-header-cell *matHeaderCellDef [ngClass]="{'number': f.type === 'number', 'date': f.type === 'date'}">
+    <th mat-header-cell *matHeaderCellDef
+      [ngClass]="{number: f.type === 'number' || f.type === 'percent', date: f.type === 'date', button: f.type === 'button'}">
       {{f.name}}
     </th>
     @if (f.type === 'number') {
     <td mat-cell *matCellDef="let item" class="number">
       {{getValue(item.fieldGroup[i]) | number: getFormat(item.fieldGroup[i])}}</td>
+    } @else if (f.type === 'percent') {
+    <td mat-cell *matCellDef="let item" class="number">
+      {{getValue(item.fieldGroup[i]) | percent: getFormat(item.fieldGroup[i])}}</td>
     } @else if (f.type === 'date') {
     <td mat-cell *matCellDef="let item" class="date">
       {{getValue(item.fieldGroup[i]) | date: getFormat(item.fieldGroup[i])}}</td>
     } @else if (f.type === 'string') {
     <td mat-cell *matCellDef="let item">{{getValue(item.fieldGroup[i])}}</td>
     } @else {
-    <td mat-cell *matCellDef="let item">
+    <td mat-cell *matCellDef="let item" [ngClass]="{button: f.type === 'button'}">
       <nas-field [field]="item.fieldGroup[i]" />
     </td>
     }

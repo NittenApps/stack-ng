@@ -36,7 +36,7 @@ interface DatepickerProps extends StackFieldProps {
   }>;
 }
 
-export interface StackDatepickerFieldConfig extends StackFieldConfig<DatepickerProps> {
+export interface StackDatepickerFieldConfig extends StackFieldConfig<FieldTypeConfig<DatepickerProps>> {
   type: 'datepicker' | Type<StackFieldDatepicker>;
 }
 

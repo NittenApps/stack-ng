@@ -47,7 +47,7 @@ interface DatetimepickerProps extends StackFieldProps {
   }>;
 }
 
-export interface StackDatetimepickerFieldConfig extends StackFieldConfig<DatetimepickerProps> {
+export interface StackDatetimepickerFieldConfig extends StackFieldConfig<FieldTypeConfig<DatetimepickerProps>> {
   type: 'datetimepicker' | Type<StackFieldDatetimepicker>;
 }
 
@@ -60,7 +60,7 @@ export class StackFieldDatetimepicker
   extends FieldType<FieldTypeConfig<DatetimepickerProps>>
   implements AfterViewInit, OnDestroy
 {
-  @ViewChild('datetimepickerToggle', { static: true }) datetimepickerToggle!: TemplateRef<any>;
+  //@ViewChild('datetimepickerToggle', { static: true }) datetimepickerToggle!: TemplateRef<any>;
 
   override defaultOptions: { props: DatetimepickerProps } = {
     props: {
@@ -86,7 +86,7 @@ export class StackFieldDatetimepicker
   }
 
   ngAfterViewInit(): void {
-    (this.props as any)[this.props.datetimepickerOptions?.togglePosition!] = this.datetimepickerToggle;
+    //(this.props as any)[this.props.datetimepickerOptions?.togglePosition!] = this.datetimepickerToggle;
     observe<boolean>(this.field, ['props', 'datetimepickerOptions', 'opened'], () => {
       this.cdRef.detectChanges();
     });
@@ -103,6 +103,8 @@ export class StackFieldDatetimepicker
         }
       });
     }
+
+    this.formControl.updateValueAndValidity({ emitEvent: false });
   }
 
   override ngOnDestroy(): void {

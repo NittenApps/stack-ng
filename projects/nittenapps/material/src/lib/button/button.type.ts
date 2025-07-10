@@ -1,5 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { FieldType, StackFieldConfig } from '@nittenapps/forms';
+import { FieldType, FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
 import { StackFieldProps } from '../form-field';
 import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
@@ -17,7 +17,7 @@ export interface StackButtonConfig extends StackFieldConfig<ButtonProps> {
   selector: 'nas-field-mat-button',
   templateUrl: './button.type.html',
 })
-export class StackMatButton extends FieldType<StackButtonConfig> {
+export class StackMatButton extends FieldType<FieldTypeConfig<ButtonProps>> {
   get type(): string {
     if (typeof this.props.icon === 'string') {
       return 'string';

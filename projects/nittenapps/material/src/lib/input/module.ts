@@ -46,6 +46,15 @@ import { StackFieldInput } from './input.type';
           },
         },
         {
+          name: 'percent',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              type: 'percent',
+            },
+          },
+        },
+        {
           name: 'date',
           extends: 'input',
           defaultOptions: {
@@ -80,6 +89,15 @@ import { StackFieldInput } from './input.type';
           defaultOptions: {
             props: {
               format: 'lowercase',
+            },
+          },
+        },
+        {
+          name: 'textarea',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              type: 'textarea',
             },
           },
         },

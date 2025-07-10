@@ -9,8 +9,8 @@
     type="button" aria-label="Siguiente" style="margin-right: 16px;">
     <fa-icon [icon]="faCaretRight"></fa-icon>
   </button>
-  <button (click)="add()" color="primary" [disabled]="length > 0 && !model[length -1]?.dateValue" mat-fab
-    matTooltip="Agregar" type="button" aria-label="Agregar">
+  <button (click)="add()" color="primary" [disabled]="props.onlyOne && length > 0 && !model[length -1]?.dateValue"
+    mat-fab matTooltip="Agregar" type="button" aria-label="Agregar">
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
 </div>

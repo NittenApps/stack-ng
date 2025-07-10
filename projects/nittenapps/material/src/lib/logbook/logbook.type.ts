@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { faCaretLeft, faCaretRight, faPlus } from '@fortawesome/pro-solid-svg-icons';
-import { FieldArrayType, StackFieldConfig } from '@nittenapps/forms';
+import { FieldArrayType, FieldArrayTypeConfig, StackFieldConfig } from '@nittenapps/forms';
 import { StackFieldProps } from '../form-field';
 
-interface LogbookProps extends StackFieldProps {}
+interface LogbookProps extends StackFieldProps {
+  onlyOne?: boolean;
+}
 
 export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
 
@@ -11,7 +13,7 @@ export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
   selector: 'nas-mat-logbook',
   templateUrl: './logbook.type.html',
 })
-export class StackMatLogbook extends FieldArrayType<LogbookConfig> {
+export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<LogbookProps>> {
   current: number = 0;
   faCaretLeft = faCaretLeft;
   faCaretRight = faCaretRight;
@@ -24,6 +26,12 @@ export class StackMatLogbook extends FieldArrayType<LogbookConfig> {
   get readonly(): boolean {
     return !!this.props.readonly || !this.model || this.field.model.length < 1;
   }
+
+  override defaultOptions = {
+    props: {
+      onlyOne: false,
+    },
+  };
 
   override add(): void {
     super.add(undefined, {});
