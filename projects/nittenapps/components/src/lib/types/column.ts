@@ -5,7 +5,8 @@ type stringFunc = (id: string, item?: any) => string;
 
 export type Column = {
   id: string;
-  type?: 'string' | 'decimal' | 'integer' | 'date' | 'datetime' | 'icon';
+  type?: 'string' | 'decimal' | 'integer' | 'percent' | 'date' | 'datetime' | 'icon';
+  format?: string;
   field?: string;
   title: string;
   sortable?: boolean;

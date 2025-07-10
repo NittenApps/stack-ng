@@ -1,4 +1,4 @@
-import { NgClass, DecimalPipe, DatePipe } from '@angular/common';
+import { NgClass, DecimalPipe, DatePipe, PercentPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
@@ -23,6 +23,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ApiConfig, NAS_API_CONFIG } from '@nittenapps/api';
 import { interval, merge, Observable, startWith, Subscription, tap } from 'rxjs';
+
 import { ListDataSource } from '../../datasources/list.datasource';
 import { ListStateService } from '../../services/list-state.service';
 import { Column, Filter } from '../../types';
@@ -30,7 +31,16 @@ import { Column, Filter } from '../../types';
 @Component({
   selector: 'nas-list',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, FaIconComponent, MatPaginatorModule, MatSortModule, MatTableModule, NgClass],
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    FaIconComponent,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgClass,
+    PercentPipe,
+  ],
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -72,7 +82,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     setTimeout(() => {
       const state = this.stateService.get(this.activity);
       this.pageIndex = state.p;
-      this.pageSize = state.p;
+      this.pageSize = state.s;
       this.filter = state.f || {};
       this.stringToSort(state.o?.[0] || this.activeSort);
 

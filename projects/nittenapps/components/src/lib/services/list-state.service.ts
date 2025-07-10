@@ -6,6 +6,7 @@ import { Filter } from '../types';
 export class ListStateService {
   get(id: string): ListState {
     const value = localStorage.getItem('list-state');
+    // If no state is found, return default state
     if (value) {
       const state = JSON.parse(value);
       if (state.i === id) {

@@ -12,10 +12,11 @@
         <fa-icon [icon]="getIcon(column, item)!" />
         }
       } @else {
-      {{column.type === 'integer' ? (getNumberValue(column, item) | number: '1.0-0')
-      : column.type === 'decimal' ? (getNumberValue(column, item) | number: '1.2-2')
-      : column.type === 'date' ? (getValue(column, item) | date: 'dd/MM/yyyy')
-      : column.type === 'datetime' ? (getValue(column, item) | date: 'dd/MM/yyyy HH:mm')
+      {{column.type === 'integer' ? (getNumberValue(column, item) | number: column.format || '1.0-0')
+      : column.type === 'decimal' ? (getNumberValue(column, item) | number: column.format || '1.2-2')
+      : column.type === 'percent' ? (getNumberValue(column, item) | percent: column.format || '1.2-2')
+      : column.type === 'date' ? (getValue(column, item) | date: column.format || 'dd/MM/yyyy')
+      : column.type === 'datetime' ? (getValue(column, item) | date: column.format || 'dd/MM/yyyy HH:mm')
       : getValue(column, item)}}
       }
     </td>
