@@ -1,18 +1,28 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { FieldGroup } from '@nittenapps/common';
+import { map, Observable } from 'rxjs';
+
 import { ApiConfig, ApiResponse, ListBody, ObjectBody } from '../types';
 
 export class ActivityService<T> {
   constructor(private config: ApiConfig, private http: HttpClient, private activity: string) {}
 
-  get(
+  get<R = any>(
     method: string,
     params: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> }
-  ): Observable<ApiResponse<T, ListBody<T> | ObjectBody<T>>> {
-    return this.http.get<ApiResponse<T, ListBody<T> | ObjectBody<T>>>(
+  ): Observable<ApiResponse<R, ListBody<R> | ObjectBody<R>>> {
+    return this.http.get<ApiResponse<R, ListBody<R> | ObjectBody<R>>>(
       `${this.config.baseUrl}/activity/v1/${this.activity}/${method}`,
       { params: this.removeNullishValues(params) }
     );
+  }
+
+  getFieldGroups(): Observable<FieldGroup[]> {
+    return this.http
+      .get<ApiResponse<FieldGroup, ListBody<FieldGroup>>>(
+        `${this.config.baseUrl}/activity/v1/${this.activity}/fieldGroups`
+      )
+      .pipe(map((response) => response.body.items));
   }
 
   getList(
@@ -40,12 +50,12 @@ export class ActivityService<T> {
     return this.http.get<ApiResponse<T, ObjectBody<T>>>(`${this.config.baseUrl}/activity/v1/${this.activity}/${id}`);
   }
 
-  post(
+  post<R = any>(
     method: string,
     params: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> },
     body: any
-  ): Observable<ApiResponse<T, ListBody<T> | ObjectBody<T>>> {
-    return this.http.post<ApiResponse<T, ListBody<T> | ObjectBody<T>>>(
+  ): Observable<ApiResponse<R, ListBody<R> | ObjectBody<R>>> {
+    return this.http.post<ApiResponse<R, ListBody<R> | ObjectBody<R>>>(
       `${this.config.baseUrl}/activity/v1/${this.activity}/${method}`,
       body,
       { params: this.removeNullishValues(params) }
