@@ -1,3 +1,5 @@
+import { CatalogValue } from './catalog-value';
+
 export type Catalog = {
   id?: string;
   code?: string;
@@ -13,5 +15,6 @@ export type Catalog = {
     required?: boolean;
     definition: { [key: string]: string | boolean | number };
   }[];
+  values?: CatalogValue[];
   version?: number;
 };

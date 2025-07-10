@@ -1,4 +1,4 @@
-import { CatalogValue } from '@nittenapps/api';
+import { CatalogValue } from '../types/catalog-value';
 
 export function compareCatalogValueFn(v1: CatalogValue, v2: any): boolean {
   return (

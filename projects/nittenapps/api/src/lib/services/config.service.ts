@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApiConfig, ApiResponse, CatalogValue, ListBody } from '../types';
+import { Catalog, CatalogValue } from '@nittenapps/common';
 import { map, Observable } from 'rxjs';
-import { Catalog } from '../types/catalog';
+
+import { ApiConfig, ApiResponse, ListBody } from '../types';
 
 export class ConfigService {
   constructor(private config: ApiConfig, private http: HttpClient) {}
