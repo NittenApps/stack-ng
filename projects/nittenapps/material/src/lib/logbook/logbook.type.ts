@@ -12,6 +12,7 @@ export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
 @Component({
   selector: 'nas-mat-logbook',
   templateUrl: './logbook.type.html',
+  styleUrl: './logbook.type.scss',
 })
 export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<LogbookProps>> {
   current: number = 0;
@@ -34,7 +35,8 @@ export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<Logbook
   };
 
   override add(): void {
-    super.add(undefined, {});
+    super.add(undefined, { position: this.length });
+    this.current = this.length - 1;
   }
 
   next(): void {

@@ -5,6 +5,9 @@
     aria-label="Anterior" style="margin-right: 16px;">
     <fa-icon [icon]="faCaretLeft"></fa-icon>
   </button>
+  @if (length > 0) {
+  <span class="pagination-text">{{current + 1}} de {{length}}</span>
+  }
   <button (click)="next()" color="primary" [disabled]="current >= length -1" mat-fab matTooltip="Siguiente"
     type="button" aria-label="Siguiente" style="margin-right: 16px;">
     <fa-icon [icon]="faCaretRight"></fa-icon>
