@@ -91,7 +91,7 @@ export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
     }
 
     option = {
-      label: props.labelProp(option) || option.code + ' - ' + option.name,
+      label: props.labelProp(option) || (option.code ? option.code + ' - ' : '') + option.name,
       value: props.valueProp(option) || option,
       disabled: !!props.disabledProp(option),
     };
