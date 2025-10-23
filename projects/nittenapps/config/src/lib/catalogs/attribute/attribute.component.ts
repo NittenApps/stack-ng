@@ -79,7 +79,7 @@ export class AttributeComponent {
               },
             },
             {
-              key: 'multiple',
+              key: 'definition.multiple',
               type: 'toggle',
               props: {
                 label: 'Múltiple',
