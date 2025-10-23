@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ActivityService, ApiConfig, ApiResponse, ConfigService, NAS_API_CONFIG, ObjectBody } from '@nittenapps/api';
-import { DirtyAware, FieldGroup } from '@nittenapps/common';
-import { StackFieldConfig, StackFormOptions } from '@nittenapps/forms';
-import { map, Observable } from 'rxjs';
+import { DirtyAware, Field, FieldGroup } from '@nittenapps/common';
+import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nittenapps/forms';
+import { map, Observable, of, startWith, switchMap } from 'rxjs';
 
 @Component({
   template: '',
@@ -41,10 +41,11 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
+    this.initFields();
+    this.options = this.initFormOptions();
+
     this.route.data.subscribe((data) => {
       this.initModel(data);
-      this.initFields();
-      this.options = this.initFormOptions();
     });
   }
 
@@ -81,8 +82,34 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             if (field.definition?.pattern) {
               fieldConfig.props!.pattern = new RegExp(field.definition.pattern);
             }
-            fieldConfig.props!.maxLength = field.definition?.maxLength ? +field.definition.maxLength : undefined;
+            fieldConfig.props!.maxLength = field.definition?.maxLength ? +field.definition.maxLength : 255;
             fieldConfig.props!.minLength = field.definition?.minLength ? +field.definition.minLength : undefined;
+            break;
+          case 'AC':
+            fieldConfig.key = `attributes.${field.code}.0.catalogValue`;
+            fieldConfig.type = 'autocomplete';
+            if (field.definition?.reference) {
+              const [p, r] = field.definition.reference.split('=');
+              fieldConfig.hooks = {
+                onInit: (fld: StackFieldConfig) => {
+                  const c = fld.parent?.get?.(`attributes.${r}.0.catalogValue`);
+                  if (c) {
+                    c!.props!.change = (f: StackFieldConfig, event: any) => {
+                      if (event?.value?.code) {
+                        fld.props!.options =
+                          this.configService.getCatalogValues(field.definition!.catalog!, { [p]: event.value.code }) ||
+                          of([]);
+                      } else {
+                        fld.props!.options = of([]);
+                      }
+                      fld.formControl?.setValue(null);
+                    };
+                  }
+                },
+              };
+            } else {
+              fieldConfig.props!.options = this.getOptions(field);
+            }
             break;
           case 'CT':
             if (field.definition?.multiple) {
@@ -91,7 +118,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
               fieldConfig.key = `attributes.${field.code}.0.catalogValue`;
             }
             fieldConfig.type = 'select';
-            fieldConfig.props!.options = this.configService.getCatalogValues(field.definition!.catalog!);
+            fieldConfig.props!.options = this.getOptions(field);
             fieldConfig.props!['multiple'] = field.definition?.multiple;
             break;
           case 'DC':
@@ -124,6 +151,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             break;
           default:
             fieldConfig.key = `attributes.${field.code}.0.stringValue`;
+            fieldConfig.props!.maxLength = field.definition?.maxLength ? +field.definition.maxLength : 255;
             fieldConfig.type = 'input';
             break;
         }
@@ -146,6 +174,8 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
           fieldConfig.expressions!['props.required'] = field.definition?.required;
         }
 
+        fieldConfig.hooks = fieldConfig.hooks || this.createHooks(field);
+
         fg.push(fieldConfig);
       });
 
@@ -165,7 +195,26 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return fields;
   }
 
+  protected createHooks(field: Field): StackFormsHookConfig | undefined {
+    return undefined;
+  }
+
   protected abstract getActivity(): string;
+
+  protected getFilterMethod(field: Field): (field: StackFieldConfig, term: string) => Observable<any> {
+    return (field: StackFieldConfig, term: string): Observable<any> => of([]);
+  }
+
+  protected getOptions(
+    field: Field,
+    params?:
+      | HttpParams
+      | {
+          [param: string]: string | number | boolean | readonly (string | number | boolean)[];
+        }
+  ): Observable<any> {
+    return this.configService.getCatalogValues(field.definition!.catalog!, params);
+  }
 
   protected initFields(): void {
     this.fields = this.activityService.getFieldGroups().pipe(map((fieldGroups) => this.configFields(fieldGroups)));

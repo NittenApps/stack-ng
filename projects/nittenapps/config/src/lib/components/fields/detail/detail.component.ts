@@ -5,6 +5,7 @@ import { Catalog, CommonModule, Field, FieldGroup } from '@nittenapps/common';
 import { BaseDetailComponent, DetailToolbarComponent } from '@nittenapps/components';
 import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import {
+  StackMatAutocompleteModule,
   StackMatInputModule,
   StackMatSelectModule,
   StackMatTabsModule,
@@ -21,6 +22,7 @@ import { map } from 'rxjs';
     DetailToolbarComponent,
     ReactiveFormsModule,
     StackFormsModule,
+    StackMatAutocompleteModule,
     StackMatInputModule,
     StackMatSelectModule,
     StackMatTabsModule,
@@ -82,6 +84,7 @@ export class DetailComponent extends BaseDetailComponent<Field> {
                 { value: 'TX', label: 'Texto' },
                 { value: 'BL', label: 'Booleano' },
                 { value: 'CT', label: 'Catálogo' },
+                { value: 'AC', label: 'Autocompletar' },
                 { value: 'LB', label: 'Bitácora' },
                 { value: 'DC', label: 'Documento' },
               ],
@@ -203,8 +206,18 @@ export class DetailComponent extends BaseDetailComponent<Field> {
                     ),
                 },
                 expressions: {
-                  hide: 'model.type !== "CT"',
-                  'props.required': 'model.type === "CT"',
+                  hide: '!["AC","CT"].includes(model.type)',
+                  'props.required': '["AC","CT"].includes(model.type)',
+                },
+              },
+              {
+                key: 'definition.reference',
+                type: 'input',
+                props: {
+                  label: 'Referencia',
+                },
+                expressions: {
+                  hide: '!["AC","CT"].includes(model.type)',
                 },
               },
             ],
