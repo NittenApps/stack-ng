@@ -131,7 +131,6 @@ export class DetailComponent implements AfterViewInit, OnInit {
   }
 
   editValue(value: CatalogValue): void {
-    console.log(value);
     this.dialog
       .open(ValueComponent, {
         data: { catalog: this.catalog, value: { catalogCode: this.catalog.code, ...value } },

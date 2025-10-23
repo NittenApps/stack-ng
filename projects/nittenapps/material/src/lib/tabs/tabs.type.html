@@ -3,8 +3,8 @@
     @if (!tab.props?.hidden) {
     <mat-tab [labelClass]="false && isValid(tab) ? '' : 'nas-tab-invalid'">
       <ng-template mat-tab-label>
-        @if (false && !isValid(tab)) {
-        <fa-icon class="nas-tab-invalid-icon" [icon]="faCircleExclamation"></fa-icon>
+        @if (!isValid(tab)) {
+        <fa-icon class="nas-tab-invalid-icon error" [icon]="faCircleExclamation"></fa-icon>
         }
         {{tab.props?.label}}
       </ng-template>

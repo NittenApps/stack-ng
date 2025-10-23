@@ -11,7 +11,6 @@ export class StackFieldTabs extends FieldType {
   faCircleExclamation = faCircleExclamation;
 
   isValid(field: StackFieldConfig): boolean {
-    //console.log('isValid', field.id, field.formControl?.valid);
     if (field.key && field.formControl) {
       return field.formControl.valid;
     }
