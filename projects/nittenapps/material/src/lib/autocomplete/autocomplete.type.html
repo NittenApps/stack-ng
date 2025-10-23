@@ -1,9 +1,10 @@
-<input matInput [id]="id" [name]="field.name || ''" autocomplete="off" [readOnly]="props.readonly" [required]="required"
+<input matInput [id]="id" [name]="field.name || ''" autocomplete="off" [readonly]="props.readonly" [required]="required"
   [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
-  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [matAutocomplete]="auto">
+  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [matAutocomplete]="auto"
+  (keyup)="onKeyUp($event)">
 <mat-autocomplete #auto="matAutocomplete" requireSelection [displayWith]="props.displayWith"
   (optionSelected)="optionSelected($event)">
-  @for (option of filteredOptions | async; track option) {
+  @for (option of filteredOptions | async; track option.code) {
   <mat-option [value]="option">
     {{option.code}} - {{option.name}}
   </mat-option>
