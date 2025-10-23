@@ -1,17 +1,19 @@
 import { Component, OnInit, Type, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { faBan, faPencil, faTrashCan } from '@fortawesome/pro-duotone-svg-icons';
+import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 import { FieldArrayType, FieldType, StackFieldConfig, ɵgetFieldValue as getFieldValue } from '@nittenapps/forms';
 import { Observable } from 'rxjs';
 
 import { StackFieldProps } from '../form-field';
-import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 
 interface FieldsToRender {
   key: string;
   name?: string;
   type?: string | Type<FieldType<StackFieldConfig>>;
+  span: number;
   order: number;
+  hidden?: boolean;
 }
 
 interface TableProps extends StackFieldProps {
@@ -23,6 +25,7 @@ interface TableProps extends StackFieldProps {
   add?: () => Observable<any>;
   cancel?: (field: StackFieldConfig, value: any) => Observable<any>;
   edit?: (field: StackFieldConfig, value: any) => Observable<any>;
+  valueChanges?: (table: MatTable<any>) => void;
 }
 
 export interface TableConfig extends StackFieldConfig<TableProps> {
@@ -37,10 +40,13 @@ export interface TableConfig extends StackFieldConfig<TableProps> {
 export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit {
   @ViewChild('formTable', { static: true }) table!: MatTable<any>;
 
-  faPlus = faPlus;
+  readonly faPlus = faPlus;
 
   dataSource: MatTableDataSource<StackFieldConfig> = new MatTableDataSource();
   fieldsToRender: FieldsToRender[] = [];
+  groupFields: FieldsToRender[] = [];
+  groupHeaderColumns: string[] = [];
+  groupSummaryColumns: string[] = [];
   headerFields: string[] = [];
 
   private _displayedColumns?: string[];
@@ -49,10 +55,11 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
     if (this._displayedColumns) {
       return this._displayedColumns;
     }
+
     this._displayedColumns = this.fieldsToRender
       .filter(
         (f) =>
-          !['_edit', '_cancel', '_delete'].includes(f.key) ||
+          (!['_edit', '_cancel', '_delete'].includes(f.key) && f.hidden !== true) ||
           (f.key === '_edit' && this.props.editable) ||
           (f.key === '_cancel' && this.props.cancelable) ||
           (f.key === '_delete' && this.props.removable)
@@ -75,7 +82,7 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
       });
     }
     if ((field.fieldArray as StackFieldConfig)?.fieldGroup?.findIndex((f) => f.key === '_cancel') === -1) {
-      (field.fieldArray as StackFieldConfig)?.fieldGroup?.splice(0, 0, {
+      (field.fieldArray as StackFieldConfig)?.fieldGroup?.splice(1, 0, {
         key: '_cancel',
         type: 'button',
         props: {
@@ -87,7 +94,7 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
       });
     }
     if ((field.fieldArray as StackFieldConfig)?.fieldGroup?.findIndex((f) => f.key === '_delete') === -1) {
-      (field.fieldArray as StackFieldConfig)?.fieldGroup?.splice(0, 0, {
+      (field.fieldArray as StackFieldConfig)?.fieldGroup?.splice(2, 0, {
         key: '_delete',
         type: 'button',
         props: {
@@ -107,6 +114,16 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
     (this.field.props as any)['replace'] = this.replace.bind(this);
     this.dataSource.data = this.field.fieldGroup || [];
     this.fieldsToRender = this.buildColumnInfo(this.field.fieldArray as StackFieldConfig);
+    this.groupHeaderColumns =
+      (this.field.fieldArray as StackFieldConfig)?.fieldGroup
+        ?.filter((f) => f.props?.['groupHeader'])
+        .map((f) => f.key!.toString()) || [];
+    this.groupSummaryColumns =
+      (this.field.fieldArray as StackFieldConfig)?.fieldGroup
+        ?.filter((f) => f.props?.['groupSummary'])
+        .map((f) => f.key!.toString()) || [];
+
+    this.field.form?.valueChanges.subscribe(() => this.props.valueChanges?.(this.table));
   }
 
   addItem(): void {
@@ -115,6 +132,11 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
         return;
       }
 
+      if (Array.isArray(newItem)) {
+        newItem.forEach((ni) => this.add(undefined, ni, { markAsDirty: !(this.props?.markAsDirty === false) }));
+        this.table.renderRows();
+        return;
+      }
       this.add(undefined, newItem, { markAsDirty: !(this.props?.markAsDirty === false) });
       this.table.renderRows();
     });
@@ -146,6 +168,14 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
     return getFieldValue(field);
   }
 
+  isGroupHeader(_index: number, row: any): boolean {
+    return getFieldValue(row)?._headerRow;
+  }
+
+  isGroupSummary(_index: number, row: any): boolean {
+    return getFieldValue(row)?._summaryRow;
+  }
+
   override remove(i: number): void {
     super.remove(i);
     this.table.renderRows();
@@ -157,15 +187,30 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
   }
 
   private buildColumnInfo(array: StackFieldConfig): FieldsToRender[] {
+    const groupFields: FieldsToRender[] = [];
     const fieldsToRender: FieldsToRender[] = [];
-    array.fieldGroup?.forEach((f) =>
-      fieldsToRender.push({
-        name: f.props?.label,
-        key: f.key!.toString(),
-        type: f.type,
-        order: +f.props?.['order'],
-      })
-    );
+    array.fieldGroup?.forEach((f) => {
+      if (f.props?.['groupHeader'] || f.props?.['groupSummary']) {
+        groupFields.push({
+          key: f.key!.toString(),
+          type: f.type,
+          span: +(f.props?.['span'] || 1),
+          order: +f.props?.['order'],
+          hidden: f.props?.hidden,
+        });
+      } else {
+        fieldsToRender.push({
+          name: f.props?.label,
+          key: f.key!.toString(),
+          type: f.type,
+          span: +(f.props?.['span'] || 1),
+          order: +f.props?.['order'],
+          hidden: f.props?.hidden,
+        });
+      }
+    });
+
+    this.groupFields = groupFields.sort((f1, f2) => (f1.order > f2.order ? 1 : -1));
 
     return fieldsToRender.sort((f1, f2) => (f1.order > f2.order ? 1 : -1));
   }

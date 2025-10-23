@@ -1,4 +1,4 @@
-import { DatePipe, DecimalPipe, JsonPipe, NgClass, PercentPipe } from '@angular/common';
+import { DatePipe, DecimalPipe, NgClass, PercentPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
