@@ -135,11 +135,11 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     this.displayedColumns = this.columns.map((column) => column.id);
   }
 
-  getClass(item: T): string | string[] | undefined {
-    if (typeof this.rowClass === 'function') {
-      return this.rowClass(item);
+  getClass(column: Column, item: T): string | string[] {
+    if (typeof column.class === 'function') {
+      return column.class(column.id, item);
     }
-    return this.rowClass;
+    return column.class || '';
   }
 
   getIcon(column: Column, item: T): IconProp | undefined {
@@ -151,6 +151,13 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
 
   getNumberValue(column: Column, item: T): number | undefined {
     return this.getValue(column, item) as number;
+  }
+
+  getRowClass(item: T): string | string[] | undefined {
+    if (typeof this.rowClass === 'function') {
+      return this.rowClass(item);
+    }
+    return this.rowClass;
   }
 
   getValue(column: Column, item: T): string | number | Date | undefined {

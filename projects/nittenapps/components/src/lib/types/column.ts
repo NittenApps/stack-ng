@@ -12,5 +12,5 @@ export type Column = {
   sortable?: boolean;
   value?: string | stringFunc;
   icon?: IconProp | iconFunc;
-  class?: string;
+  class?: string | stringFunc;
 };
