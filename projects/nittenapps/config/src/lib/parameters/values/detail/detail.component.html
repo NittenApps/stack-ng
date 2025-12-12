@@ -1,0 +1,8 @@
+<div class="activity-detail">
+  <nas-detail-toolbar [canSave]="form.valid && form.dirty" (save)="save()" />
+  <div class="main-container">
+    <form [formGroup]="form" novalidate>
+      <nas-form [model]="model" [fields]="(fields | async) || []" [options]="options" [form]="form" />
+    </form>
+  </div>
+</div>
