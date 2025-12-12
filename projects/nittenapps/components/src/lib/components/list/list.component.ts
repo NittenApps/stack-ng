@@ -58,6 +58,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   @Input() emptyMessage: string = 'No se encontraron registros';
   @Input() filter?: Filter;
   @Input() objectId: string = 'id';
+  @Input() openUrl: boolean = false;
   @Input() rowClass?: string | string[] | ((item: any) => string | string[]);
 
   @Output() filterChange = new EventEmitter<Filter>();
@@ -185,6 +186,10 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   }
 
   showItem(item: T): void {
+    if (this.openUrl) {
+      window.open((item as any).url, '_blank');
+      return;
+    }
     this.router.navigate([(item as any)[this.objectId]], { relativeTo: this.route });
   }
 
