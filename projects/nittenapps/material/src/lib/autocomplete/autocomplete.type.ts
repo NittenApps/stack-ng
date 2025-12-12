@@ -52,11 +52,16 @@ export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<Autocomple
     });
   }
 
-  onKeyUp(event: KeyboardEvent): void {
+  onKeyUp($event: KeyboardEvent): void {
     if (this.props.readonly) {
-      return event.preventDefault();
+      return $event.preventDefault();
     }
-    this.searchSubject.next((event.target! as HTMLInputElement).value);
+    if (
+      ($event.key.length === 1 || $event.key === 'Backspace' || $event.key === 'Delete') &&
+      !$event.ctrlKey && !$event.altKey && !$event.metaKey
+    ) {
+      this.searchSubject.next(($event.target! as HTMLInputElement).value);
+    }
   }
 
   optionSelected($event: MatAutocompleteSelectedEvent): void {
