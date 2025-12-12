@@ -52,6 +52,13 @@ export class DetailComponent extends BaseDetailComponent<FieldGroup> {
               label: 'Oculto',
             },
           },
+          {
+            key: 'definition.base',
+            type: 'input',
+            props: {
+              label: 'Base',
+            },
+          },
         ],
       },
     ];

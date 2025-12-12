@@ -11,6 +11,7 @@ export interface Definition {
   max?: number;
   catalog?: string;
   reference?: string;
+  base?: string;
   viewerRoles: string[];
   editorRoles: string[];
 }

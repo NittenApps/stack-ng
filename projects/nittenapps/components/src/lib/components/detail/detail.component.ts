@@ -5,7 +5,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ActivityService, ApiConfig, ApiResponse, ConfigService, NAS_API_CONFIG, ObjectBody } from '@nittenapps/api';
 import { DirtyAware, Field, FieldGroup } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nittenapps/forms';
-import { map, Observable, of, startWith, switchMap } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
 @Component({
   template: '',
@@ -73,11 +73,14 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     const fields: StackFieldConfig[] = [];
     fieldGroups?.forEach((fieldGroup) => {
       const fg: StackFieldConfig[] = [];
+      const base = !!fieldGroup.definition?.base
+        ? fieldGroup.definition.base + (fieldGroup.definition.base.endsWith('.') ? '' : '.')
+        : '';
       fieldGroup.fields?.forEach((field) => {
         const fieldConfig: StackFieldConfig = { props: { label: field.name }, expressions: {} };
         switch (field.type) {
           case 'AN':
-            fieldConfig.key = `attributes.${field.code}.0.stringValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.stringValue`;
             fieldConfig.type = 'input';
             if (field.definition?.pattern) {
               fieldConfig.props!.pattern = new RegExp(field.definition.pattern);
@@ -86,7 +89,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             fieldConfig.props!.minLength = field.definition?.minLength ? +field.definition.minLength : undefined;
             break;
           case 'AC':
-            fieldConfig.key = `attributes.${field.code}.0.catalogValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.catalogValue`;
             fieldConfig.type = 'autocomplete';
             if (field.definition?.reference) {
               const [p, r] = field.definition.reference.split('=');
@@ -113,35 +116,35 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             break;
           case 'CT':
             if (field.definition?.multiple) {
-              fieldConfig.key = `attributes.${field.code}`;
+              fieldConfig.key = `${base}attributes.${field.code}`;
             } else {
-              fieldConfig.key = `attributes.${field.code}.0.catalogValue`;
+              fieldConfig.key = `${base}attributes.${field.code}.0.catalogValue`;
             }
             fieldConfig.type = 'select';
             fieldConfig.props!.options = this.getOptions(field);
             fieldConfig.props!['multiple'] = field.definition?.multiple;
             break;
           case 'DC':
-            fieldConfig.key = `attributes.${field.code}`;
+            fieldConfig.key = `${base}attributes.${field.code}`;
             fieldConfig.type = 'file';
             fieldConfig.props!['multiple'] = field.definition?.multiple;
             break;
           case 'DO':
-            fieldConfig.key = `attributes.${field.code}.0.dateValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.dateValue`;
             fieldConfig.type = 'datepicker';
             break;
           case 'DT':
-            fieldConfig.key = `attributes.${field.code}.0.dateValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.dateValue`;
             fieldConfig.type = 'datetimepicker';
             break;
           case 'NM':
-            fieldConfig.key = `attributes.${field.code}.0.numberValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.numberValue`;
             fieldConfig.type = 'number';
             fieldConfig.props!.max = field.definition?.max ? +field.definition.max : undefined;
             fieldConfig.props!.min = field.definition?.min ? +field.definition.min : undefined;
             break;
           case 'TX':
-            fieldConfig.key = `attributes.${field.code}.0.textValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.textValue`;
             fieldConfig.type = 'textarea';
             if (field.definition?.pattern) {
               fieldConfig.props!.pattern = new RegExp(field.definition.pattern);
@@ -150,11 +153,13 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             fieldConfig.props!.minLength = field.definition?.minLength ? +field.definition.minLength : undefined;
             break;
           default:
-            fieldConfig.key = `attributes.${field.code}.0.stringValue`;
+            fieldConfig.key = `${base}attributes.${field.code}.0.stringValue`;
             fieldConfig.props!.maxLength = field.definition?.maxLength ? +field.definition.maxLength : 255;
             fieldConfig.type = 'input';
             break;
         }
+
+        fieldConfig.props!['format'] = field.definition?.format;
 
         if (['true', 'yes'].includes(field.definition?.hide?.toLowerCase() || '')) {
           fieldConfig.props!.hidden = true;
