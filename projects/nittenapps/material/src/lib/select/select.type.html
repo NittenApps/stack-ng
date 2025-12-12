@@ -12,22 +12,29 @@
   (selectionChange)="change($event)" [errorStateMatcher]="errorStateMatcher" [aria-label]="_getAriaLabel()"
   [aria-labelledby]="_getAriaLabelledby()" [disableOptionCentering]="props.disableOptionCentering"
   [typeaheadDebounceInterval]="props.typeaheadDebounceInterval" [panelClass]="props.panelClass || ''">
-  <ng-container *ngIf="props.options | stackSelectOptions : field | async as selectOptions">
-    <ng-container *ngIf="props.multiple && props.selectAllOption" [ngTemplateOutlet]="selectAll"
-      [ngTemplateOutletContext]="{ selectOptions: selectOptions }">
+  @if (props.options | stackSelectOptions : field | async; as selectOptions) {
+    @if (props.multiple && props.selectAllOption) {
+    <ng-container [ngTemplateOutlet]="selectAll" [ngTemplateOutletContext]="{ selectOptions: selectOptions }">
     </ng-container>
+    }
     @if (!props.multiple) {
     <mat-option [value]="null"></mat-option>
     }
-    <ng-container *ngFor="let item of selectOptions">
-      <mat-optgroup *ngIf="item.group" [label]="item.label || ''">
-        <mat-option *ngFor="let child of item.group" [value]="child.value" [disabled]="child.disabled">
+    @for (item of selectOptions; track item) {
+      @if (item.group) {
+      <mat-optgroup [label]="item.label || ''">
+        @for (child of item.group; track child) {
+        <mat-option [value]="child.value" [disabled]="child.disabled">
           {{ child.label }}
         </mat-option>
+        }
       </mat-optgroup>
-      <mat-option *ngIf="!item.group" [value]="item.value" [disabled]="item.disabled">{{ item.label }}</mat-option>
-    </ng-container>
-  </ng-container>
+      }
+      @if (!item.group) {
+      <mat-option [value]="item.value" [disabled]="item.disabled">{{ item.label }}</mat-option>
+      }
+    }
+  }
 </mat-select>
 } @else {
 <input matInput [id]="id" [name]="field.name || ''" [formControl]="formControl" [nasFormsAttributes]="field"

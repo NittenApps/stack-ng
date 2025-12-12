@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -12,21 +11,20 @@ import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import { StackMatInputModule, StackMatTabsModule } from '@nittenapps/material';
 
 @Component({
-    selector: 'app-detail',
-    imports: [
-        CommonModule,
-        DetailToolbarComponent,
-        FaDuotoneIconComponent,
-        FaIconComponent,
-        MatBadgeModule,
-        MatButtonModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatTabsModule,
-    ],
-    templateUrl: './detail.component.html'
+  selector: 'app-detail',
+  imports: [
+    DetailToolbarComponent,
+    FaDuotoneIconComponent,
+    FaIconComponent,
+    MatBadgeModule,
+    MatButtonModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatTabsModule,
+  ],
+  templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseDetailComponent {
   faBell = faBell;

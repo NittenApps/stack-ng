@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   DoCheck,
@@ -9,6 +8,7 @@ import {
   OnDestroy,
   Renderer2,
   SimpleChanges,
+  DOCUMENT,
 } from '@angular/core';
 import { StackFieldConfig, StackFieldConfigCache } from '../types';
 import { defineHiddenProp, IObserver, observe, STACK_VALIDATORS } from '../utils';
@@ -17,11 +17,11 @@ import { defineHiddenProp, IObserver, observe, STACK_VALIDATORS } from '../utils
  * Allow to link the `field` HTML attributes (`id`, `name` ...) and Event attributes (`focus`, `blur` ...) to an element in the DOM.
  */
 @Directive({
-    selector: '[nasFormsAttributes]',
-    host: {
-        '(change)': 'onHostChange($event)',
-    },
-    standalone: false
+  selector: '[nasFormsAttributes]',
+  host: {
+    '(change)': 'onHostChange($event)',
+  },
+  standalone: false,
 })
 export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
   /** The field config. */
