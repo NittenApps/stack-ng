@@ -8,7 +8,8 @@ import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nitte
 import { map, Observable, of } from 'rxjs';
 
 @Component({
-  template: '',
+    template: '',
+    standalone: false
 })
 export abstract class BaseDetailComponent<T = any> implements AfterViewInit, DirtyAware, OnInit {
   fields!: Observable<StackFieldConfig[]>;

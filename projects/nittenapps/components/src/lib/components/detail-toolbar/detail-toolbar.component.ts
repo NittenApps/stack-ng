@@ -9,18 +9,17 @@ import { faFloppyDisk } from '@fortawesome/pro-duotone-svg-icons';
 import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons';
 
 @Component({
-  selector: 'nas-detail-toolbar',
-  standalone: true,
-  imports: [
-    FaDuotoneIconComponent,
-    FaIconComponent,
-    MatButtonModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    NgTemplateOutlet,
-  ],
-  templateUrl: './detail-toolbar.component.html',
-  styleUrl: './detail-toolbar.component.scss',
+    selector: 'nas-detail-toolbar',
+    imports: [
+        FaDuotoneIconComponent,
+        FaIconComponent,
+        MatButtonModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        NgTemplateOutlet,
+    ],
+    templateUrl: './detail-toolbar.component.html',
+    styleUrl: './detail-toolbar.component.scss'
 })
 export class DetailToolbarComponent {
   readonly faArrowLeft = faArrowLeft;

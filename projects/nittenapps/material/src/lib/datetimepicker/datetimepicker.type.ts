@@ -55,6 +55,7 @@ export interface StackDatetimepickerFieldConfig extends StackFieldConfig<FieldTy
   selector: 'nas-field-mat-datetimepicker',
   templateUrl: './datetimepicker.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackFieldDatetimepicker
   extends FieldType<FieldTypeConfig<DatetimepickerProps>>

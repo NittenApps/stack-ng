@@ -4,6 +4,7 @@ import { FieldWrapper } from '@nittenapps/forms';
 @Component({
   selector: 'nas-wrapper-addons',
   templateUrl: './addons.wrapper.html',
+  standalone: false,
 })
 export class StackWrapperAddons extends FieldWrapper implements AfterViewInit {
   @ViewChild('matPrefix', { static: true }) matPrefix!: TemplateRef<any>;

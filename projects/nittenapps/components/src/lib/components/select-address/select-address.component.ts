@@ -7,10 +7,9 @@ import { PlaceAutocompleteComponent } from '../place-autocomplete/place-autocomp
 import PlaceResult = google.maps.places.PlaceResult;
 
 @Component({
-  selector: 'nas-select-address',
-  standalone: true,
-  imports: [GoogleMapsModule, MatButtonModule, MatDialogModule, PlaceAutocompleteComponent],
-  templateUrl: './select-address.component.html',
+    selector: 'nas-select-address',
+    imports: [GoogleMapsModule, MatButtonModule, MatDialogModule, PlaceAutocompleteComponent],
+    templateUrl: './select-address.component.html'
 })
 export class SelectAddressComponent {
   address?: string;

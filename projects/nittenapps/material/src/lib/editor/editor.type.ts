@@ -13,5 +13,6 @@ export interface StackEditorConfig extends StackFieldConfig<EditorProps> {
   selector: 'nas-field-mat-editor',
   templateUrl: './editor.type.html',
   styleUrl: './editor.type.scss',
+  standalone: false,
 })
 export class StackMatEditor extends FieldType<FieldTypeConfig<EditorProps>> {}

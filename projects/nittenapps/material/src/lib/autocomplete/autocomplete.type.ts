@@ -24,6 +24,7 @@ export interface StackAutocompleteFieldConfig extends StackFieldConfig<Autocompl
   selector: 'nas-field-mat-autocomplete',
   templateUrl: './autocomplete.type.html',
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: false,
 })
 export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<AutocompleteProps>> implements OnInit {
   filteredOptions?: Observable<any[]>;
@@ -58,7 +59,9 @@ export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<Autocomple
     }
     if (
       ($event.key.length === 1 || $event.key === 'Backspace' || $event.key === 'Delete') &&
-      !$event.ctrlKey && !$event.altKey && !$event.metaKey
+      !$event.ctrlKey &&
+      !$event.altKey &&
+      !$event.metaKey
     ) {
       this.searchSubject.next(($event.target! as HTMLInputElement).value);
     }

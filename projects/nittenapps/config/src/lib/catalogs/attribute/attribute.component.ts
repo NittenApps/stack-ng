@@ -9,10 +9,9 @@ import { StackFieldConfig, StackFormOptions, StackFormsModule } from '@nittenapp
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'nas-attribute',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule],
-  templateUrl: './attribute.component.html',
+    selector: 'nas-attribute',
+    imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule],
+    templateUrl: './attribute.component.html'
 })
 export class AttributeComponent {
   fields!: StackFieldConfig[];

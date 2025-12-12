@@ -4,10 +4,9 @@ import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fo
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
-  selector: 'nas-icon',
-  standalone: true,
-  imports: [FaDuotoneIconComponent, FaIconComponent, MatIconModule],
-  templateUrl: './icon.component.html',
+    selector: 'nas-icon',
+    imports: [FaDuotoneIconComponent, FaIconComponent, MatIconModule],
+    templateUrl: './icon.component.html'
 })
 export class IconComponent {
   @Input() class?: string;

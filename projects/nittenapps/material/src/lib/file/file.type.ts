@@ -20,6 +20,7 @@ export interface StackFileConfig extends StackFieldConfig<FileProps> {
   selector: 'nas-field-mat-file',
   templateUrl: './file.type.html',
   styleUrl: './file.type.scss',
+  standalone: false,
 })
 export class StackMatFile extends FieldArrayType<FieldArrayTypeConfig<FileProps>> {
   readonly faPencil = faPencil;

@@ -20,22 +20,21 @@ import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rx
 import { ValueComponent } from '../../value/value.component';
 
 @Component({
-  selector: 'nas-catalog-values-detail',
-  standalone: true,
-  imports: [
-    DatePipe,
-    DetailToolbarComponent,
-    FaDuotoneIconComponent,
-    FormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    MatTooltipModule,
-  ],
-  templateUrl: './detail.component.html',
-  styleUrl: './detail.component.scss',
+    selector: 'nas-catalog-values-detail',
+    imports: [
+        DatePipe,
+        DetailToolbarComponent,
+        FaDuotoneIconComponent,
+        FormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        MatTooltipModule,
+    ],
+    templateUrl: './detail.component.html',
+    styleUrl: './detail.component.scss'
 })
 export class DetailComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

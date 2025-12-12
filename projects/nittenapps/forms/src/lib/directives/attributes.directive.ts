@@ -17,10 +17,11 @@ import { defineHiddenProp, IObserver, observe, STACK_VALIDATORS } from '../utils
  * Allow to link the `field` HTML attributes (`id`, `name` ...) and Event attributes (`focus`, `blur` ...) to an element in the DOM.
  */
 @Directive({
-  selector: '[nasFormsAttributes]',
-  host: {
-    '(change)': 'onHostChange($event)',
-  },
+    selector: '[nasFormsAttributes]',
+    host: {
+        '(change)': 'onHostChange($event)',
+    },
+    standalone: false
 })
 export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
   /** The field config. */

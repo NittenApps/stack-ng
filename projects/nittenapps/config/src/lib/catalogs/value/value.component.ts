@@ -9,10 +9,9 @@ import { StackFieldConfig, StackFormOptions, StackFormsModule } from '@nittenapp
 import { StackMaterialModule } from '@nittenapps/material';
 
 @Component({
-  selector: 'nas-value',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule, StackMaterialModule],
-  templateUrl: './value.component.html',
+    selector: 'nas-value',
+    imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule, StackMaterialModule],
+    templateUrl: './value.component.html'
 })
 export class ValueComponent {
   catalog: Catalog;

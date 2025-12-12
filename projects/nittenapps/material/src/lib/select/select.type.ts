@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Type, ViewChild } from '@angular/core';
 import { MatPseudoCheckboxState } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
-import { compareCatalogValueFn } from '@nittenapps/common';
 import { FieldTypeConfig, StackFieldConfig, StackFieldProps, ɵobserve as observe } from '@nittenapps/forms';
 import { StackFieldSelectProps } from '@nittenapps/forms/select';
 
@@ -24,6 +23,7 @@ export interface StackSelectFieldConfig extends StackFieldConfig<FieldTypeConfig
   selector: 'nas-field-mat-select',
   templateUrl: './select.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackFieldMatSelect extends FieldType<FieldTypeConfig<SelectProps>> {
   @ViewChild(MatSelect, { static: true }) set select(select: any) {

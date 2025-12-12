@@ -8,11 +8,10 @@ import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
 import { faPlus } from '@fortawesome/pro-duotone-svg-icons';
 
 @Component({
-  selector: 'nas-list-toolbar',
-  standalone: true,
-  imports: [FaDuotoneIconComponent, MatButtonModule, MatToolbarModule, MatTooltipModule, NgTemplateOutlet, RouterLink],
-  templateUrl: './list-toolbar.component.html',
-  styleUrl: './list-toolbar.component.scss',
+    selector: 'nas-list-toolbar',
+    imports: [FaDuotoneIconComponent, MatButtonModule, MatToolbarModule, MatTooltipModule, NgTemplateOutlet, RouterLink],
+    templateUrl: './list-toolbar.component.html',
+    styleUrl: './list-toolbar.component.scss'
 })
 export class ListToolbarComponent {
   readonly faPlus = faPlus;

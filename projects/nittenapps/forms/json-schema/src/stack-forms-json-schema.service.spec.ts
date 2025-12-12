@@ -1983,14 +1983,15 @@ describe('Service: StackFormsJsonSchema', () => {
 });
 
 @Component({
-  selector: 'nas-form-array-type',
-  template: `
+    selector: 'nas-form-array-type',
+    template: `
     <div *ngFor="let field of field.fieldGroup; let i = index">
       <nas-form-group [field]="field"></nas-form-group>
       <button [id]="'remove-' + i" type="button" (click)="remove(i)">Remove</button>
     </div>
     <button id="add" type="button" (click)="add()">Add</button>
   `,
+    standalone: false
 })
 class ArrayTypeComponent extends FieldArrayType {}
 

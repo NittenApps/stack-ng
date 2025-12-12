@@ -16,22 +16,21 @@ import {
 import { PickListModule } from 'primeng/picklist';
 
 @Component({
-  selector: 'nas-field-groups-detail',
-  standalone: true,
-  imports: [
-    CommonModule,
-    DetailToolbarComponent,
-    MatTabsModule,
-    PickListModule,
-    ReactiveFormsModule,
-    StackFormsModule,
-    StackMatInputModule,
-    StackMatSelectModule,
-    StackMatTabsModule,
-    StackMatToggleModule,
-  ],
-  templateUrl: './detail.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-field-groups-detail',
+    imports: [
+        CommonModule,
+        DetailToolbarComponent,
+        MatTabsModule,
+        PickListModule,
+        ReactiveFormsModule,
+        StackFormsModule,
+        StackMatInputModule,
+        StackMatSelectModule,
+        StackMatTabsModule,
+        StackMatToggleModule,
+    ],
+    templateUrl: './detail.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailComponent extends BaseDetailComponent<FieldGroup> {
   definitionFields: StackFieldConfig[];

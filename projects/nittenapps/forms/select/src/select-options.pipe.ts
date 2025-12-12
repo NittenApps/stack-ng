@@ -23,7 +23,10 @@ type ITransformOption = {
   groupProp: (option: any) => string;
 };
 
-@Pipe({ name: 'stackSelectOptions' })
+@Pipe({
+    name: 'stackSelectOptions',
+    standalone: false
+})
 export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
   private _subscription?: Subscription;
   private _options?: BehaviorSubject<any[]>;

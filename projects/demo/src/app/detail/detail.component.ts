@@ -12,22 +12,21 @@ import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import { StackMatInputModule, StackMatTabsModule } from '@nittenapps/material';
 
 @Component({
-  selector: 'app-detail',
-  standalone: true,
-  imports: [
-    CommonModule,
-    DetailToolbarComponent,
-    FaDuotoneIconComponent,
-    FaIconComponent,
-    MatBadgeModule,
-    MatButtonModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    StackFormsModule,
-    StackMatInputModule,
-    StackMatTabsModule,
-  ],
-  templateUrl: './detail.component.html',
+    selector: 'app-detail',
+    imports: [
+        CommonModule,
+        DetailToolbarComponent,
+        FaDuotoneIconComponent,
+        FaIconComponent,
+        MatBadgeModule,
+        MatButtonModule,
+        MatTooltipModule,
+        ReactiveFormsModule,
+        StackFormsModule,
+        StackMatInputModule,
+        StackMatTabsModule,
+    ],
+    templateUrl: './detail.component.html'
 })
 export class DetailComponent extends BaseDetailComponent {
   faBell = faBell;

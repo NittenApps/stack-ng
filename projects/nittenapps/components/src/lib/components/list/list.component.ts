@@ -29,20 +29,19 @@ import { ListStateService } from '../../services/list-state.service';
 import { Column, Filter } from '../../types';
 
 @Component({
-  selector: 'nas-list',
-  standalone: true,
-  imports: [
-    DatePipe,
-    DecimalPipe,
-    FaIconComponent,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    NgClass,
-    PercentPipe,
-  ],
-  templateUrl: './list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-list',
+    imports: [
+        DatePipe,
+        DecimalPipe,
+        FaIconComponent,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        NgClass,
+        PercentPipe,
+    ],
+    templateUrl: './list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

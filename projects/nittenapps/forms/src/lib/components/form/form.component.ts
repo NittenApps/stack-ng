@@ -25,10 +25,11 @@ import { clearControl } from '../../extensions/field-form/utils';
  * the rendering of the fields to each <nas-field> component.
  */
 @Component({
-  selector: 'nas-form',
-  template: '<nas-field [field]="field" />',
-  providers: [StackFormBuilder, StackFieldTemplates],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-form',
+    template: '<nas-field [field]="field" />',
+    providers: [StackFormBuilder, StackFieldTemplates],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StackForm implements DoCheck, OnChanges, OnDestroy {
   field: StackFieldConfigCache = { type: 'nas-form-group' };

@@ -15,10 +15,9 @@ import { MatInputModule } from '@angular/material/input';
 import PlaceResult = google.maps.places.PlaceResult;
 
 @Component({
-  selector: 'nas-place-autocomplete',
-  standalone: true,
-  imports: [FormsModule, MatInputModule],
-  templateUrl: './place-autocomplete.component.html',
+    selector: 'nas-place-autocomplete',
+    imports: [FormsModule, MatInputModule],
+    templateUrl: './place-autocomplete.component.html'
 })
 export class PlaceAutocompleteComponent implements AfterViewInit, OnDestroy {
   @ViewChild('addressInput') addressInput!: ElementRef;

@@ -4,10 +4,9 @@ import { MatInputModule } from '@angular/material/input';
 import { Column, ListComponent as StackListComponent, ListToolbarComponent, Filter } from '@nittenapps/components';
 
 @Component({
-  selector: 'nas-fields-list',
-  standalone: true,
-  imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
-  templateUrl: './list.component.html',
+    selector: 'nas-fields-list',
+    imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
+    templateUrl: './list.component.html'
 })
 export class ListComponent {
   columns: Column[];

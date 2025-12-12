@@ -15,6 +15,7 @@ export interface StackToggleFieldConfig extends StackFieldConfig<ToggleProps> {
   selector: 'nas-field-mat-slide-toggle',
   templateUrl: './slide-toggle.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackFieldToggle extends FieldType<FieldTypeConfig<ToggleProps>> {
   @ViewChild(MatSlideToggle, { static: true }) slideToggle!: MatSlideToggle;

@@ -13,6 +13,7 @@ export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
   selector: 'nas-mat-logbook',
   templateUrl: './logbook.type.html',
   styleUrl: './logbook.type.scss',
+  standalone: false,
 })
 export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<LogbookProps>> {
   current: number = 0;

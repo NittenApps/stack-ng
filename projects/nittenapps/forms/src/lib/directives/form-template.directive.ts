@@ -1,6 +1,9 @@
 import { Directive, Input, OnChanges, TemplateRef } from '@angular/core';
 
-@Directive({ selector: '[nasFormTemplate]' })
+@Directive({
+    selector: '[nasFormTemplate]',
+    standalone: false
+})
 export class StackFormTemplate implements OnChanges {
   @Input('nasFormTemplate') name?: string;
 

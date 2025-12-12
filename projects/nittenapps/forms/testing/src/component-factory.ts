@@ -113,9 +113,10 @@ export function createFieldComponent(
 }
 
 @Component({
-  selector: 'nas-form-test-component',
-  template: '',
-  providers: [StackFormBuilder],
+    selector: 'nas-form-test-component',
+    template: '',
+    providers: [StackFormBuilder],
+    standalone: false
 })
 class TestComponent {
   constructor(public builder?: StackFormBuilder) {}

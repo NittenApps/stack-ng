@@ -9,11 +9,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatGridListModule, MatIconModule, MatMenuModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+    selector: 'app-dashboard',
+    imports: [AsyncPipe, MatButtonModule, MatCardModule, MatGridListModule, MatIconModule, MatMenuModule],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
   private breakpointObserver = inject(BreakpointObserver);

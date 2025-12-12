@@ -22,10 +22,9 @@ const checkRoles = (roles: string[], navItem: NavItem): boolean => {
 };
 
 @Component({
-  selector: 'nas-navbar-item',
-  standalone: true,
-  imports: [IconComponent, MatRippleModule, RouterModule, TypeofPipe],
-  templateUrl: './navbar-item.component.html',
+    selector: 'nas-navbar-item',
+    imports: [IconComponent, MatRippleModule, RouterModule, TypeofPipe],
+    templateUrl: './navbar-item.component.html'
 })
 export class NavigationItemComponent {
   @Input() item!: NavItem;
@@ -37,11 +36,10 @@ export class NavigationItemComponent {
 }
 
 @Component({
-  selector: 'nas-navbar-collapsible',
-  standalone: true,
-  imports: [IconComponent, MatRippleModule, NavigationItemComponent, NgClass, RouterModule, TypeofPipe],
-  templateUrl: './navbar-collapsible.component.html',
-  animations: [trigger('children', [state('hidden', style({ height: 0 })), transition('* => *', [animate('0.2s')])])],
+    selector: 'nas-navbar-collapsible',
+    imports: [IconComponent, MatRippleModule, NavigationItemComponent, NgClass, RouterModule, TypeofPipe],
+    templateUrl: './navbar-collapsible.component.html',
+    animations: [trigger('children', [state('hidden', style({ height: 0 })), transition('* => *', [animate('0.2s')])])]
 })
 export class NavigationCollapsibleComponent {
   @Input() item!: NavItem;
@@ -62,12 +60,11 @@ export class NavigationCollapsibleComponent {
 }
 
 @Component({
-  selector: 'nas-navbar-navigation',
-  standalone: true,
-  imports: [MatRippleModule, NavigationCollapsibleComponent, NavigationItemComponent, NgClass, RouterModule],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'nas-navbar-navigation',
+    imports: [MatRippleModule, NavigationCollapsibleComponent, NavigationItemComponent, NgClass, RouterModule],
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class NavigationComponent {
   @Input() items!: NavItem[];

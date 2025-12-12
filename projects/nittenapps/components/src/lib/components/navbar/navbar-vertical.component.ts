@@ -9,12 +9,11 @@ import { NavItem } from '../../types/navbar-item';
 import { NavigationComponent } from './navbar.component';
 
 @Component({
-  selector: 'nas-navbar-vertical',
-  standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatIconModule, NavigationComponent],
-  templateUrl: './navbar-vertical.component.html',
-  styleUrl: './navbar-vertical.component.scss',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'nas-navbar-vertical',
+    imports: [AsyncPipe, MatButtonModule, MatIconModule, NavigationComponent],
+    templateUrl: './navbar-vertical.component.html',
+    styleUrl: './navbar-vertical.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class NavbarVerticalComponent {
   @Input() footerText?: string;

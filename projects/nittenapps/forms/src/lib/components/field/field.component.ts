@@ -38,9 +38,10 @@ import { FormControl } from '@angular/forms';
  * The `<nas-field>` component is used to render the UI widget (layout + type) of a given `field`.
  */
 @Component({
-  selector: 'nas-field',
-  template: '<ng-template #container></ng-template>',
-  styleUrls: ['./field.component.scss'],
+    selector: 'nas-field',
+    template: '<ng-template #container></ng-template>',
+    styleUrls: ['./field.component.scss'],
+    standalone: false
 })
 export class StackField implements DoCheck, OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy {
   /** The field config. */

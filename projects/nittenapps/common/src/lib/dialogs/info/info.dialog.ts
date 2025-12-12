@@ -6,10 +6,9 @@ import { faSquareInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { DialogData } from '../../types';
 
 @Component({
-  selector: 'nas-info-dialog',
-  standalone: true,
-  imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
-  templateUrl: './info.dialog.html',
+    selector: 'nas-info-dialog',
+    imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
+    templateUrl: './info.dialog.html'
 })
 export class InfoDialog {
   faSquareInfo = faSquareInfo;

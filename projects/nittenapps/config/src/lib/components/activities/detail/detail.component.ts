@@ -16,22 +16,21 @@ import {
 import { PickListModule } from 'primeng/picklist';
 
 @Component({
-  selector: 'nas-activities-detail',
-  standalone: true,
-  imports: [
-    CommonModule,
-    DetailToolbarComponent,
-    MatTabsModule,
-    PickListModule,
-    ReactiveFormsModule,
-    StackFormsModule,
-    StackMatInputModule,
-    StackMatSelectModule,
-    StackMatTabsModule,
-    StackMatToggleModule,
-  ],
-  templateUrl: './detail.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-activities-detail',
+    imports: [
+        CommonModule,
+        DetailToolbarComponent,
+        MatTabsModule,
+        PickListModule,
+        ReactiveFormsModule,
+        StackFormsModule,
+        StackMatInputModule,
+        StackMatSelectModule,
+        StackMatTabsModule,
+        StackMatToggleModule,
+    ],
+    templateUrl: './detail.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailComponent extends BaseDetailComponent<Activity> {
   definitionFields: StackFieldConfig[];

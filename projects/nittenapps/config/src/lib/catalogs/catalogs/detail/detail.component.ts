@@ -16,19 +16,18 @@ import { Observable } from 'rxjs';
 import { AttributeComponent } from '../../attribute/attribute.component';
 
 @Component({
-  selector: 'nas-catalogs-detail',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    DetailToolbarComponent,
-    ReactiveFormsModule,
-    StackFormsModule,
-    StackMatInputModule,
-    StackMatSelectModule,
-    StackMatTableModule,
-    StackMatToggleModule,
-  ],
-  templateUrl: './detail.component.html',
+    selector: 'nas-catalogs-detail',
+    imports: [
+        AsyncPipe,
+        DetailToolbarComponent,
+        ReactiveFormsModule,
+        StackFormsModule,
+        StackMatInputModule,
+        StackMatSelectModule,
+        StackMatTableModule,
+        StackMatToggleModule,
+    ],
+    templateUrl: './detail.component.html'
 })
 export class DetailComponent extends BaseDetailComponent<Catalog> {
   constructor(private dialog: MatDialog) {

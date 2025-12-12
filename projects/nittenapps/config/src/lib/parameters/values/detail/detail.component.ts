@@ -12,19 +12,18 @@ import {
 } from '@nittenapps/material';
 
 @Component({
-  selector: 'nas-catalogs-detail',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    DetailToolbarComponent,
-    ReactiveFormsModule,
-    StackFormsModule,
-    StackMatInputModule,
-    StackMatSelectModule,
-    StackMatTableModule,
-    StackMatToggleModule,
-  ],
-  templateUrl: './detail.component.html',
+    selector: 'nas-catalogs-detail',
+    imports: [
+        AsyncPipe,
+        DetailToolbarComponent,
+        ReactiveFormsModule,
+        StackFormsModule,
+        StackMatInputModule,
+        StackMatSelectModule,
+        StackMatTableModule,
+        StackMatToggleModule,
+    ],
+    templateUrl: './detail.component.html'
 })
 export class DetailComponent extends BaseDetailComponent<any> {
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {

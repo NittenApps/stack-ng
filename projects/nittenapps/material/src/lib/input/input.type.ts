@@ -18,6 +18,7 @@ export interface StackInputFieldConfig extends StackFieldConfig<StackFieldProps>
   templateUrl: './input.type.html',
   styleUrl: './input.type.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>> {
   private static _SELF: StackFieldInput;

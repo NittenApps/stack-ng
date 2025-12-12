@@ -5,20 +5,22 @@ import { FieldType, FieldTypeConfig, FieldWrapper } from '../../src/lib/directiv
 import { StackFormsModule } from '../../src/lib/forms.module';
 
 @Component({
-  selector: 'nas-type-input',
-  template: `<input type="text" [formControl]="formControl" [nasFormsAttributes]="field" />`,
+    selector: 'nas-type-input',
+    template: `<input type="text" [formControl]="formControl" [nasFormsAttributes]="field" />`,
+    standalone: false
 })
 export class StackFieldInput extends FieldType<FieldTypeConfig> {}
 
 @Component({
-  selector: 'nas-wrapper-form-field',
-  template: `
+    selector: 'nas-wrapper-form-field',
+    template: `
     <label [attr.for]="id">{{ props.label }}</label>
     <ng-template #fieldComponent></ng-template>
     <ng-container *ngIf="showError">
       <nas-validation-message [field]="field" />
     </ng-container>
   `,
+    standalone: false
 })
 export class StackWrapperFormField extends FieldWrapper {}
 

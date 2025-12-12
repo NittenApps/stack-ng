@@ -170,8 +170,14 @@ describe('StackFormsConfig service', () => {
   });
 });
 
-@Component({ selector: 'nas-form-test-type', template: '' })
+@Component({
+    selector: 'nas-form-test-type', template: '',
+    standalone: false
+})
 class FieldTypeComponent extends FieldType {}
 
-@Component({ selector: 'nas-form-test-wrapper', template: '' })
+@Component({
+    selector: 'nas-form-test-wrapper', template: '',
+    standalone: false
+})
 class FieldWrapperComponent extends FieldWrapper {}

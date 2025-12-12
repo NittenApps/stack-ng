@@ -36,6 +36,7 @@ export interface TableConfig extends StackFieldConfig<TableProps> {
   selector: 'nas-mat-table',
   templateUrl: './table.type.html',
   styleUrl: './table.type.scss',
+  standalone: false,
 })
 export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit {
   @ViewChild('formTable', { static: true }) table!: MatTable<any>;

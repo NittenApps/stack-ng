@@ -14,22 +14,21 @@ import {
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'nas-field-detail',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    CommonModule,
-    DetailToolbarComponent,
-    ReactiveFormsModule,
-    StackFormsModule,
-    StackMatAutocompleteModule,
-    StackMatInputModule,
-    StackMatSelectModule,
-    StackMatTabsModule,
-    StackMatToggleModule,
-  ],
-  templateUrl: './detail.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-field-detail',
+    imports: [
+        AsyncPipe,
+        CommonModule,
+        DetailToolbarComponent,
+        ReactiveFormsModule,
+        StackFormsModule,
+        StackMatAutocompleteModule,
+        StackMatInputModule,
+        StackMatSelectModule,
+        StackMatTabsModule,
+        StackMatToggleModule,
+    ],
+    templateUrl: './detail.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailComponent extends BaseDetailComponent<Field> {
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {

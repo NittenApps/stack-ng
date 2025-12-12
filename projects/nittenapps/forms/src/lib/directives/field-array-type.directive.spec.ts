@@ -612,13 +612,14 @@ describe('Array Field Type', () => {
 });
 
 @Component({
-  selector: 'nas-form-array',
-  template: `
+    selector: 'nas-form-array',
+    template: `
     <ng-container *ngFor="let field of field.fieldGroup; let i = index">
       <nas-field [field]="field"></nas-field>
       <button [id]="'remove-' + i" type="button" (click)="remove(i)">Remove</button>
     </ng-container>
     <button id="add" type="button" (click)="add()">Add</button>
   `,
+    standalone: false
 })
 class ArrayTypeComponent extends FieldArrayType {}

@@ -16,6 +16,7 @@ export interface StackButtonConfig extends StackFieldConfig<ButtonProps> {
 @Component({
   selector: 'nas-field-mat-button',
   templateUrl: './button.type.html',
+  standalone: false,
 })
 export class StackMatButton extends FieldType<FieldTypeConfig<ButtonProps>> {
   get type(): string {

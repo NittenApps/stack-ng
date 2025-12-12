@@ -7,10 +7,9 @@ import { DialogData } from '../../types';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'nas-error-dialog',
-  standalone: true,
-  imports: [DatePipe, FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
-  templateUrl: './error.dialog.html',
+    selector: 'nas-error-dialog',
+    imports: [DatePipe, FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
+    templateUrl: './error.dialog.html'
 })
 export class ErrorDialog {
   faHexagonExclamation = faHexagonExclamation;
