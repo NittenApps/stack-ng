@@ -4,7 +4,7 @@
   <nas-place-autocomplete [address]="address" (onAutocompleteSelected)="placeSelected($event)"
     (onLocationSelected)="locationSelected($event)" />
   }
-  <google-map class="flex-grow-1" width="100%" height="100%" [options]="mapOptions" [center]="center" [zoom]="zoom">
+  <google-map class="grow" width="100%" height="100%" [options]="mapOptions" [center]="center" [zoom]="zoom">
     @if (markerPosition) {
     <map-advanced-marker [position]="markerPosition" [options]="markerOptions" (mapDragend)="dragEnd($event)" />
     }
