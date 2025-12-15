@@ -45,7 +45,19 @@
       fieldsToRender.length])}}</td>
     } @else if (f.type === 'string') {
     <td mat-cell *matCellDef="let item" [attr.colspan]="f.span">
-      {{getValue(item.fieldGroup[i + fieldsToRender.length])}}
+      @if (props.editableGroup && i === 0) {
+      <button mat-icon-button (click)="editGroup(item.fieldGroup[i + fieldsToRender.length])" matTooltip="Editar"
+        aria-label="Editar" style="margin-right: 16px;">
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      }
+      @if (props.removableGroup && i === 0) {
+      <button mat-icon-button (click)="removeGroup(item.fieldGroup[i + fieldsToRender.length])" matTooltip="Eliminar"
+        aria-label="Eliminar" style="margin-right: 16px;">
+        <fa-icon [icon]="faTrashCan"></fa-icon>
+      </button>
+      }
+      <span>{{getValue(item.fieldGroup[i + fieldsToRender.length])}}</span>
     </td>
     } @else {
     <td mat-cell *matCellDef="let item" [ngClass]="{button: f.type === 'button'}" [attr.colspan]="f.span">

@@ -20,11 +20,14 @@ interface TableProps extends StackFieldProps {
   addable?: boolean;
   cancelable?: boolean;
   editable?: boolean;
+  editableGroup?: boolean;
   removable?: boolean;
+  removableGroup?: boolean;
   markAsDirty?: boolean;
   add?: () => Observable<any>;
   cancel?: (field: StackFieldConfig, value: any) => Observable<any>;
   edit?: (field: StackFieldConfig, value: any) => Observable<any>;
+  editGroup?: (field: StackFieldConfig, values: any[]) => Observable<any>;
   valueChanges?: (table: MatTable<any>) => void;
 }
 
@@ -42,6 +45,8 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
   @ViewChild('formTable', { static: true }) table!: MatTable<any>;
 
   readonly faPlus = faPlus;
+  readonly faPencil = faPencil;
+  readonly faTrashCan = faTrashCan;
 
   dataSource: MatTableDataSource<StackFieldConfig> = new MatTableDataSource();
   fieldsToRender: FieldsToRender[] = [];
@@ -77,6 +82,7 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
         props: {
           icon: faPencil,
           duotone: true,
+          label: 'Editar',
           onClick: this.editItem,
           order: -30,
         },
@@ -89,6 +95,7 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
         props: {
           icon: faBan,
           duotone: true,
+          label: 'Cancelar',
           onClick: this.cancelItem,
           order: -20,
         },
@@ -101,6 +108,7 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
         props: {
           icon: faTrashCan,
           duotone: true,
+          label: 'Eliminar',
           onClick: this.removeItem,
           order: -10,
         },
@@ -143,6 +151,38 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
     });
   }
 
+  editGroup(field: StackFieldConfig): void {
+    const index = +field.parent!.key!;
+    if (!getFieldValue(this.dataSource.data[index])._headerRow) {
+      return;
+    }
+
+    let num = 1;
+    const values = [];
+    for (let i = index + 1; i < this.dataSource.data.length; i++) {
+      num++;
+      const item = getFieldValue(this.dataSource.data[i]);
+      if (item._headerRow || item._summaryRow) {
+        break;
+      }
+      values.push(item);
+    }
+
+    field.parent!.parent!.props!['editGroup']?.(field, values)?.subscribe((value: any) => {
+      if (!value) {
+        return;
+      }
+
+      for (let i = 0; i < num; i++) {
+        super.remove(index);
+      }
+      for (let i = 0; i < value.length; i++) {
+        super.add(index + i, value[i], { markAsDirty: !(this.props?.markAsDirty === false) });
+      }
+      this.table.renderRows();
+    });
+  }
+
   getFormat(f: StackFieldConfig): string {
     if (f.props?.['format'] === 'decimal') {
       return '1.2-2';
@@ -179,6 +219,26 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
 
   override remove(i: number): void {
     super.remove(i);
+    this.table.renderRows();
+  }
+
+  removeGroup(field: StackFieldConfig): void {
+    const index = +field.parent!.key!;
+    if (!getFieldValue(this.dataSource.data[index])._headerRow) {
+      return;
+    }
+
+    let num = 1;
+    for (let i = index + 1; i < this.dataSource.data.length; i++) {
+      num++;
+      const item = getFieldValue(this.dataSource.data[i]);
+      if (item._headerRow || item._summaryRow) {
+        break;
+      }
+    }
+    for (let i = 0; i < num; i++) {
+      super.remove(index);
+    }
     this.table.renderRows();
   }
 
