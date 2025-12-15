@@ -1,5 +1,6 @@
 @if (props.icon) {
-<button mat-icon-button [disabled]="props.disabled" [type]="props.type || 'button'" (click)="onClick($event)">
+<button mat-icon-button [disabled]="props.disabled" [type]="props.type || 'button'" (click)="onClick($event)"
+  [matTooltip]="props.label" [aria-label]="props.label">
   @if (type === 'fad') {
   <fa-duotone-icon [icon]="props.icon!" />
   } @else if (type === 'fa') {
