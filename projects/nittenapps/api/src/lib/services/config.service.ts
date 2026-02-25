@@ -38,4 +38,12 @@ export class ConfigService {
       })
       .pipe(map((response) => response.body.items));
   }
+
+  getParameter(paramCode: string): Observable<AttributeValue> {
+    return this.http
+      .get<
+        ApiResponse<AttributeValue, ObjectBody<AttributeValue>>
+      >(`${this.config.baseUrl}/config/v1/parameters/${paramCode}`)
+      .pipe(map((response) => response.body.object));
+  }
 }
