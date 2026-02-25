@@ -15,7 +15,7 @@ type ProgressType = {
 };
 
 @Component({
-  selector: 'na-file-upload',
+  selector: 'nas-file-upload',
   imports: [AsyncPipe, MatButtonModule, MatDialogModule, MatIconModule, MatListModule, MatProgressBarModule],
   templateUrl: './file-upload.component.html',
 })
