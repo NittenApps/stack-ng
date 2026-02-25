@@ -1,5 +1,6 @@
 <h2 mat-dialog-title>{{data.title}}</h2>
 <mat-dialog-content class="d-flex flex-column">
+  @if (apiLoaded) {
   @if (data.editable) {
   <nas-place-autocomplete [address]="address" (onAutocompleteSelected)="placeSelected($event)"
     (onLocationSelected)="locationSelected($event)" />
@@ -9,6 +10,7 @@
     <map-advanced-marker [position]="markerPosition" [options]="markerOptions" (mapDragend)="dragEnd($event)" />
     }
   </google-map>
+  }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button [mat-dialog-close]="place" [disabled]="!place">Aceptar</button>
