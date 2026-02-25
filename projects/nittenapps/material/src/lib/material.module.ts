@@ -9,10 +9,11 @@ import { StackMatFileModule } from './file';
 import { StackMatFormFieldModule } from './form-field';
 import { StackMatInputModule } from './input';
 import { StackMatLogbookModule } from './logbook';
+import { StackMatMultiSelectModule } from './multi-select';
 import { StackMatSelectModule } from './select';
+import { StackMatToggleModule } from './slide-toogle';
 import { StackMatTableModule } from './table';
 import { StackMatTabsModule } from './tabs';
-import { StackMatToggleModule } from './slide-toogle';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { StackMatToggleModule } from './slide-toogle';
     StackMatFormFieldModule,
     StackMatInputModule,
     StackMatLogbookModule,
+    StackMatMultiSelectModule,
     StackMatSelectModule,
     StackMatTableModule,
     StackMatTabsModule,
