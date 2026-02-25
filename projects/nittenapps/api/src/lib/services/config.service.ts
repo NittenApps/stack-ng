@@ -7,6 +7,14 @@ import { ApiConfig, ApiResponse, ListBody } from '../types';
 export class ConfigService {
   constructor(private config: ApiConfig, private http: HttpClient) {}
 
+  getCatalogValue(catalogCode: string, code: string): Observable<CatalogValue> {
+    return this.http
+      .get<
+        ApiResponse<CatalogValue, ObjectBody<CatalogValue>>
+      >(`${this.config.baseUrl}/config/v1/catalog-values/${catalogCode}/${code}`)
+      .pipe(map((response) => response.body.object));
+  }
+
   getCatalogValues(
     catalogCode: string,
     params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> }
