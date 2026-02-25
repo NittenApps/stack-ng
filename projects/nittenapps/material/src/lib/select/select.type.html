@@ -20,10 +20,10 @@
     @if (!props.multiple) {
     <mat-option [value]="null"></mat-option>
     }
-    @for (item of selectOptions; track item) {
+    @for (item of selectOptions; track item.value) {
       @if (item.group) {
       <mat-optgroup [label]="item.label || ''">
-        @for (child of item.group; track child) {
+        @for (child of item.group; track child.value) {
         <mat-option [value]="child.value" [disabled]="child.disabled">
           {{ child.label }}
         </mat-option>
