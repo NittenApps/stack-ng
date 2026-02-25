@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Seleccionar valores</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div formArrayName="values" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+      @for (option of options; track option.code; let i = $index) {
+      <mat-checkbox [formControlName]="i">{{option.name}}</mat-checkbox>
+      }
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="closeDialog()">Aceptar</button>
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

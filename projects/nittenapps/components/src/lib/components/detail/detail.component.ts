@@ -121,7 +121,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             } else {
               fieldConfig.key = `${base}attributes.${field.code}.0.catalogValue`;
             }
-            fieldConfig.type = 'select';
+            fieldConfig.type = field.definition?.multiple ? 'multi-select' : 'select';
             fieldConfig.props!.options = this.getOptions(field);
             fieldConfig.props!['multiple'] = field.definition?.multiple;
             break;
