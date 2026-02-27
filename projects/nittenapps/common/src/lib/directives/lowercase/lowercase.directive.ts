@@ -26,7 +26,7 @@ export class LowercaseDirective implements AfterViewInit, OnDestroy {
       return;
     }
 
-    setTimeout(() => this.setValue(this.toLowercase(this.ngControl.value)));
+    setTimeout(() => this.setValue(this.ngControl.value?.toLowerCase()));
   }
 
   ngOnDestroy() {
@@ -40,18 +40,11 @@ export class LowercaseDirective implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const value = this.ngControl.control?.value || '';
-    !!value && this.setValue(this.toLowercase(value));
+    const value = this.ngControl.value;
+    !!value && this.setValue(value?.toLowerCase());
   }
 
   private setValue(value: string) {
     this.ngControl.control?.setValue(value, { emitEvent: false });
-  }
-
-  private toLowercase(value: string): string {
-    if (!value) {
-      return value;
-    }
-    return value.toLowerCase();
   }
 }

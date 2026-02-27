@@ -1,20 +1,28 @@
 @if (type === 'number') {
-<input matInput [id]="id" [name]="field.name || ''" type="number" autocomplete="off" [readonly]="props.readonly"
-  [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
-  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [numberFormat]="format"
-  [allowNegative]="allowNegative">
+<input matInput [id]="id" class="number" [name]="field.name || ''" type="text" autocomplete="off"
+  [readonly]="props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl"
+  [nasFormsAttributes]="field" [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [mask]="format"
+  thousandSeparator="," [allowNegativeNumbers]="allowNegative" [leadZero]="props.format === 'decimal'">
+} @else if (type === 'percent') {
+<input matInput [id]="id" class="number" [name]="field.name || ''" type="text" autocomplete="off"
+  [readonly]="props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl"
+  [nasFormsAttributes]="field" [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [mask]="format"
+  thousandSeparator="," [allowNegativeNumbers]="allowNegative" [leadZero]="true" suffix=" %">
 } @else if (type === 'date') {
 <input matInput [id]="id" [name]="field.name || ''" type="text" autocomplete="off" [readonly]="props.readonly"
   [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
   [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [displayWith]="formatDatetime">
 } @else if (type === 'catalog') {
-<input matInput [id]="id" [name]="field.name || ''" [type]="type || 'text'" autocomplete="off"
-  [readonly]="props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl"
-  [nasFormsAttributes]="field" [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''"
-  [displayWith]="formatCatalog">
+<input matInput [id]="id" [name]="field.name || ''" type="text" autocomplete="off" [readonly]="props.readonly"
+  [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
+  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [displayWith]="formatCatalog">
+} @else if (type === 'textarea') {
+<textarea matInput [id]="id" [name]="field.name || ''" autocomplete="off" [readonly]="props.readonly"
+  [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
+  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''"></textarea>
 } @else {
-<input matInput [id]="id" [name]="field.name || ''" [type]="type || 'text'" autocomplete="off"
-  [readonly]="props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl"
-  [nasFormsAttributes]="field" [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" normalizeValue
-  [lowercase]="format === 'lowercase'" [uppercase]="format === 'uppercase'">
+<input matInput [id]="id" [name]="field.name || ''" type="text" autocomplete="off" [readonly]="props.readonly"
+  [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
+  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [lowercase]="format === 'lowercase'"
+  [uppercase]="format === 'uppercase'" normalizeValue>
 }

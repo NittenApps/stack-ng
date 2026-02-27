@@ -6,6 +6,7 @@ import { FieldType, StackFieldConfig } from '@nittenapps/forms';
   selector: 'nas-field-tabs',
   templateUrl: './tabs.type.html',
   styleUrl: './tabs.type.scss',
+  standalone: false,
 })
 export class StackFieldTabs extends FieldType {
   faCircleExclamation = faCircleExclamation;

@@ -6,10 +6,9 @@ import { faCircleQuestion } from '@fortawesome/pro-duotone-svg-icons';
 import { DialogData } from '../../types';
 
 @Component({
-  selector: 'nas-confirm-dialog',
-  standalone: true,
-  imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
-  templateUrl: './confirm.dialog.html',
+    selector: 'nas-confirm-dialog',
+    imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
+    templateUrl: './confirm.dialog.html'
 })
 export class ConfirmDialog {
   faCircleQuestion = faCircleQuestion;

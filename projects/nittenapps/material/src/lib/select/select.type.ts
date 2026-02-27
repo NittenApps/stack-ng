@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Type, ViewChild } from '@angular/core';
+import { MatPseudoCheckboxState } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { FieldTypeConfig, StackFieldConfig, StackFieldProps, ɵobserve as observe } from '@nittenapps/forms';
 import { StackFieldSelectProps } from '@nittenapps/forms/select';
+
 import { FieldType } from '../form-field';
-import { MatPseudoCheckboxState } from '@angular/material/core';
 
 interface SelectProps extends StackFieldProps, StackFieldSelectProps {
   multiple?: boolean;
@@ -14,16 +15,17 @@ interface SelectProps extends StackFieldProps, StackFieldSelectProps {
   panelClass?: string;
 }
 
-export interface StackSelectFieldConfig extends StackFieldConfig<SelectProps> {
-  type: 'select' | Type<StackFieldSelect>;
+export interface StackSelectFieldConfig extends StackFieldConfig<FieldTypeConfig<SelectProps>> {
+  type: 'select' | Type<StackFieldMatSelect>;
 }
 
 @Component({
   selector: 'nas-field-mat-select',
   templateUrl: './select.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class StackFieldSelect extends FieldType<FieldTypeConfig<SelectProps>> {
+export class StackFieldMatSelect extends FieldType<FieldTypeConfig<SelectProps>> {
   @ViewChild(MatSelect, { static: true }) set select(select: any) {
     if (!select) {
       return;
@@ -37,15 +39,23 @@ export class StackFieldSelect extends FieldType<FieldTypeConfig<SelectProps>> {
 
   override defaultOptions = {
     props: {
-      compareWith(value1: any, value2: any) {
-        return value1?.code ? value1.code === value2?.code : value1 === value2;
-      },
+      compareWith: (value1: any, value2: any) =>
+        value1?.code ? value1.code === value2?.code || value1.code === value2?.codeValue : value1 === value2,
     },
   };
 
   private selectAllValue!: { options: any; value: any[] };
 
   change($event: MatSelectChange): void {
+    if (typeof this.key === 'string' && this.key?.endsWith('catalogValue') && !$event.value) {
+      const ks = this.key.substring(0, this.key.lastIndexOf('.')).split('.');
+      let model = this.model;
+      ks.forEach((k) => (model = model?.[k]));
+      if (model) {
+        model['codeValue'] = null;
+        model['stringValue'] = null;
+      }
+    }
     this.props.change?.(this.field, $event);
   }
 

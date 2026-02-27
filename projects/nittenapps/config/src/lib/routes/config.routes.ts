@@ -1,7 +1,21 @@
 import { Routes } from '@angular/router';
-import { faBrowser, faCogs, faInputPipe, faObjectGroup } from '@fortawesome/pro-duotone-svg-icons';
+import {
+  faBrowser,
+  faBrowsers,
+  faCogs,
+  faFolderCog,
+  faInputPipe,
+  faList,
+  faObjectGroup,
+  faScrewdriverWrench,
+} from '@fortawesome/pro-duotone-svg-icons';
+import { genericResolver } from '@nittenapps/api';
 import { NavItem } from '@nittenapps/components';
+import { activityResolver } from '../resolvers/activity.resolver';
+import { catalogResolver } from '../resolvers/catalog.resolver';
 import { fieldResolver } from '../resolvers/field.resolver';
+import { fieldGroupResolver } from '../resolvers/field-group.resolver';
+import { moduleResolver } from '../resolvers/module.resolver';
 
 export const CONFIG_ITEMS: NavItem[] = [
   {
@@ -10,6 +24,18 @@ export const CONFIG_ITEMS: NavItem[] = [
     iconSet: 'duo',
     roles: ['config'],
     children: [
+      {
+        label: 'Catálogos',
+        icon: faList,
+        iconSet: 'duo',
+        routerLink: ['config', 'catalogs'],
+      },
+      {
+        label: 'Parámetros',
+        icon: faFolderCog,
+        iconSet: 'duo',
+        routerLink: ['config', 'parameters'],
+      },
       {
         label: 'Campos',
         icon: faInputPipe,
@@ -28,11 +54,167 @@ export const CONFIG_ITEMS: NavItem[] = [
         iconSet: 'duo',
         routerLink: ['config', 'activities'],
       },
+      {
+        label: 'Módulos',
+        icon: faBrowsers,
+        iconSet: 'duo',
+        routerLink: ['config', 'modules'],
+      },
+    ],
+  },
+  {
+    label: 'Administración',
+    icon: faScrewdriverWrench,
+    iconSet: 'duo',
+    roles: ['admin'],
+    children: [
+      {
+        label: 'Catálogos',
+        icon: faList,
+        iconSet: 'duo',
+        routerLink: ['admin', 'catalogs'],
+      },
+      {
+        label: 'Parámetros',
+        icon: faFolderCog,
+        iconSet: 'duo',
+        routerLink: ['admin', 'parameters-value'],
+      },
+    ],
+  },
+];
+
+export const ADMIN_ROUTES: Routes = [
+  {
+    path: 'catalogs',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Catálogos',
+      roles: ['admin'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../catalogs/catalog-values/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('../catalogs/catalog-values/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: catalogResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
+    ],
+  },
+  {
+    path: 'parameters-value',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Parámetros',
+      roles: ['admin'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../parameters/values/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('../parameters/values/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: genericResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
     ],
   },
 ];
 
 export const CONFIG_ROUTES: Routes = [
+  {
+    path: 'activities',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Actividades',
+      roles: ['config'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../components/activities/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('../components/activities/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: activityResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
+    ],
+  },
+  {
+    path: 'catalogs',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Catálogos',
+      roles: ['config'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../catalogs/catalogs/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('../catalogs/catalogs/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: catalogResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
+    ],
+  },
+  {
+    path: 'field-groups',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Grupos de Campos',
+      roles: ['config'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../components/field-groups/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('../components/field-groups/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: fieldGroupResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
+    ],
+  },
   {
     path: 'fields',
     loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
@@ -43,17 +225,66 @@ export const CONFIG_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('../components/fields/list/list.component').then((m) => m.FieldsListComponent),
+        loadComponent: () => import('../components/fields/list/list.component').then((m) => m.ListComponent),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('../components/fields/detail/detail.component').then((m) => m.FieldsDetailComponent),
-        resolve: { field: fieldResolver },
+        loadComponent: () => import('../components/fields/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: fieldResolver },
         data: {
           breadcrumb: {
             disabled: true,
-            label: (data: any) => `${data.field?.code || 'Nuevo'}`,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
+    ],
+  },
+  {
+    path: 'modules',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Módulos',
+      roles: ['config'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../components/modules/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('../components/modules/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: moduleResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
+          },
+        },
+      },
+    ],
+  },
+  {
+    path: 'parameters',
+    loadComponent: () => import('@nittenapps/activity').then((m) => m.ActivityComponent),
+    data: {
+      breadcrumb: 'Parámetros',
+      roles: ['config'],
+    },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../parameters/parameters/list/list.component').then((m) => m.ListComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('../parameters/parameters/detail/detail.component').then((m) => m.DetailComponent),
+        resolve: { model: genericResolver },
+        data: {
+          breadcrumb: {
+            disabled: true,
+            label: (data: any) => `${data.model?.code || 'Nuevo'}`,
           },
         },
       },

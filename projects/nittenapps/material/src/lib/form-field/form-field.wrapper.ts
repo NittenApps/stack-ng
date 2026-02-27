@@ -44,9 +44,12 @@ export interface StackFieldProps extends CoreStackFieldProps {
   templateUrl: './form-field.wrapper.html',
   styleUrl: './form-field.wrapper.scss',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
-export class StackFormsWrapperFormField extends FieldWrapper<MatStackFieldConfig>
-  implements OnInit, OnDestroy, AfterViewInit {
+export class StackFormsWrapperFormField
+  extends FieldWrapper<MatStackFieldConfig>
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild(MatFormField, { static: true }) formField!: MatFormField;
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef, private focusMonitor: FocusMonitor) {

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
@@ -6,11 +6,10 @@ import { Observable, tap } from 'rxjs';
 import { LoadingService } from '../../services';
 
 @Component({
-  selector: 'nas-loading-indicator',
-  standalone: true,
-  imports: [AsyncPipe, MatProgressSpinnerModule, NgIf, NgTemplateOutlet],
-  templateUrl: './loading-indicator.component.html',
-  styleUrl: './loading-indicator.component.css',
+    selector: 'nas-loading-indicator',
+    imports: [AsyncPipe, MatProgressSpinnerModule, NgTemplateOutlet],
+    templateUrl: './loading-indicator.component.html',
+    styleUrl: './loading-indicator.component.css'
 })
 export class LoadingIndicatorComponent {
   @Input() detectRouteTransitions = false;

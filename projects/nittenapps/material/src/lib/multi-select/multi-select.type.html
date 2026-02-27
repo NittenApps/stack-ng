@@ -1,0 +1,11 @@
+<input [id]="id" [name]="field.name || ''" [formControl]="formControl" [nasFormsAttributes]="field"
+  [required]="required" [readonly]="true" [hidden]="true">
+<input matInput [name]="'display' + (field.name || '')" [required]="required" [readonly]="true"
+  [(ngModel)]="displayValue" [ngModelOptions]="{standalone: true}">
+@if (!props.readonly) {
+<ng-template #matSuffix>
+  <button matIconButton aria-label="Seleccionar" (click)="selectValues()">
+    <fa-icon [icon]="faPencil"></fa-icon>
+  </button>
+</ng-template>
+}

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -13,9 +12,7 @@ import { StackMatInputModule, StackMatTabsModule } from '@nittenapps/material';
 
 @Component({
   selector: 'app-detail',
-  standalone: true,
   imports: [
-    CommonModule,
     DetailToolbarComponent,
     FaDuotoneIconComponent,
     FaIconComponent,

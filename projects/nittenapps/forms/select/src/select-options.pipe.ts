@@ -23,7 +23,10 @@ type ITransformOption = {
   groupProp: (option: any) => string;
 };
 
-@Pipe({ name: 'stackSelectOptions' })
+@Pipe({
+    name: 'stackSelectOptions',
+    standalone: false
+})
 export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
   private _subscription?: Subscription;
   private _options?: BehaviorSubject<any[]>;
@@ -77,17 +80,21 @@ export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
     return this._options.asObservable();
   }
 
-  private transformOption(option: any, props: ITransformOption): StackSelectOption {
+  private transformOption(option: any, props: ITransformOption, multiple: boolean): StackSelectOption {
     const group = props.groupProp(option);
     if (Array.isArray(group)) {
       return {
         label: props.labelProp(option),
-        group: group.map((opt) => this.transformOption(opt, props)),
+        group: group.map((opt) => this.transformOption(opt, props, multiple)),
       };
     }
 
+    if (multiple && option.code) {
+      option = { ...option, catalogValue: { code: option.code, name: option.name } };
+    }
+
     option = {
-      label: props.labelProp(option) || option.code + ' - ' + option.name,
+      label: props.labelProp(option) || (option.code ? option.code + ' - ' : '') + option.name,
       value: props.valueProp(option) || option,
       disabled: !!props.disabledProp(option),
     };
@@ -105,7 +112,7 @@ export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
     const groups: { [id: string]: number } = {};
 
     options?.forEach((option) => {
-      const o = this.transformOption(option, to);
+      const o = this.transformOption(option, to, !!field?.props?.['multiple']);
       if (o.group) {
         const id = groups[o.label!];
         if (id === undefined) {

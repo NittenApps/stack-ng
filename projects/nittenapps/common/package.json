@@ -2,8 +2,8 @@
   "name": "@nittenapps/common",
   "version": "0.0.0-STACK-VERSION",
   "peerDependencies": {
-    "@angular/common": "^18.0.0",
-    "@angular/core": "^18.0.0"
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

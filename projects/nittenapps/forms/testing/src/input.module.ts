@@ -7,6 +7,7 @@ import { StackFormsModule } from '../../src/lib/forms.module';
 @Component({
   selector: 'nas-type-input',
   template: `<input type="text" [formControl]="formControl" [nasFormsAttributes]="field" />`,
+  standalone: false,
 })
 export class StackFieldInput extends FieldType<FieldTypeConfig> {}
 
@@ -15,10 +16,11 @@ export class StackFieldInput extends FieldType<FieldTypeConfig> {}
   template: `
     <label [attr.for]="id">{{ props.label }}</label>
     <ng-template #fieldComponent></ng-template>
-    <ng-container *ngIf="showError">
-      <nas-validation-message [field]="field" />
-    </ng-container>
+    @if (showError) {
+    <nas-validation-message [field]="field" />
+    }
   `,
+  standalone: false,
 })
 export class StackWrapperFormField extends FieldWrapper {}
 

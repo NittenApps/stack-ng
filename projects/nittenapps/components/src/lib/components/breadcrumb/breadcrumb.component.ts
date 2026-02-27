@@ -7,11 +7,10 @@ import { BreadcrumbService } from '../../services';
 import { Breadcrumb } from '../../types/breadcrumb';
 
 @Component({
-  selector: 'nas-breadcrumb',
-  standalone: true,
-  imports: [AsyncPipe, MatIconModule, RouterModule],
-  templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss'],
+    selector: 'nas-breadcrumb',
+    imports: [AsyncPipe, MatIconModule, RouterModule],
+    templateUrl: './breadcrumb.component.html',
+    styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent {
   breadcrumbs$: Observable<Breadcrumb[]>;

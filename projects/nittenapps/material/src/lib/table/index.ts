@@ -1,2 +1,2 @@
 export { StackMatTableModule } from './module';
-export { StackTable } from './table.type';
+export { StackMatTable, TableConfig } from './table.type';

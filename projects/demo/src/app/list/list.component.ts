@@ -7,10 +7,9 @@ import { ListComponent as NASListComponent, ListToolbarComponent, Column } from 
 import { Demo } from '../types/demo';
 
 @Component({
-  selector: 'app-list',
-  standalone: true,
-  imports: [FaDuotoneIconComponent, ListToolbarComponent, MatButtonModule, MatTooltipModule, NASListComponent],
-  templateUrl: './list.component.html',
+    selector: 'app-list',
+    imports: [FaDuotoneIconComponent, ListToolbarComponent, MatButtonModule, MatTooltipModule, NASListComponent],
+    templateUrl: './list.component.html'
 })
 export class ListComponent {
   baseObject: Demo = {};

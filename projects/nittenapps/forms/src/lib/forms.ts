@@ -10,7 +10,7 @@ export {
 } from './directives';
 export { StackFormsModule } from './forms.module';
 export { STACK_FORMS_CONFIG, StackFormBuilder, StackFormsConfig } from './services';
-export { StackFieldConfig, StackFieldProps, StackFormOptions } from './types';
+export { StackFieldConfig, StackFieldProps, StackFormOptions, StackFormsHookConfig } from './types';
 export {
   clone as ɵclone,
   defineHiddenProp as ɵdefineHiddenProp,

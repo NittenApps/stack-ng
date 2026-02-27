@@ -8,9 +8,10 @@ import { isObject, STACK_VALIDATORS } from '../../utils';
  * The `<nas-validation-message>` component renders the error message of a given `field`.
  */
 @Component({
-  selector: 'nas-validation-message',
-  template: '{{ errorMessage$ | async }}',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-validation-message',
+    template: '{{ errorMessage$ | async }}',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StackValidationMessage implements OnChanges {
   /** The field config. */

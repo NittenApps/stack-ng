@@ -1,0 +1,30 @@
+<div class="activity-detail">
+  <nas-detail-toolbar [canSave]="form.valid && form.dirty" (save)="save()" />
+  <div class="main-container">
+    <form [formGroup]="form" novalidate>
+      <nas-form [model]="model" [fields]="(fields | async) || []" [options]="options" [form]="form" />
+      <mat-tab-group>
+        <mat-tab label="Definición">
+          <div class="nas-tab-content">
+            <nas-form [model]="model" [fields]="definitionFields" [options]="options" [form]="form" />
+          </div>
+        </mat-tab>
+        <mat-tab label="Actividades">
+          <div class="nas-tab-content">
+            <p-picklist [dragdrop]="true" filterBy="name" scrollHeight="40rem" [showSourceControls]="false"
+              [source]="sourceActivities" sourceHeader="Actividades disponibles"
+              [sourceStyle]="{display: 'block',height: '40rem'}" [target]="targetActivities"
+              targetHeader="Actividades seleccionadas" [targetStyle]="{display: 'block',height: '40rem'}"
+              [trackBy]="trackBy" (onMoveAllToSource)="form.markAsDirty()" (onMoveAllToTarget)="form.markAsDirty()"
+              (onMoveToSource)="form.markAsDirty()" (onMoveToTarget)="form.markAsDirty()"
+              (onTargetReorder)="form.markAsDirty()">
+              <ng-template let-item pTemplate="item">
+                {{item.code}} - {{item.name}}
+              </ng-template>
+            </p-picklist>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </div>
+</div>

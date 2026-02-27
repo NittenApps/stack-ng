@@ -696,10 +696,13 @@ describe('StackField Component', () => {
 @Component({
   selector: 'nas-wrapper-form-field-async',
   template: `
-    <div *ngIf="props.render">
+    @if (props.render) {
+    <div>
       <ng-container #fieldComponent></ng-container>
     </div>
+    }
   `,
+  standalone: false,
 })
 class StackWrapperFormFieldAsync extends FieldWrapper {}
 
@@ -710,6 +713,7 @@ class StackWrapperFormFieldAsync extends FieldWrapper {}
     <div class="formState">{{ formState | json }}</div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackOnPushComponent extends FieldType {}
 
@@ -717,6 +721,7 @@ export class StackOnPushComponent extends FieldType {}
   selector: 'nas-on-populate-component',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackOnPopulateType extends FieldType implements StackFormsExtension {
   instanceId = Math.random().toString(36).substring(2, 5);
@@ -732,8 +737,9 @@ export class ParentService {}
 
 @Component({
   selector: 'nas-parent',
-  template: ` <nas-field *ngFor="let f of field.fieldGroup" [field]="f"></nas-field> `,
+  template: ` @for (f of field.fieldGroup; track f) {<nas-field [field]="f"></nas-field>} `,
   providers: [ParentService],
+  standalone: false,
 })
 export class StackParentComponent extends FieldType {
   constructor(public parent: ParentService) {
@@ -744,6 +750,7 @@ export class StackParentComponent extends FieldType {
 @Component({
   selector: 'nas-child',
   template: ` <ng-content></ng-content> `,
+  standalone: false,
 })
 export class StackChildComponent extends FieldType {
   constructor(@Optional() public parent: ParentService, @Optional() public wrapper: StackWrapperFormFieldAsync) {
@@ -753,5 +760,6 @@ export class StackChildComponent extends FieldType {
 
 @Component({
   template: `<input type="text" [formControl]="formControl.get('title')" />`,
+  standalone: false,
 })
 export class StackGroupLocalControlType extends FieldType {}

@@ -1,21 +1,82 @@
-<table mat-table #formTable [dataSource]="dataSource" multiTemplateDataRows>
-  @for (f of fieldsToRender; track f; let i = $index) {
+<table mat-table #formTable [dataSource]="dataSource">
+  @for (f of fieldsToRender; track f.key; let i = $index) {
   <ng-container [matColumnDef]="f.key">
-    <th mat-header-cell *matHeaderCellDef [ngClass]="{'number': f.type === 'number', 'date': f.type === 'date'}">
+    <th mat-header-cell *matHeaderCellDef
+      [ngClass]="{number: f.type === 'number' || f.type === 'percent', date: f.type === 'date', button: f.type === 'button'}">
       {{f.name}}
     </th>
     @if (f.type === 'number') {
-    <td mat-cell *matCellDef="let item" class="number">
+    <td mat-cell *matCellDef="let item" class="number" [attr.colspan]="f.span">
       {{getValue(item.fieldGroup[i]) | number: getFormat(item.fieldGroup[i])}}</td>
+    } @else if (f.type === 'percent') {
+    <td mat-cell *matCellDef="let item" class="number" [attr.colspan]="f.span">
+      {{getValue(item.fieldGroup[i]) | percent: getFormat(item.fieldGroup[i])}}</td>
     } @else if (f.type === 'date') {
-    <td mat-cell *matCellDef="let item" class="date">
+    <td mat-cell *matCellDef="let item" class="date" [attr.colspan]="f.span">
       {{getValue(item.fieldGroup[i]) | date: getFormat(item.fieldGroup[i])}}</td>
+    } @else if (f.type === 'string') {
+    <td mat-cell *matCellDef="let item" [attr.colspan]="f.span">
+      {{getValue(item.fieldGroup[i])}}
+    </td>
     } @else {
-    <td mat-cell *matCellDef="let item">{{getValue(item.fieldGroup[i])}}</td>
+    <td mat-cell *matCellDef="let item" [ngClass]="{button: f.type === 'button'}" [attr.colspan]="f.span">
+      <nas-field [field]="item.fieldGroup[i]" />
+    </td>
     }
   </ng-container>
   }
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  @for (f of groupFields; track f.key; let i = $index) {
+  <ng-container [matColumnDef]="f.key">
+    @if (f.type === 'number') {
+    <td mat-cell *matCellDef="let item" class="number" [attr.colspan]="f.span">
+      {{getValue(item.fieldGroup[i + fieldsToRender.length]) | number: getFormat(item.fieldGroup[i +
+      fieldsToRender.length])}}</td>
+    } @else if (f.type === 'percent') {
+    <td mat-cell *matCellDef="let item" class="number" [attr.colspan]="f.span">
+      {{getValue(item.fieldGroup[i + fieldsToRender.length]) | percent: getFormat(item.fieldGroup[i +
+      fieldsToRender.length])}}</td>
+    } @else if (f.type === 'date') {
+    <td mat-cell *matCellDef="let item" class="date" [attr.colspan]="f.span">
+      {{getValue(item.fieldGroup[i + fieldsToRender.length]) | date: getFormat(item.fieldGroup[i +
+      fieldsToRender.length])}}</td>
+    } @else if (f.type === 'string') {
+    <td mat-cell *matCellDef="let item" [attr.colspan]="f.span">
+      @if (props.editableGroup && i === 0) {
+      <button mat-icon-button (click)="editGroup(item.fieldGroup[i + fieldsToRender.length])" matTooltip="Editar"
+        aria-label="Editar" style="margin-right: 16px;">
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      }
+      @if (props.removableGroup && i === 0) {
+      <button mat-icon-button (click)="removeGroup(item.fieldGroup[i + fieldsToRender.length])" matTooltip="Eliminar"
+        aria-label="Eliminar" style="margin-right: 16px;">
+        <fa-icon [icon]="faTrashCan"></fa-icon>
+      </button>
+      }
+      <span>{{getValue(item.fieldGroup[i + fieldsToRender.length])}}</span>
+    </td>
+    } @else {
+    <td mat-cell *matCellDef="let item" [ngClass]="{button: f.type === 'button'}" [attr.colspan]="f.span">
+      <nas-field [field]="item.fieldGroup[i + fieldsToRender.length]" />
+    </td>
+    }
+  </ng-container>
+  }
+
+  <!-- Group header -->
+  <tr mat-row *matRowDef="let row; columns: groupHeaderColumns; when: isGroupHeader" class="group-header-row"></tr>
+
+  <!-- Group summary -->
+  <tr mat-row *matRowDef="let row; columns: groupSummaryColumns; when: isGroupSummary" class="group-summary-row"></tr>
 </table>
+@if (!!props['addable']) {
+<div class="d-flex justify-content-end" style="padding: 8px 4px;">
+  <button (click)="addItem()" color="primary" mat-fab matTooltip="Agregar" type="button" aria-label="Agregar">
+    <fa-icon [icon]="faPlus"></fa-icon>
+  </button>
+</div>
+}

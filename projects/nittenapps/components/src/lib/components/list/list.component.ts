@@ -1,4 +1,4 @@
-import { NgClass, DecimalPipe, DatePipe } from '@angular/common';
+import { NgClass, DecimalPipe, DatePipe, PercentPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
@@ -19,18 +19,29 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ApiConfig, NAS_API_CONFIG } from '@nittenapps/api';
 import { interval, merge, Observable, startWith, Subscription, tap } from 'rxjs';
+
 import { ListDataSource } from '../../datasources/list.datasource';
 import { ListStateService } from '../../services/list-state.service';
 import { Column, Filter } from '../../types';
 
 @Component({
-  selector: 'nas-list',
-  standalone: true,
-  imports: [DatePipe, DecimalPipe, MatPaginatorModule, MatSortModule, MatTableModule, NgClass],
-  templateUrl: './list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'nas-list',
+    imports: [
+        DatePipe,
+        DecimalPipe,
+        FaIconComponent,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        NgClass,
+        PercentPipe,
+    ],
+    templateUrl: './list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -46,6 +57,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   @Input() emptyMessage: string = 'No se encontraron registros';
   @Input() filter?: Filter;
   @Input() objectId: string = 'id';
+  @Input() openUrl: boolean = false;
   @Input() rowClass?: string | string[] | ((item: any) => string | string[]);
 
   @Output() filterChange = new EventEmitter<Filter>();
@@ -70,7 +82,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     setTimeout(() => {
       const state = this.stateService.get(this.activity);
       this.pageIndex = state.p;
-      this.pageSize = state.p;
+      this.pageSize = state.s;
       this.filter = state.f || {};
       this.stringToSort(state.o?.[0] || this.activeSort);
 
@@ -123,15 +135,29 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     this.displayedColumns = this.columns.map((column) => column.id);
   }
 
-  getClass(item: T): string | string[] | undefined {
-    if (typeof this.rowClass === 'function') {
-      return this.rowClass(item);
+  getClass(column: Column, item: T): string | string[] {
+    if (typeof column.class === 'function') {
+      return column.class(column.id, item);
     }
-    return this.rowClass;
+    return column.class || '';
+  }
+
+  getIcon(column: Column, item: T): IconProp | undefined {
+    if (typeof column.icon === 'function') {
+      return column.icon(column.id, item);
+    }
+    return column.icon;
   }
 
   getNumberValue(column: Column, item: T): number | undefined {
     return this.getValue(column, item) as number;
+  }
+
+  getRowClass(item: T): string | string[] | undefined {
+    if (typeof this.rowClass === 'function') {
+      return this.rowClass(item);
+    }
+    return this.rowClass;
   }
 
   getValue(column: Column, item: T): string | number | Date | undefined {
@@ -159,6 +185,10 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   }
 
   showItem(item: T): void {
+    if (this.openUrl) {
+      window.open((item as any).url, '_blank');
+      return;
+    }
     this.router.navigate([(item as any)[this.objectId]], { relativeTo: this.route });
   }
 

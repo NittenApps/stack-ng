@@ -1,2 +1,2 @@
 export { StackMatSelectModule } from './module';
-export { StackFieldSelect, StackSelectFieldConfig } from './select.type';
+export { StackFieldMatSelect, StackSelectFieldConfig } from './select.type';

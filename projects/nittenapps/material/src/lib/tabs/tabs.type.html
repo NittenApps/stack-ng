@@ -1,17 +1,17 @@
 <mat-tab-group>
   @for (tab of field.fieldGroup; track tab) {
-  @if (!tab.props?.hidden) {
-  <mat-tab [labelClass]="isValid(tab) ? '' : 'nas-tab-invalid'">
-    <ng-template mat-tab-label>
-      @if (!isValid(tab)) {
-      <fa-icon class="nas-tab-invalid-icon" [icon]="faCircleExclamation"></fa-icon>
-      }
-      {{tab.props?.label}}
-    </ng-template>
-    <div class="nas-tab-content">
-      <nas-field [field]="tab" />
-    </div>
-  </mat-tab>
-  }
+    @if (!tab.props?.hidden) {
+    <mat-tab [labelClass]="false && isValid(tab) ? '' : 'nas-tab-invalid'">
+      <ng-template mat-tab-label>
+        @if (!isValid(tab)) {
+        <fa-icon class="nas-tab-invalid-icon error" [icon]="faCircleExclamation"></fa-icon>
+        }
+        {{tab.props?.label}}
+      </ng-template>
+      <div class="nas-tab-content">
+        <nas-field [field]="tab" />
+      </div>
+    </mat-tab>
+    }
   }
 </mat-tab-group>

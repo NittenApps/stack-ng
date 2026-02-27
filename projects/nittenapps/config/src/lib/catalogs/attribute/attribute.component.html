@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{model.code}} - {{model.name}}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" novalidate>
+    <nas-form [model]="model" [fields]="fields" [options]="options" [form]="form" />
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button [mat-dialog-close]="model" [disabled]="form.invalid">Aceptar</button>
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

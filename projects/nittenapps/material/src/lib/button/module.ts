@@ -1,16 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { StackFormsModule } from '@nittenapps/forms';
-import { StackFieldButton } from './button.type';
+import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fontawesome';
+
+import { StackMatButton } from './button.type';
 
 @NgModule({
-  declarations: [StackFieldButton],
+  declarations: [StackMatButton],
   imports: [
     CommonModule,
+    FaDuotoneIconComponent,
+    FaIconComponent,
     MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
     StackFormsModule.forChild({
-      types: [{ name: 'button', component: StackFieldButton }],
+      types: [{ name: 'button', component: StackMatButton }],
     }),
   ],
 })

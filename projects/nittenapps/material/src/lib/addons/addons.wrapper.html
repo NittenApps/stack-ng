@@ -1,0 +1,55 @@
+<ng-template #matPrefix>
+  @if (props['addonLeft']) {
+    @if (props['addonLeft']?.onClick) {
+    <button mat-icon-button type="button" (click)="addonLeftClick($event)">
+      @if (leftIconType === 'string') {
+      <mat-icon>{{props['addonLeft'].icon}}</mat-icon>
+      } @else if (leftIconType.length > 0) {
+      <fa-icon [icon]="props['addonLeft'].icon" />
+      }
+    </button>
+    } @else {
+    <span style="margin-left: 12px;">
+      @if (leftIconType === 'string') {
+      <mat-icon>{{props['addonLeft'].icon}}</mat-icon>
+      } @else if (leftIconType.length > 0) {
+      <fa-icon [icon]="props['addonLeft'].icon" />
+      }
+      @if (props['addonLeft']?.text) {
+      <span>{{props['addonLeft']?.text}}</span>
+      }
+    </span>
+    }
+  } @else {
+  <span style="margin-left: 12px;"></span>
+  }
+</ng-template>
+
+<ng-container #fieldComponent></ng-container>
+
+<ng-template #matSuffix>
+  @if (props['addonRight']) {
+    @if (props['addonRight']?.onClick) {
+    <button mat-icon-button type="button" (click)="addonRightClick($event)">
+      @if (rightIconType === 'string') {
+      <mat-icon>{{props['addonRight'].icon}}</mat-icon>
+      } @else if (rightIconType.length > 0) {
+      <fa-icon [icon]="props['addonRight'].icon" />
+      }
+    </button>
+    } @else {
+    <span style="margin-right: 12px;">
+      @if (rightIconType === 'string') {
+      <mat-icon>{{props['addonRight'].icon}}</mat-icon>
+      } @else if (rightIconType.length > 0) {
+      <fa-icon [icon]="props['addonRight'].icon" />
+      }
+      @if (props['addonRight']?.text) {
+      <span>{{props['addonRight']?.text}}</span>
+      }
+    </span>
+    }
+  } @else {
+  <span style="margin-right: 12px;"></span>
+  }
+</ng-template>

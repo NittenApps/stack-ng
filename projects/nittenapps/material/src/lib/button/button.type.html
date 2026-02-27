@@ -1,3 +1,16 @@
-<button mat-icon-button [type]="props.type || 'button'" (click)="onClick($event)">
-  <ng-container *ngTemplateOutlet="icon" />
+@if (props.icon) {
+<button mat-icon-button [disabled]="props.disabled" [type]="props.type || 'button'" (click)="onClick($event)"
+  [matTooltip]="props.label" [aria-label]="props.label">
+  @if (type === 'fad') {
+  <fa-duotone-icon [icon]="props.icon!" />
+  } @else if (type === 'fa') {
+  <fa-icon [icon]="props.icon!" />
+  } @else {
+  <mat-icon>{{props.icon}}</mat-icon>
+  }
 </button>
+} @else {
+<button mat-button [disabled]="props.disabled" [type]="props.type || 'button'" (click)="onClick($event)">
+  {{props.label}}
+</button>
+}

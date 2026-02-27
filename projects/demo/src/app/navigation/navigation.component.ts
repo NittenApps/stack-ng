@@ -23,27 +23,26 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-navigation',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    BreadcrumbComponent,
-    DashboardComponent,
-    FaIconComponent,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    NavbarVerticalComponent,
-    NgClass,
-    NgStyle,
-    RouterOutlet,
-  ],
-  templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-navigation',
+    imports: [
+        AsyncPipe,
+        BreadcrumbComponent,
+        DashboardComponent,
+        FaIconComponent,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatMenuModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        NavbarVerticalComponent,
+        NgClass,
+        NgStyle,
+        RouterOutlet,
+    ],
+    templateUrl: './navigation.component.html',
+    styleUrl: './navigation.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class NavigationComponent {
   faAngleDown = faAngleDown;

@@ -25,7 +25,7 @@ export class UppercaseDirective implements AfterViewInit, OnDestroy {
       return;
     }
 
-    setTimeout(() => this.setValue(this.toUppercase(this.ngControl.value)));
+    setTimeout(() => this.setValue(this.ngControl.value?.toUpperCase()));
   }
 
   ngOnDestroy() {
@@ -39,18 +39,11 @@ export class UppercaseDirective implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const value = this.ngControl.control?.value || '';
-    !!value && this.setValue(this.toUppercase(value));
+    const value = this.ngControl.value;
+    !!value && this.setValue(value?.toUpperCase());
   }
 
   private setValue(value: string) {
-    this.ngControl.control?.setValue(value, { emitEvent: false });
-  }
-
-  private toUppercase(value: string): string {
-    if (!value) {
-      return value;
-    }
-    return value.toUpperCase();
+    this.ngControl.control?.setValue(value, { emitEvent: true });
   }
 }

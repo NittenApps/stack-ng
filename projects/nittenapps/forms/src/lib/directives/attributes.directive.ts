@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   DoCheck,
@@ -9,6 +8,7 @@ import {
   OnDestroy,
   Renderer2,
   SimpleChanges,
+  DOCUMENT,
 } from '@angular/core';
 import { StackFieldConfig, StackFieldConfigCache } from '../types';
 import { defineHiddenProp, IObserver, observe, STACK_VALIDATORS } from '../utils';
@@ -21,6 +21,7 @@ import { defineHiddenProp, IObserver, observe, STACK_VALIDATORS } from '../utils
   host: {
     '(change)': 'onHostChange($event)',
   },
+  standalone: false,
 })
 export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
   /** The field config. */

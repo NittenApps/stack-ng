@@ -1,18 +1,21 @@
+import { NgClass } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@nittenapps/common';
-import { StackMatFormFieldModule } from '../form-field';
 import { StackFormsModule } from '@nittenapps/forms';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { StackMatFormFieldModule } from '../form-field';
 import { StackFieldInput } from './input.type';
-import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [StackFieldInput],
   imports: [
     CommonModule,
-    DatePipe,
     MatInputModule,
+    NgClass,
+    NgxMaskDirective,
+    NgxMaskPipe,
     ReactiveFormsModule,
     StackMatFormFieldModule,
     StackFormsModule.forChild({
@@ -29,6 +32,7 @@ import { DatePipe } from '@angular/common';
           defaultOptions: {
             props: {
               type: 'number',
+              format: 'decimal',
             },
           },
         },
@@ -38,6 +42,62 @@ import { DatePipe } from '@angular/common';
           defaultOptions: {
             props: {
               type: 'number',
+            },
+          },
+        },
+        {
+          name: 'percent',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              type: 'percent',
+            },
+          },
+        },
+        {
+          name: 'date',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              type: 'date',
+              format: 'date',
+            },
+          },
+        },
+        {
+          name: 'datetime',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              type: 'date',
+              format: 'datetime',
+            },
+          },
+        },
+        {
+          name: 'uppercase',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              format: 'uppercase',
+            },
+          },
+        },
+        {
+          name: 'lowercase',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              format: 'lowercase',
+            },
+          },
+        },
+        {
+          name: 'textarea',
+          extends: 'input',
+          defaultOptions: {
+            props: {
+              type: 'textarea',
             },
           },
         },

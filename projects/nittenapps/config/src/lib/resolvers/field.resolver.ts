@@ -1,8 +1,8 @@
-import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
-import { Field } from '../types/field';
-import { inject } from '@angular/core';
-import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
 import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
+import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
+import { Field } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
 
 export const fieldResolver: ResolveFn<Field> = (route: ActivatedRouteSnapshot) => {

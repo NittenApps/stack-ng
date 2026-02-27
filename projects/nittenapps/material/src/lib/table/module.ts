@@ -1,19 +1,29 @@
-import { DatePipe, DecimalPipe, JsonPipe, NgClass } from '@angular/common';
+import { DatePipe, DecimalPipe, NgClass, PercentPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { StackFormsModule } from '@nittenapps/forms';
-import { StackTable } from './table.type';
+
+import { StackMatButtonModule } from '../button';
+import { StackMatTable } from './table.type';
 
 @NgModule({
-  declarations: [StackTable],
+  declarations: [StackMatTable],
   imports: [
     DatePipe,
     DecimalPipe,
-    JsonPipe,
+    FaDuotoneIconComponent,
+    FaIconComponent,
+    MatButtonModule,
     MatTableModule,
+    MatTooltipModule,
     NgClass,
+    PercentPipe,
+    StackMatButtonModule,
     StackFormsModule.forChild({
-      types: [{ name: 'table', component: StackTable }],
+      types: [{ name: 'table', component: StackMatTable }],
     }),
   ],
 })

@@ -2,7 +2,7 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import * as fs from 'fs';
 import { join } from 'path';
 
-export const PACKAGES = ['api', 'auth', 'common', 'forms', 'material', 'components', 'activity', 'config'];
+export const PACKAGES = ['common', 'api', 'auth', 'forms', 'material', 'components', 'activity', 'config'];
 
 export function exec(cmd: string, options: ExecSyncOptions = { stdio: 'inherit' }) {
   return execSync(cmd, options);
