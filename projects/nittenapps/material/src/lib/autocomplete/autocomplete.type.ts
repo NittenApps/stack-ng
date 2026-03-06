@@ -14,6 +14,7 @@ interface AutocompleteProps extends StackFieldProps, StackFieldSelectProps {
   displayWith: ((value: any) => string) | null;
   filterMethod?: (field: StackFieldConfig, term: string) => Observable<any[]>;
   panelClass?: string;
+  optionSelected?: (field: StackFieldConfig, event?: any) => void;
 }
 
 export interface StackAutocompleteFieldConfig extends StackFieldConfig<AutocompleteProps> {
@@ -42,12 +43,14 @@ export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<Autocomple
   ngOnInit(): void {
     this.filteredOptions = this.searchSubject.pipe(
       debounceTime(this.props.typeaheadDebounceInterval || 300),
-      switchMap((term) => this.filterOptions(term))
+      switchMap((term) => this.filterOptions(term)),
     );
     this.formControl.valueChanges.subscribe((value) => {
       if (typeof value !== 'string') {
         if (!value) {
           this.searchSubject.next('');
+        } else if (value.code) {
+          this.props.change?.(this.field, value);
         }
       }
     });
@@ -68,7 +71,7 @@ export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<Autocomple
   }
 
   optionSelected($event: MatAutocompleteSelectedEvent): void {
-    this.props.change?.(this.field, $event.option);
+    this.props.optionSelected?.(this.field, $event.option.value);
   }
 
   private filterOptions(term: string): Observable<any[]> {
@@ -91,15 +94,15 @@ export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<Autocomple
       return this.props.options.pipe(
         map((options: any[]) =>
           options.filter(
-            (option) => option.code?.toLowerCase().includes(term) || option.name?.toLowerCase().includes(term)
-          )
-        )
+            (option) => option.code?.toLowerCase().includes(term) || option.name?.toLowerCase().includes(term),
+          ),
+        ),
       );
     }
     return of(
       this.props.options!.filter(
-        (option) => option.code?.toLowerCase().includes(term) || option.name?.toLowerCase().includes(term)
-      )
+        (option) => option.code?.toLowerCase().includes(term) || option.name?.toLowerCase().includes(term),
+      ),
     );
   }
 }
