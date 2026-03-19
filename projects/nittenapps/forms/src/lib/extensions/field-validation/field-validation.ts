@@ -20,7 +20,7 @@ export class FieldValidationExtension implements StackFormsExtension {
         VALIDATORS = VALIDATORS.filter((o) => o !== opt);
         if (opt === 'required' && currentValue != null && typeof currentValue !== 'boolean') {
           console.warn(
-            `StackForms: Invalid prop 'required' of type '${typeof currentValue}', expected 'boolean' (Field:${field.key}).`
+            `StackForms: Invalid prop 'required' of type '${typeof currentValue}', expected 'boolean' (Field:${field.key}).`,
           );
         }
 
@@ -30,7 +30,7 @@ export class FieldValidationExtension implements StackFormsExtension {
         if (!firstChange && field.formControl) {
           updateValidity(field.formControl);
         }
-      })
+      }),
     );
 
     return (control: AbstractControl) => {
@@ -69,7 +69,7 @@ export class FieldValidationExtension implements StackFormsExtension {
             default:
               return null;
           }
-        })
+        }),
       )!(control);
     };
   }

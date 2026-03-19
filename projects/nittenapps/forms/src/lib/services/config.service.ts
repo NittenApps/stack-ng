@@ -111,7 +111,7 @@ export class StackFormsConfig {
     if (!name || !this.types[name]) {
       if (throwIfNotFound) {
         throw new Error(
-          `[StackForms Error] The type "${name}" could not be found. Please make sure that is registered through the StackFormsModule declaration.`
+          `[StackForms Error] The type "${name}" could not be found. Please make sure that is registered through the StackFormsModule declaration.`,
         );
       }
 
@@ -126,7 +126,7 @@ export class StackFormsConfig {
   getValidator(name: string): ValidatorOption {
     if (!this.validators[name]) {
       throw new Error(
-        `[StackForms Error] The validator "${name}" could not be found. Please make sure that is registered through the StackFormsModule declaration.`
+        `[StackForms Error] The validator "${name}" could not be found. Please make sure that is registered through the StackFormsModule declaration.`,
       );
     }
 
@@ -144,7 +144,7 @@ export class StackFormsConfig {
 
     if (!this.wrappers[name]) {
       throw new Error(
-        `[StackForms Error] The wrapper "${name}" could not be found. Please make sure that is registered through the StackFormsModule declaration.`
+        `[StackForms Error] The wrapper "${name}" could not be found. Please make sure that is registered through the StackFormsModule declaration.`,
       );
     }
 
@@ -257,7 +257,7 @@ export class StackFormsConfig {
           ...acc,
           ...this.extensionsByPriority[prio],
         }),
-        {}
+        {},
       );
   }
 }
