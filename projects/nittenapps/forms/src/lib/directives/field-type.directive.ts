@@ -58,6 +58,6 @@ export abstract class FieldType<F extends StackFieldConfig = StackFieldConfig> {
   }
 
   get showError(): boolean {
-    return !!this.options?.showError?.(this);
+    return this.options?.showError?.(this) ?? true;
   }
 }

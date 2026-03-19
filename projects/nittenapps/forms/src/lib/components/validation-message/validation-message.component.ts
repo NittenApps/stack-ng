@@ -8,10 +8,10 @@ import { isObject, STACK_VALIDATORS } from '../../utils';
  * The `<nas-validation-message>` component renders the error message of a given `field`.
  */
 @Component({
-    selector: 'nas-validation-message',
-    template: '{{ errorMessage$ | async }}',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nas-validation-message',
+  template: '{{ errorMessage$ | async }}',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackValidationMessage implements OnChanges {
   /** The field config. */
@@ -73,11 +73,11 @@ export class StackValidationMessage implements OnChanges {
                 type === 'expressionChanges' &&
                 (property.indexOf('validation') !== -1 || EXPR_VALIDATORS.indexOf(property) !== -1)
               );
-            })
+            }),
           ),
     ]).pipe(
       startWith(null),
-      switchMap(() => (isObservable(this.errorMessage) ? this.errorMessage : of(this.errorMessage)))
+      switchMap(() => (isObservable(this.errorMessage) ? this.errorMessage : of(this.errorMessage))),
     );
   }
 }

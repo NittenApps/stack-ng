@@ -64,7 +64,11 @@ export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
     return (this.field as StackFieldConfigCache)?.['_elementRefs'] || [];
   }
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef, @Inject(DOCUMENT) _document: any) {
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    @Inject(DOCUMENT) _document: any,
+  ) {
     this.document = _document;
   }
 
@@ -75,7 +79,7 @@ export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
       this.uiEvents.events.forEach((eventName) => {
         if (this.props?.[eventName] || ['focus', 'blur', 'change'].indexOf(eventName) !== -1) {
           this.uiEvents.listeners.push(
-            this.renderer.listen(this.elementRef.nativeElement, eventName, (e) => this.uiEvents.callback(eventName, e))
+            this.renderer.listen(this.elementRef.nativeElement, eventName, (e) => this.uiEvents.callback(eventName, e)),
           );
         }
       });
@@ -123,7 +127,7 @@ export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
     if (!this.uiAttributes) {
       const element = this.elementRef.nativeElement as HTMLElement;
       this.uiAttributes = [...STACK_VALIDATORS, 'tabindex', 'placeholder', 'readonly', 'disabled', 'step'].filter(
-        (attr) => !element.hasAttribute || !element.hasAttribute(attr)
+        (attr) => !element.hasAttribute || !element.hasAttribute(attr),
       );
     }
 
@@ -184,7 +188,7 @@ export class StackFormsAttributes implements OnChanges, DoCheck, OnDestroy {
       !!this.document.activeElement &&
       this.fieldAttrElements.some(
         ({ nativeElement }) =>
-          this.document.activeElement === nativeElement || nativeElement.contains(this.document.activeElement)
+          this.document.activeElement === nativeElement || nativeElement.contains(this.document.activeElement),
       );
 
     if (value && !isFocused) {
