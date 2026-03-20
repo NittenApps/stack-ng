@@ -2,12 +2,12 @@
   "name": "@nittenapps/material",
   "version": "0.0.0-STACK-VERSION",
   "peerDependencies": {
-    "@angular/common": "^20.0.0",
-    "@angular/core": "^20.0.0",
-    "@angular/material": "^20.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/material": "^21.0.0",
     "@nittenapps/forms": "0.0.0-STACK-VERSION",
-    "ngx-mask": "^20.0.0",
-    "ngx-quill": "^28.0.0"
+    "ngx-mask": "^21.0.0",
+    "ngx-quill": "^30.0.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
