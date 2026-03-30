@@ -46,6 +46,9 @@ export interface StackDatepickerFieldConfig extends StackFieldConfig<FieldTypeCo
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
+/**
+ * Tipo de campo basado en `mat-datepicker` para capturar fechas con opciones de calendario configurables.
+ */
 export class StackFieldDatepicker
   extends FieldType<FieldTypeConfig<DatepickerProps>>
   implements AfterViewInit, OnDestroy

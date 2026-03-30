@@ -5,6 +5,9 @@ import { StackFieldConfigCache, StackFormsExtension, ValidatorOption } from '../
 import { clone, defineHiddenProp, hasKey, isObject, isPromise, observe, STACK_VALIDATORS } from '../../utils';
 import { updateValidity } from '../field-form/utils';
 
+/**
+ * Transforma y gestiona toda la lógica de validación de cada campo, tanto validaciones predefinidas como personalizadas.
+ */
 export class FieldValidationExtension implements StackFormsExtension {
   constructor(private config: StackFormsConfig) {}
 

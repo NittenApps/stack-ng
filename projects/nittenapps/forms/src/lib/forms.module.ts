@@ -6,6 +6,11 @@ import { CoreExtension, FieldExpressionExtension, FieldFormExtension, FieldValid
 import { STACK_FORMS_CONFIG, StackFormBuilder, StackFormsConfig } from './services';
 import { ConfigOption } from './types';
 
+/**
+ * Devuelve la configuración base con tipos y extensiones internas del motor de formularios.
+ * @param config Configuración global.
+ * @returns Configuración base usada por `StackFormsModule`.
+ */
 export function defaultStackFormsConfig(config: StackFormsConfig): ConfigOption {
   return {
     types: [
@@ -34,6 +39,11 @@ export function defaultStackFormsConfig(config: StackFormsConfig): ConfigOption 
   imports: [CommonModule],
 })
 export class StackFormsModule {
+  /**
+   * Registra Stack Forms con su configuración raíz y servicios principales.
+   * @param config Configuración adicional de tipos, wrappers, extensiones o mensajes.
+   * @returns Definición del módulo con proveedores raíz.
+   */
   static forRoot(config: ConfigOption = {}): ModuleWithProviders<StackFormsModule> {
     return {
       ngModule: StackFormsModule,
@@ -46,6 +56,11 @@ export class StackFormsModule {
     };
   }
 
+  /**
+   * Registra configuración adicional de Stack Forms dentro de un módulo consumidor.
+   * @param config Configuración adicional de tipos, wrappers, extensiones o mensajes.
+   * @returns Definición del módulo con proveedores locales.
+   */
   static forChild(config: ConfigOption = {}): ModuleWithProviders<StackFormsModule> {
     return {
       ngModule: StackFormsModule,

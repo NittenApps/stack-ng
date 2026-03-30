@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ListState } from '../types/list-state';
 import { Filter } from '../types';
 
+/** Servicio para guardar y restaurar el estado básico de un listado. */
 @Injectable({ providedIn: 'root' })
 export class ListStateService {
   get(id: string): ListState {

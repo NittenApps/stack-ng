@@ -7,6 +7,7 @@ import { DirtyAware, Field, FieldGroup } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nittenapps/forms';
 import { map, Observable, of } from 'rxjs';
 
+/** Clase base para detalles dinámicos construidos desde la configuración de una activity. */
 @Component({
     template: '',
     standalone: false
@@ -25,6 +26,10 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   protected readonly router: Router;
   protected saved = false;
 
+  /**
+   * Actualiza el modelo actual.
+   * @param model Nuevo modelo.
+   */
   setModel(model: T): void {
     this.model = model;
   }
@@ -54,6 +59,10 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return !this.saved && this.form.dirty;
   }
 
+  /**
+   * Guarda el detalle y regresa a la vista anterior cuando la operación es exitosa.
+   * @returns No retorna valor.
+   */
   save(): void {
     this.activityService.save(this.prepareValue()).subscribe((response) => {
       if (response.success) {
@@ -64,12 +73,26 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     });
   }
 
+ /**
+ * Ejecuta lógica adicional después de guardar correctamente.
+ * @param _response Respuesta del guardado.
+ */
   protected afterSaved(_response: ApiResponse<T, ObjectBody<T>>): void {}
 
   protected back(): void {
     this.router.navigate(['..'], { relativeTo: this.route });
   }
 
+/**
+ * Genera dinámicamente la configuración de campos agrupados
+ * a partir de la data recibida.
+ *
+ * Convierte los FieldGroup en una estructura compatible con Stack Forms,
+ * aplicando tipos de campo, validaciones y reglas dinámicas para renderizar tabs, forms.
+ *
+ * @param fieldGroups Grupos de campos con su definición.
+ * @returns Configuración lista para renderizar en el formulario.
+ */
   protected configFields(fieldGroups: FieldGroup[]): StackFieldConfig[] {
     const fields: StackFieldConfig[] = [];
     fieldGroups?.forEach((fieldGroup) => {
@@ -211,6 +234,12 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return (field: StackFieldConfig, term: string): Observable<any> => of([]);
   }
 
+  /**
+   * Resuelve las opciones asociadas a los campos tipo catálogo.
+   * @param field Campo que define el catálogo a consultar.
+   * @param params Parámetros adicionales enviados a la consulta.
+   * @returns Observable con las opciones del catálogo.
+   */
   protected getOptions(
     field: Field,
     params?:
@@ -222,6 +251,11 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return this.configService.getCatalogValues(field.definition!.catalog!, params);
   }
 
+ /**
+ * Inicializa el modelo a partir de los datos de la ruta.
+ * Si existe `data['model']`, lo asigna; si no, crea un modelo vacío.
+ * @param data Datos resueltos de la ruta.
+ */
   protected initFields(): void {
     this.fields = this.activityService.getFieldGroups().pipe(map((fieldGroups) => this.configFields(fieldGroups)));
   }
@@ -230,6 +264,11 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return { formState: { activity: this.getActivity() } };
   }
 
+/**
+ * Inicializa el modelo a partir de los datos de la ruta.
+ * Si existe `data['model']`, lo asigna; si no, crea un modelo vacío.
+ * @param data Datos resueltos de la ruta.
+ */
   protected initModel(data: Data): void {
     if (data['model']) {
       this.model = data['model'];

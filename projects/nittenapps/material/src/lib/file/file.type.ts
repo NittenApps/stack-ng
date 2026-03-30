@@ -22,6 +22,10 @@ export interface StackFileConfig extends StackFieldConfig<FileProps> {
   styleUrl: './file.type.scss',
   standalone: false,
 })
+/**
+ * Tipo de campo para cargar uno o varios archivos
+ * Se usa cuando el formulario necesita adjuntos
+ */
 export class StackMatFile extends FieldArrayType<FieldArrayTypeConfig<FileProps>> {
   readonly faPencil = faPencil;
   readonly faPlus = faPlus;

@@ -18,6 +18,9 @@ import {
   reverseDeepMerge,
 } from '../../utils';
 
+/**
+ * Extensión base que normaliza cada campo y prepara las opciones compartidas del formulario.
+ */
 export class CoreExtension implements StackFormsExtension {
   private formId = 0;
 

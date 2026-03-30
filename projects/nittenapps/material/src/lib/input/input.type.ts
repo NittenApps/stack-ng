@@ -20,6 +20,9 @@ export interface StackInputFieldConfig extends StackFieldConfig<StackFieldProps>
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
+/**
+ * Tipo de campo basado en `mat-input` para capturar texto, números y valores con formato.
+ */
 export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>> {
   private static _SELF: StackFieldInput;
 

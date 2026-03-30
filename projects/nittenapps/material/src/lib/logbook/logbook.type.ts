@@ -15,6 +15,10 @@ export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
   styleUrl: './logbook.type.scss',
   standalone: false,
 })
+/**
+ * Tipo de campo basado en quill para capturar entradas con formatos
+ * Se usa cuando el formulario necesita agregar uno o mas registros
+ */
 export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<LogbookProps>> {
   current: number = 0;
   faCaretLeft = faCaretLeft;

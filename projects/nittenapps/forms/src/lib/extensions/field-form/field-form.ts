@@ -11,6 +11,9 @@ import { defineHiddenProp, getFieldValue, getKeyPath, hasKey } from '../../utils
 import { findControl, registerControl, updateValidity } from './utils';
 import { of } from 'rxjs';
 
+/**
+ * Crear los controles reactivos de Angular (FormControl, FormGroup) con cada campo del formulario dinámico.
+ */
 export class FieldFormExtension implements StackFormsExtension {
   private root: StackFieldConfigCache | null = null;
 

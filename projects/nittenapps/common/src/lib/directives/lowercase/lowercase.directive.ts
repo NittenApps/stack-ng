@@ -7,6 +7,9 @@ import { Subject } from 'rxjs';
   selector: '[lowercase]',
   standalone: true,
 })
+ /** Normaliza a minúsculas el valor de un
+  * control al inicializar y al perder foco.
+  */
 export class LowercaseDirective implements AfterViewInit, OnDestroy {
   @Input()
   set lowercase(apply: BooleanInput) {

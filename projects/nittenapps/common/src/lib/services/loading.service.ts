@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+/**
+ *  Servicio global de loading para habilitar o desabilitar
+ */
 @Injectable({ providedIn: 'root' })
 export class LoadingService {
   private loadingSubject = new BehaviorSubject<boolean>(false);

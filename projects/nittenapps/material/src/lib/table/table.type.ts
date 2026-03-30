@@ -41,6 +41,10 @@ export interface TableConfig extends StackFieldConfig<TableProps> {
   styleUrl: './table.type.scss',
   standalone: false,
 })
+/**
+ *Representa un arreglo como tabla editable con acciones por fila y por grupo
+ * Se usa cuando un formulario necesita renderizar una lista de datos con opciones
+ */
 export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit {
   @ViewChild('formTable', { static: true }) table!: MatTable<any>;
 

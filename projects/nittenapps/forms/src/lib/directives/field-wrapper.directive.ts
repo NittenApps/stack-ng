@@ -3,6 +3,7 @@ import { NgControl } from '@angular/forms';
 import { StackFieldConfig } from '../types';
 import { FieldType } from './field-type.directive';
 
+/** Clase base para wrappers que insertan y decoran un campo hijo. */
 @Directive()
 export abstract class FieldWrapper<F extends StackFieldConfig = StackFieldConfig> extends FieldType<F> {
   override set _formControls(_: QueryList<NgControl>) {}

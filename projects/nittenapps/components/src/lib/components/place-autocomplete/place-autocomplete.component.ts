@@ -14,7 +14,12 @@ import { MatInputModule } from '@angular/material/input';
 import LatLng = google.maps.LatLng;
 import Place = google.maps.places.Place;
 import { GoogleMapsService } from '../../services';
-
+/**
+ * Componente de autocompletado de direcciones usando Google Places.
+ *
+ * Carga el elemento nativo de autocompletado, permite establecer una dirección inicial
+ * y emite tanto el lugar seleccionado como su ubicación.
+ */
 @Component({
   selector: 'nas-place-autocomplete',
   imports: [FormsModule, MatInputModule],

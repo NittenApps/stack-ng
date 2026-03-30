@@ -15,6 +15,9 @@ import { evalExpression, evalStringExpression } from './utils';
 import { FormArray } from '@angular/forms';
 import { registerControl, unregisterControl, updateValidity } from '../field-form/utils';
 
+/**
+ * Clase encargada de evaluar y aplicar expresiones dinámicas en los campos de un formulario
+ */
 export class FieldExpressionExtension implements StackFormsExtension {
   onPopulate(field: StackFieldConfigCache) {
     if (field._expressions) {

@@ -4,6 +4,9 @@ import { StackFormsConfig } from './config.service';
 import { StackFieldConfig, StackFieldConfigCache, StackFormOptions } from '../types';
 import { defineHiddenProp, disableTreeValidityCall, isHiddenField, isSignalRequired, observe } from '../utils';
 
+/**
+ * Servicio encargado de construir la estructura interna del formulario y ejecutar las extensiones registradas.
+ */
 @Injectable({ providedIn: 'root' })
 export class StackFormBuilder {
   constructor(
@@ -13,10 +16,21 @@ export class StackFormBuilder {
     @Optional() private parentForm: FormGroupDirective | null
   ) {}
 
+  /**
+   * Construye un formulario raíz a partir del grupo de campos y el modelo recibido.
+   * @param form Instancia de formulario que contendrá los controles.
+   * @param fieldGroup Configuración de campos raíz.
+   * @param model Modelo inicial del formulario.
+   * @param options Opciones compartidas del formulario.
+   */
   buildForm(form: FormGroup | FormArray, fieldGroup: StackFieldConfig[] = [], model: any, options: StackFormOptions) {
     this.build({ fieldGroup, model, form, options });
   }
 
+  /**
+   * Ejecuta el pipeline de extensiones sobre un campo y sus hijos.
+   * @param field Campo raíz o parcial que se debe construir.
+   */
   build(field: StackFieldConfig) {
     if (!this.config.extensions['core']) {
       throw new Error('NgxFormly: missing `forRoot()` call. use `forRoot()` when registering the `FormlyModule`.');

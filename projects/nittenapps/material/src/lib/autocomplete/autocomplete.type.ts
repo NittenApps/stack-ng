@@ -27,6 +27,10 @@ export interface StackAutocompleteFieldConfig extends StackFieldConfig<Autocompl
   changeDetection: ChangeDetectionStrategy.Default,
   standalone: false,
 })
+/**
+ * Tipo de campo con autocompletado y búsqueda incremental sobre opciones locales o remotas.
+ * Se usa cuando el usuario debe seleccionar valores filtrando por texto.
+ */
 export class StackFieldAutocomplete extends FieldType<FieldTypeConfig<AutocompleteProps>> implements OnInit {
   filteredOptions?: Observable<any[]>;
 

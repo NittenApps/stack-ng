@@ -10,6 +10,7 @@ import { DialogData } from '../../types';
     imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
     templateUrl: './info.dialog.html'
 })
+/** Diálogo simple para comunicar información no bloqueante al usuario. */
 export class InfoDialog {
   faSquareInfo = faSquareInfo;
 

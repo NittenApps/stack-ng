@@ -5,6 +5,11 @@ import { snakeToCamel } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
 import { ActivityService, NAS_API_CONFIG } from '../services';
 
+/**
+ * Resuelve los datos iniciales de la ruta.
+ * Si el id es __NEW__, marca el registro como nuevo;
+ * en caso de que sea un id valido, obtiene el objeto correspondiente.
+ */
 export const genericResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const id = route.paramMap.get('id')!;

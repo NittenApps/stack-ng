@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
     imports: [DatePipe, FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
     templateUrl: './error.dialog.html'
 })
+/** Diálogo para mostrar errores de negocio al usuario final. */
 export class ErrorDialog {
   faHexagonExclamation = faHexagonExclamation;
 

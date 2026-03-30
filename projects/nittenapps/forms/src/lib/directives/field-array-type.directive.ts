@@ -10,6 +10,7 @@ export interface FieldArrayTypeConfig<T = StackFieldConfig['props']> extends Sta
   props: NonNullable<T>;
 }
 
+/** Clase base para tipos que administran arreglos dinámicos dentro del formulario. */
 @Directive()
 export abstract class FieldArrayType<F extends StackFieldConfig = FieldArrayTypeConfig>
   extends FieldType<F>

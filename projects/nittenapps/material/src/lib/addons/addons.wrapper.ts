@@ -6,6 +6,10 @@ import { FieldWrapper } from '@nittenapps/forms';
   templateUrl: './addons.wrapper.html',
   standalone: false,
 })
+/**
+ * Wrapper que agrega iconos o acciones laterales al campo mediante prefijos y sufijos.
+ * Se usa para mostrar botones, indicadores o accesos rápidos junto al control principal.
+ */
 export class StackWrapperAddons extends FieldWrapper implements AfterViewInit {
   @ViewChild('matPrefix', { static: true }) matPrefix!: TemplateRef<any>;
   @ViewChild('matSuffix', { static: true }) matSuffix!: TemplateRef<any>;

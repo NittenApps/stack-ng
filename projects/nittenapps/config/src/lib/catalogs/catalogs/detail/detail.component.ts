@@ -29,6 +29,7 @@ import { AttributeComponent } from '../../attribute/attribute.component';
     ],
     templateUrl: './detail.component.html'
 })
+/** Componente de detalle para un catálogo, encargado de mostrar su información y permitir la edición de sus atributos. */
 export class DetailComponent extends BaseDetailComponent<Catalog> {
   constructor(private dialog: MatDialog) {
     super();

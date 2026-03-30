@@ -8,6 +8,7 @@ import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fo
 import { faFloppyDisk } from '@fortawesome/pro-duotone-svg-icons';
 import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons';
 
+/** Barra de acciones principal para pantallas de detail (Para registros especificos). */
 @Component({
     selector: 'nas-detail-toolbar',
     imports: [
@@ -35,10 +36,18 @@ export class DetailToolbarComponent {
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
+  /**
+   * Regresa a la ruta padre actual.
+   * @returns No retorna valor.
+   */
   _back(): void {
     this.router.navigate(['..'], { relativeTo: this.route });
   }
 
+  /**
+   * Emite la solicitud de guardado hacia el componente contenedor.
+   * @returns No retorna valor.
+   */
   _save(): void {
     this.save.emit();
   }

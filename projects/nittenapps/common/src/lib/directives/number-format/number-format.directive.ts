@@ -13,6 +13,7 @@ import { InputHandler } from './input-handler';
     },
   ],
 })
+/** Aplica una máscara de formato numérico al input manteniendo un valor compatible con formularios. */
 export class NumberFormatDirective implements ControlValueAccessor {
   private inputHandler: InputHandler;
 

@@ -13,6 +13,8 @@ import { map } from 'rxjs';
     imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule],
     templateUrl: './attribute.component.html'
 })
+/** Componente encargado de abrir modal para crear o editar un atributo de catálogo. */
+
 export class AttributeComponent {
   fields!: StackFieldConfig[];
   form: FormGroup = new FormGroup({});

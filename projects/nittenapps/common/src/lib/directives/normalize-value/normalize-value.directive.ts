@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
   selector: '[normalizeValue]',
   standalone: true,
 })
+/** Recorta espacios y colapsa separaciones repetidas en controles de texto. */
 export class NormalizeValueDirective implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 

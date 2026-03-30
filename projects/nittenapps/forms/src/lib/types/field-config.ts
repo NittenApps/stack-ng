@@ -18,6 +18,7 @@ type FieldExpressions = { [property: string]: FieldExpression } & {
   'props.disabled'?: FieldExpression<boolean>;
   'props.required'?: FieldExpression<boolean>;
 };
+/** Intefaz donde se define la configuracion del formualrio */
 
 export interface StackFieldConfig<P = StackFieldProps & { [additionalProperties: string]: any }> {
   /**

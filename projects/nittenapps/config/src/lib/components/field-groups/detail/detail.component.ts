@@ -32,6 +32,7 @@ import { PickListModule } from 'primeng/picklist';
     templateUrl: './detail.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+/** Componente de detalle para un grupo de campos, encargado de mostrar su información y permitir la edición de sus atributos. */
 export class DetailComponent extends BaseDetailComponent<FieldGroup> {
   definitionFields: StackFieldConfig[];
   sourceFields: Field[] = [];

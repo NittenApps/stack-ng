@@ -19,6 +19,10 @@ type ProgressType = {
   imports: [AsyncPipe, MatButtonModule, MatDialogModule, MatIconModule, MatListModule, MatProgressBarModule],
   templateUrl: './file-upload.component.html',
 })
+/**
+ * Modal encargado de seleccionar archivos, subirlos a la API y devolver los adjuntos cargados.
+ * Se usa como apoyo del campo `file` para centralizar el flujo de carga.
+ */
 export class FileUploadComponent {
   @ViewChild('file') file: any;
 

@@ -25,6 +25,10 @@ export interface StackSelectFieldConfig extends StackFieldConfig<FieldTypeConfig
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
+/**
+ * Tipo de campo basado en `mat-select` para selección simple o múltiple.
+ * Se usa para mostrar listas de opciones, incluyendo soporte para seleccionar todo.
+ */
 export class StackFieldMatSelect extends FieldType<FieldTypeConfig<SelectProps>> {
   @ViewChild(MatSelect, { static: true }) set select(select: any) {
     if (!select) {

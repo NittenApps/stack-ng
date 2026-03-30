@@ -5,6 +5,10 @@ import { FieldType as CoreFieldType, StackFieldConfig, ɵobserve as observe } fr
 import { Subject } from 'rxjs';
 
 @Directive()
+/**
+ * Clase base para el tipado de los componentes integrados con `mat-form-field`.
+ * Expone el contrato que Angular Material necesita para foco, errores, placeholder y prefijos.
+ */
 export abstract class FieldType<F extends StackFieldConfig> extends CoreFieldType<F>
   implements OnDestroy, MatFormFieldControl<any> {
   @ViewChild('matPrefix') set matPrefix(prefix: TemplateRef<any>) {

@@ -5,6 +5,12 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { GoogleMapsService } from '../../services';
 import { PlaceAutocompleteComponent } from '../place-autocomplete/place-autocomplete.component';
 
+/**
+ * Componente de autocompletado de direcciones usando Google Places.
+ *
+ * Permite establecer una dirección inicial y emite el lugar
+ * y la ubicación seleccionados.
+ */
 @Component({
   selector: 'nas-select-address',
   imports: [GoogleMapsModule, MatButtonModule, MatDialogModule, PlaceAutocompleteComponent],

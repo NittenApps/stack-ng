@@ -8,6 +8,7 @@ import { Column, ListComponent as StackListComponent, ListToolbarComponent, Filt
     imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
     templateUrl: './list.component.html'
 })
+/** Componente de listado para listar los campos que se usan en los formualrios, encargado de mostrar una tabla con sus valores y permitir la aplicación de filtros. */
 export class ListComponent {
   columns: Column[];
   filter: Filter = {};

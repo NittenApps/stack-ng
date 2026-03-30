@@ -8,6 +8,7 @@ import { ListComponent as StackListComponent, ListToolbarComponent, Column, Filt
     imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
     templateUrl: './list.component.html'
 })
+/** Componente de listado para listar las actividades, encargado de mostrar una tabla con sus valores y permitir la aplicación de filtros. */
 export class ListComponent {
   columns: Column[];
   filter: Filter = {};

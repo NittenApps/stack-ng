@@ -12,6 +12,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
+/**
+ * Directiva que muestra en el input una representación personalizada del valor del control.
+ *
+ * Permite transformar visualmente el valor usado principalmente para renderizar valores
+ * de catalogos sin modificar el valor real
+ */
 export class DisplayWithDirective implements ControlValueAccessor {
   private displayWithFn!: (value: any) => string | null;
 

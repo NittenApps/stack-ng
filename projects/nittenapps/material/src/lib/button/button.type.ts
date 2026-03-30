@@ -18,6 +18,10 @@ export interface StackButtonConfig extends StackFieldConfig<ButtonProps> {
   templateUrl: './button.type.html',
   standalone: false,
 })
+/**
+ * Renderiza un botón de accion dentro del formulario.
+ * Se usa para disparar callbacks asociados a una fila, sección o flujo del formulario.
+ */
 export class StackMatButton extends FieldType<FieldTypeConfig<ButtonProps>> {
   get type(): string {
     if (typeof this.props.icon === 'string') {
