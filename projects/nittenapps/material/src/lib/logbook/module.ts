@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -8,6 +9,7 @@ import { StackMatLogbook } from './logbook.type';
 @NgModule({
   declarations: [StackMatLogbook],
   imports: [
+    CommonModule,
     FaIconComponent,
     MatButtonModule,
     MatTooltipModule,

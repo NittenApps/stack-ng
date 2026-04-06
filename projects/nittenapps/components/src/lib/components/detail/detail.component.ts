@@ -8,8 +8,8 @@ import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nitte
 import { map, Observable, of } from 'rxjs';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 export abstract class BaseDetailComponent<T = any> implements AfterViewInit, DirtyAware, OnInit {
   fields!: Observable<StackFieldConfig[]>;
@@ -138,6 +138,10 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             fieldConfig.key = `${base}attributes.${field.code}.0.dateValue`;
             fieldConfig.type = 'datetimepicker';
             break;
+          case 'LB':
+            fieldConfig.key = `${base}attributes.${field.code}`;
+            fieldConfig.type = 'logbook';
+            break;
           case 'NM':
             fieldConfig.key = `${base}attributes.${field.code}.0.numberValue`;
             fieldConfig.type = 'number';
@@ -185,9 +189,10 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
         fg.push(fieldConfig);
       });
 
+      const lb = fieldGroup.fields?.[0]?.type === 'LB';
       const _fg: StackFieldConfig = {
         props: { label: fieldGroup.name },
-        fieldGroup: [{ fieldGroupClassName: 'row row-cols-1 row-cols-md-4', fieldGroup: fg }],
+        fieldGroup: [{ fieldGroupClassName: 'row row-cols-1' + (lb ? '' : ' row-cols-md-4'), fieldGroup: fg }],
         expressions: {},
       };
       if (['true', 'yes'].includes(fieldGroup.definition?.hide?.toLowerCase() || '')) {
@@ -217,7 +222,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
       | HttpParams
       | {
           [param: string]: string | number | boolean | readonly (string | number | boolean)[];
-        }
+        },
   ): Observable<any> {
     return this.configService.getCatalogValues(field.definition!.catalog!, params);
   }

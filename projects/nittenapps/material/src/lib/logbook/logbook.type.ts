@@ -16,10 +16,11 @@ export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
   standalone: false,
 })
 export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<LogbookProps>> {
+  readonly faCaretLeft = faCaretLeft;
+  readonly faCaretRight = faCaretRight;
+  readonly faPlus = faPlus;
+
   current: number = 0;
-  faCaretLeft = faCaretLeft;
-  faCaretRight = faCaretRight;
-  faPlus = faPlus;
 
   get length(): number {
     return this.model?.length || 0;
@@ -38,6 +39,21 @@ export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<Logbook
   override add(): void {
     super.add(undefined, { position: this.length });
     this.current = this.length - 1;
+  }
+
+  override onPopulate(field: FieldArrayTypeConfig<LogbookProps>): void {
+    field.fieldArray = {
+      fieldGroup: [
+        {
+          type: 'editor',
+          key: 'textValue',
+          props: {
+            readonly: this.readonly,
+          },
+        },
+      ],
+    };
+    super.onPopulate(field);
   }
 
   next(): void {

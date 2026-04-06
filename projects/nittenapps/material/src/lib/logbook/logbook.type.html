@@ -1,20 +1,27 @@
 <nas-field [field]="field.fieldGroup![current]" />
-@if (!props.disabled) {
-<div class="d-flex justify-content-end" style="padding: 8px 4px;">
-  <button (click)="prev()" color="primary" [disabled]="current < 1" mat-fab matTooltip="Anterior" type="button"
-    aria-label="Anterior" style="margin-right: 16px;">
-    <fa-icon [icon]="faCaretLeft"></fa-icon>
-  </button>
+<div class="d-flex flex-column flex-md-row items-center footer-container w-100">
   @if (length > 0) {
-  <span class="pagination-text">{{current + 1}} de {{length}}</span>
+  <span>{{model[current]?.stringValue}}</span>
+  <span>{{model[current]?.dateValue | date: 'dd/MM/yyyy H:mm'}}</span>
   }
-  <button (click)="next()" color="primary" [disabled]="current >= length -1" mat-fab matTooltip="Siguiente"
-    type="button" aria-label="Siguiente" style="margin-right: 16px;">
-    <fa-icon [icon]="faCaretRight"></fa-icon>
-  </button>
-  <button (click)="add()" color="primary" [disabled]="props.onlyOne && length > 0 && !model[length -1]?.dateValue"
-    mat-fab matTooltip="Agregar" type="button" aria-label="Agregar">
-    <fa-icon [icon]="faPlus"></fa-icon>
-  </button>
+  <span class="flex-grow-1"></span>
+  @if (!props.disabled) {
+  <span>
+    <button (click)="prev()" color="primary" [disabled]="current < 1" mat-fab matTooltip="Anterior" type="button"
+      aria-label="Anterior" style="margin-right: 16px;">
+      <fa-icon [icon]="faCaretLeft"></fa-icon>
+    </button>
+    @if (length > 0) {
+    <span>{{current + 1}} de {{length}}</span>
+    }
+    <button (click)="next()" color="primary" [disabled]="current >= length -1" mat-fab matTooltip="Siguiente"
+      type="button" aria-label="Siguiente" style="margin-right: 16px;">
+      <fa-icon [icon]="faCaretRight"></fa-icon>
+    </button>
+    <button (click)="add()" color="primary" [disabled]="props.onlyOne && length > 0 && !model[length -1]?.dateValue"
+      mat-fab matTooltip="Agregar" type="button" aria-label="Agregar">
+      <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+  </span>
+  }
 </div>
-}
