@@ -7,8 +7,8 @@ import { FieldWrapper } from '@nittenapps/forms';
   standalone: false,
 })
 /**
- * Wrapper que agrega iconos o acciones laterales al campo mediante prefijos y sufijos.
- * Se usa para mostrar botones, indicadores o accesos rápidos junto al control principal.
+ * Wrapper that adds icons or side actions to the field through prefixes and suffixes.
+ * It is used to display buttons, indicators, or quick actions next to the main control.
  */
 export class StackWrapperAddons extends FieldWrapper implements AfterViewInit {
   @ViewChild('matPrefix', { static: true }) matPrefix!: TemplateRef<any>;

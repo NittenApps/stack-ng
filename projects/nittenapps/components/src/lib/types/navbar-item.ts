@@ -3,7 +3,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 type booleanFunc = (item?: NavItem) => boolean;
 type stringFunc = (item?: NavItem) => string;
 
-/** Type base para elementos del menú de navegación. */
+/** Base type for navigation menu items. */
 export type NavItem = {
   attrs?: {
     [k: string]: any;

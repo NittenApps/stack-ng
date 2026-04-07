@@ -7,9 +7,9 @@ import { STACK_FORMS_CONFIG, StackFormBuilder, StackFormsConfig } from './servic
 import { ConfigOption } from './types';
 
 /**
- * Devuelve la configuración base con tipos y extensiones internas del motor de formularios.
- * @param config Configuración global.
- * @returns Configuración base usada por `StackFormsModule`.
+ * Returns the base configuration with internal types and extensions of the forms engine.
+ * @param config Global configuration.
+ * @returns Base configuration used by `StackFormsModule`.
  */
 export function defaultStackFormsConfig(config: StackFormsConfig): ConfigOption {
   return {
@@ -40,9 +40,9 @@ export function defaultStackFormsConfig(config: StackFormsConfig): ConfigOption 
 })
 export class StackFormsModule {
   /**
-   * Registra Stack Forms con su configuración raíz y servicios principales.
-   * @param config Configuración adicional de tipos, wrappers, extensiones o mensajes.
-   * @returns Definición del módulo con proveedores raíz.
+   * Registers Stack Forms with its root configuration and main services.
+   * @param config Additional configuration for types, wrappers, extensions, or messages.
+   * @returns Module definition with root providers.
    */
   static forRoot(config: ConfigOption = {}): ModuleWithProviders<StackFormsModule> {
     return {
@@ -57,9 +57,9 @@ export class StackFormsModule {
   }
 
   /**
-   * Registra configuración adicional de Stack Forms dentro de un módulo consumidor.
-   * @param config Configuración adicional de tipos, wrappers, extensiones o mensajes.
-   * @returns Definición del módulo con proveedores locales.
+   * Registers additional Stack Forms configuration within a consumer module.
+   * @param config Additional configuration for types, wrappers, extensions, or messages.
+   * @returns Module definition with local providers.
    */
   static forChild(config: ConfigOption = {}): ModuleWithProviders<StackFormsModule> {
     return {

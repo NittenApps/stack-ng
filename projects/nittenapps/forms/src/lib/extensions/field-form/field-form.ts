@@ -12,7 +12,7 @@ import { findControl, registerControl, updateValidity } from './utils';
 import { of } from 'rxjs';
 
 /**
- * Crear los controles reactivos de Angular (FormControl, FormGroup) con cada campo del formulario dinámico.
+ * Creates the Angular reactive controls (FormControl, FormGroup) for each field of the dynamic form.
  */
 export class FieldFormExtension implements StackFormsExtension {
   private root: StackFieldConfigCache | null = null;

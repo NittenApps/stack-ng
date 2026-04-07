@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-/** Componente base para renderizar iconos de Material o FontAwesome. */
+/** Base component to render Material or FontAwesome icons. */
 @Component({
     selector: 'nas-icon',
     imports: [FaDuotoneIconComponent, FaIconComponent, MatIconModule],

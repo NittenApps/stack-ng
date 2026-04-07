@@ -7,7 +7,7 @@ import { DisplayWithDirective } from './display-with/display-with.directive';
 
 export { DisplayWithDirective, LowercaseDirective, NormalizeValueDirective, NumberFormatDirective, UppercaseDirective };
 
-/** Directivas reutilizables expuestas por el paquete common. */
+/** Reusable directives exposed by the common package. */
 export const COMMON_DIRECTIVES: Provider[] = [
   DisplayWithDirective,
   LowercaseDirective,

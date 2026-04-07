@@ -8,7 +8,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { NavItem } from '../../types/navbar-item';
 import { NavigationComponent } from './navbar.component';
 
-/** Barra de navegación vertical con soporte responsive y modo plegable. */
+/** Vertical navigation bar with responsive support and collapsible mode. */
 @Component({
     selector: 'nas-navbar-vertical',
     imports: [AsyncPipe, MatButtonModule, MatIconModule, NavigationComponent],

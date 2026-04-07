@@ -2,7 +2,7 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
 
-/** Servicio de autenticación basado en Keycloak para estado de sesión y acciones de login/logout. */
+/** Keycloak-based authentication service for session state and login/logout actions. */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   isAuthenticated = signal(false);

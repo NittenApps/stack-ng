@@ -6,9 +6,9 @@ import { EMPTY, map, mergeMap, of } from 'rxjs';
 import { ActivityService, NAS_API_CONFIG } from '../services';
 
 /**
- * Resuelve los datos iniciales de la ruta.
- * Si el id es __NEW__, marca el registro como nuevo;
- * en caso de que sea un id valido, obtiene el objeto correspondiente.
+ * Resolves the initial data for the route.
+ * If the id is __NEW__, it marks the record as new;
+ * if it is a valid id, it gets the corresponding object.
  */
 export const genericResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);

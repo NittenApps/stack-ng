@@ -7,7 +7,7 @@ import { DirtyAware, Field, FieldGroup } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nittenapps/forms';
 import { map, Observable, of } from 'rxjs';
 
-/** Clase base para detalles dinámicos construidos desde la configuración de una activity. */
+/** Base class for dynamic details built from the configuration of an activity. */
 @Component({
     template: '',
     standalone: false
@@ -27,8 +27,8 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   protected saved = false;
 
   /**
-   * Actualiza el modelo actual.
-   * @param model Nuevo modelo.
+   * Updates the current model.
+   * @param model New model.
    */
   setModel(model: T): void {
     this.model = model;
@@ -60,8 +60,8 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   }
 
   /**
-   * Guarda el detalle y regresa a la vista anterior cuando la operación es exitosa.
-   * @returns No retorna valor.
+   * Saves the detail and returns to the previous view when the operation is successful.
+   * @returns Does not return a value.
    */
   save(): void {
     this.activityService.save(this.prepareValue()).subscribe((response) => {
@@ -74,8 +74,8 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   }
 
  /**
- * Ejecuta lógica adicional después de guardar correctamente.
- * @param _response Respuesta del guardado.
+ * Executes additional logic after saving successfully.
+ * @param _response Save response.
  */
   protected afterSaved(_response: ApiResponse<T, ObjectBody<T>>): void {}
 
@@ -84,14 +84,14 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   }
 
 /**
- * Genera dinámicamente la configuración de campos agrupados
- * a partir de la data recibida.
+ * Dynamically generates the grouped field configuration
+ * from the received data.
  *
- * Convierte los FieldGroup en una estructura compatible con Stack Forms,
- * aplicando tipos de campo, validaciones y reglas dinámicas para renderizar tabs, forms.
+ * Converts FieldGroup into a structure compatible with Stack Forms,
+ * applying field types, validations, and dynamic rules to render tabs, forms.
  *
- * @param fieldGroups Grupos de campos con su definición.
- * @returns Configuración lista para renderizar en el formulario.
+ * @param fieldGroups Field groups with their definition.
+ * @returns Configuration ready to render in the form.
  */
   protected configFields(fieldGroups: FieldGroup[]): StackFieldConfig[] {
     const fields: StackFieldConfig[] = [];
@@ -235,10 +235,10 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   }
 
   /**
-   * Resuelve las opciones asociadas a los campos tipo catálogo.
-   * @param field Campo que define el catálogo a consultar.
-   * @param params Parámetros adicionales enviados a la consulta.
-   * @returns Observable con las opciones del catálogo.
+   * Resolves the options associated with catalog-type fields.
+   * @param field Field that defines the catalog to query.
+   * @param params Additional parameters sent to the query.
+   * @returns Observable with the catalog options.
    */
   protected getOptions(
     field: Field,
@@ -252,9 +252,9 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   }
 
  /**
- * Inicializa el modelo a partir de los datos de la ruta.
- * Si existe `data['model']`, lo asigna; si no, crea un modelo vacío.
- * @param data Datos resueltos de la ruta.
+ * Initializes the model from the route data.
+ * If `data['model']` exists, it assigns it; otherwise, it creates an empty model.
+ * @param data Resolved route data.
  */
   protected initFields(): void {
     this.fields = this.activityService.getFieldGroups().pipe(map((fieldGroups) => this.configFields(fieldGroups)));
@@ -265,9 +265,9 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
   }
 
 /**
- * Inicializa el modelo a partir de los datos de la ruta.
- * Si existe `data['model']`, lo asigna; si no, crea un modelo vacío.
- * @param data Datos resueltos de la ruta.
+ * Initializes the model from the route data.
+ * If `data['model']` exists, it assigns it; otherwise, it creates an empty model.
+ * @param data Resolved route data.
  */
   protected initModel(data: Data): void {
     if (data['model']) {

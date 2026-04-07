@@ -15,10 +15,10 @@ import LatLng = google.maps.LatLng;
 import Place = google.maps.places.Place;
 import { GoogleMapsService } from '../../services';
 /**
- * Componente de autocompletado de direcciones usando Google Places.
+ * Address autocomplete component using Google Places.
  *
- * Carga el elemento nativo de autocompletado, permite establecer una dirección inicial
- * y emite tanto el lugar seleccionado como su ubicación.
+ * Loads the native autocomplete element, allows setting an initial address
+ * and emits both the selected place and its location.
  */
 @Component({
   selector: 'nas-place-autocomplete',

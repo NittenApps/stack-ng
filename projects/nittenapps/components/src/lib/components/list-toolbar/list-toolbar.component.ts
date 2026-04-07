@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
 import { faPlus } from '@fortawesome/pro-duotone-svg-icons';
 
-/** Barra de acciones principal para listar informacion con boton para agregar nuevo registro. */
+/** Main action bar for listing information with a button to add a new record. */
 @Component({
     selector: 'nas-list-toolbar',
     imports: [FaDuotoneIconComponent, MatButtonModule, MatToolbarModule, MatTooltipModule, NgTemplateOutlet, RouterLink],

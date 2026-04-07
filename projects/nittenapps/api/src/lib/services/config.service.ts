@@ -4,17 +4,17 @@ import { map, Observable } from 'rxjs';
 
 import { ApiConfig, ApiResponse, ListBody, ObjectBody } from '../types';
 
-/** Cliente para consultas de catálogos y parámetros del módulo de configuración. */
+/** Client for catalog and parameter queries in the configuration module. */
 export class ConfigService {
   constructor(
     private config: ApiConfig,
     private http: HttpClient,
   ) {}
   /**
-   * Obtiene un valor específico de un catálogo.
-   * @param catalogCode Código del catálogo.
-   * @param code Código del valor
-   * @returns Observable con el valor encontrado.
+   * Gets a specific value from a catalog.
+   * @param catalogCode Catalog code.
+   * @param code Value code
+   * @returns Observable with the found value.
    */
   getCatalogValue(catalogCode: string, code: string): Observable<CatalogValue> {
     return this.http
@@ -25,10 +25,10 @@ export class ConfigService {
   }
 
   /**
-   * Obtiene los valores de un catálogo.
-   * @param catalogCode Código.
-   * @param params Parámetros opcionales para filtrar la consulta.
-   * @returns Observable con la lista de valores del catálogo.
+   * Gets the values of a catalog.
+   * @param catalogCode Code.
+   * @param params Optional parameters to filter the query.
+   * @returns Observable with the list of catalog values.
    */
   getCatalogValues(
     catalogCode: string,
@@ -45,9 +45,9 @@ export class ConfigService {
   }
 
   /**
-   * Obtiene la lista de catálogos disponibles.
-   * @param params Parámetros opcionales para filtrar la consulta.
-   * @returns Observable con la lista de catálogos.
+   * Gets the list of available catalogs.
+   * @param params Optional parameters to filter the query.
+   * @returns Observable with the list of catalogs.
    */
   getCatalogs(
     params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> },
@@ -60,9 +60,9 @@ export class ConfigService {
   }
 
   /**
-   * Obtiene el valor de un parámetro de configuración.
-   * @param paramCode Código del parámetro.
-   * @returns Observable con el valor del parámetro.
+   * Gets the value of a configuration parameter.
+   * @param paramCode Parameter code.
+   * @returns Observable with the parameter value.
    */
   getParameter(paramCode: string): Observable<AttributeValue> {
     return this.http

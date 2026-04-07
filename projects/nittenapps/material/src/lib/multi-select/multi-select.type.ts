@@ -24,8 +24,8 @@ export interface StackMultiSelectFieldConfig extends StackFieldConfig<MultiSelec
   standalone: false,
 })
 /**
- * Tipo de campo para selección múltiple asistida por mat-dialog.
- * Se usa cuando la selección requiere revisar varias opciones y mostrar un resumen legible del resultado.
+ * Field type for multiple selection assisted by mat-dialog.
+ * It is used when the selection requires reviewing several options and showing a readable summary of the result.
  */
 export class StackFieldMatMultiSelect extends FieldType<FieldTypeConfig<MultiSelectProps>> {
   readonly faPencil = faPencil;

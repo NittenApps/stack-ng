@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '../../directives';
 import { FieldGroupTypeConfig } from '../../directives/field-type.directive';
 
-/** Componente base que renderiza grupos de campos anidados. */
+/** Base component that renders nested field groups. */
 @Component({
     selector: 'nas-form-group',
     template: `

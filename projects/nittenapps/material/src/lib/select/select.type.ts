@@ -26,8 +26,8 @@ export interface StackSelectFieldConfig extends StackFieldConfig<FieldTypeConfig
   standalone: false,
 })
 /**
- * Tipo de campo basado en `mat-select` para selección simple o múltiple.
- * Se usa para mostrar listas de opciones, incluyendo soporte para seleccionar todo.
+ * Field type based on `mat-select` for single or multiple selection.
+ * It is used to display option lists, including support for selecting all.
  */
 export class StackFieldMatSelect extends FieldType<FieldTypeConfig<SelectProps>> {
   @ViewChild(MatSelect, { static: true }) set select(select: any) {

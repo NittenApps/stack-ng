@@ -4,8 +4,8 @@ import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
 import { AuthService } from '../services';
 
 /**
- * Evalúa autenticación y roles requeridos en la ruta.
- * Si no existe sesión, continua el flujo de login.
+ * Evaluates authentication and required roles on the route.
+ * If no session exists, it continues the login flow.
  */
 const isAccessAllowed = async (
   route: ActivatedRouteSnapshot,

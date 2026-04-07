@@ -5,17 +5,17 @@ import { map, Observable } from 'rxjs';
 import { ApiConfig, ApiResponse, ListBody, ObjectBody } from '../types';
 
 /**
- * Servicio genérico para endpoints `/activity/v1/:activity`.
- * Permite operaciones comunes como consulta de lista, detalle,
- * guardado y ejecución de métodos adicionales.
+ * Generic service for `/activity/v1/:activity` endpoints.
+ * It allows common operations such as list queries, detail retrieval,
+ * saving, and execution of additional methods.
  */
 export class ActivityService<T> {
   constructor(private config: ApiConfig, private http: HttpClient, private activity: string) {}
  /**
-   * Ejecuta una consulta GET sobre un método específico de la activity.
-   * @param method Nombre del método o recurso adicional.
-   * @param params Parámetros enviados en la consulta.
-   * @returns Observable con la respuesta de la API.
+   * Executes a GET query on a specific activity method.
+   * @param method Name of the additional method or resource.
+   * @param params Parameters sent in the query.
+   * @returns Observable with the API response.
    */
   get<R = any>(
     method: string,
@@ -28,8 +28,8 @@ export class ActivityService<T> {
   }
 
 /**
-   * Obtiene los grupos de campos configurados para la activity actual.
-   * @returns Observable con la lista de grupos de campos.
+   * Gets the field groups configured for the current activity.
+   * @returns Observable with the list of field groups.
    */
   getFieldGroups(): Observable<FieldGroup[]> {
     return this.http
@@ -40,12 +40,12 @@ export class ActivityService<T> {
   }
 
   /**
-   * Obtiene la lista de registros de la activity con parametros opcionales.
-   * @param page Número de página a consultar.
-   * @param pageSize Cantidad de elementos por página.
-   * @param sort Campo de ordenamiento.
-   * @param filter Filtros enviados como parámetros de consulta.
-   * @returns Observable con la lista paginada de registros.
+   * Gets the list of activity records with optional parameters.
+   * @param page Page number to query.
+   * @param pageSize Number of items per page.
+   * @param sort Sort field.
+   * @param filter Filters sent as query parameters.
+   * @returns Observable with the paginated list of records.
    */
   getList(
     page?: number,
@@ -69,20 +69,20 @@ export class ActivityService<T> {
   }
 
   /**
-   * Obtiene un registro por su id.
-   * @param id Identificador del registro.
-   * @returns Observable con el objeto solicitado.
+   * Gets a record by its id.
+   * @param id Record identifier.
+   * @returns Observable with the requested object.
    */
   getObject(id: string): Observable<ApiResponse<T, ObjectBody<T>>> {
     return this.http.get<ApiResponse<T, ObjectBody<T>>>(`${this.config.baseUrl}/activity/v1/${this.activity}/${id}`);
   }
 
   /**
-   * Ejecuta una acción POST sobre un método de la activity.
-   * @param method Nombre del método o recurso con logica especifica del activity.
-   * @param params Parámetros enviados en la consulta.
-   * @param body Cuerpo de la petición.
-   * @returns Observable con la respuesta de la API.
+   * Executes a POST action on an activity method.
+   * @param method Name of the method or resource with activity-specific logic.
+   * @param params Parameters sent in the query.
+   * @param body Request body.
+   * @returns Observable with the API response.
    */
   post<R = any>(
     method: string,
@@ -97,9 +97,9 @@ export class ActivityService<T> {
   }
 
   /**
-   * Guarda un registro de la activity actual.
-   * @param object Objeto a guardar.
-   * @returns Observable con el registro guardado.
+   * Saves a record of the current activity.
+   * @param object Object to save.
+   * @returns Observable with the saved record.
    */
   save(object: T): Observable<ApiResponse<T, ObjectBody<T>>> {
     return this.http.post<ApiResponse<T, ObjectBody<T>>>(`${this.config.baseUrl}/activity/v1/${this.activity}`, object);

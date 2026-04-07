@@ -1,6 +1,6 @@
 import { Directive, Input, OnChanges, TemplateRef } from '@angular/core';
 
-/** Directiva que registra una plantilla inline para reutilizarla como tipo de campo. */
+/** Directive that registers an inline template to reuse it as a field type. */
 @Directive({
     selector: '[nasFormTemplate]',
     standalone: false

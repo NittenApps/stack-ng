@@ -28,7 +28,7 @@ import { ListDataSource } from '../../datasources/list.datasource';
 import { ListStateService } from '../../services/list-state.service';
 import { Column, Filter } from '../../types';
 
-/** Tabla reutilizable para renderizar data por medio del activity con paginación, orden y filtros. */
+/** Reusable table to render data through the activity with pagination, sorting, and filters. */
 @Component({
     selector: 'nas-list',
     imports: [

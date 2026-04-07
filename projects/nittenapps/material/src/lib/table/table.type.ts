@@ -42,8 +42,8 @@ export interface TableConfig extends StackFieldConfig<TableProps> {
   standalone: false,
 })
 /**
- *Representa un arreglo como tabla editable con acciones por fila y por grupo
- * Se usa cuando un formulario necesita renderizar una lista de datos con opciones
+ *Represents an array as an editable table with actions per row and per group
+ * It is used when a form needs to render a list of data with options
  */
 export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit {
   @ViewChild('formTable', { static: true }) table!: MatTable<any>;

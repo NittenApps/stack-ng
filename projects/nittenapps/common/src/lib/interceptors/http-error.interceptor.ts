@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs';
 import { ErrorDialog } from '../dialogs/error/error.dialog';
 
-/** Interceptor encargado de gestionar los errores HTTP para
- * visualizarlos mediante `ErrorDialog`
+/** Interceptor responsible for handling HTTP errors to
+ * display them through `ErrorDialog`
  */
 export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const dialog = inject(MatDialog);

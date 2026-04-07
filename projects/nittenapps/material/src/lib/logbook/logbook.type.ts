@@ -16,8 +16,8 @@ export interface LogbookConfig extends StackFieldConfig<LogbookProps> {}
   standalone: false,
 })
 /**
- * Tipo de campo basado en quill para capturar entradas con formatos
- * Se usa cuando el formulario necesita agregar uno o mas registros
+ * Field type based on Quill to capture entries with formatting
+ * It is used when the form needs to add one or more records
  */
 export class StackMatLogbook extends FieldArrayType<FieldArrayTypeConfig<LogbookProps>> {
   current: number = 0;

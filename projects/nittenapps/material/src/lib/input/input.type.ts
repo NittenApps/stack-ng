@@ -21,7 +21,7 @@ export interface StackInputFieldConfig extends StackFieldConfig<StackFieldProps>
   standalone: false,
 })
 /**
- * Tipo de campo basado en `mat-input` para capturar texto, números y valores con formato.
+ * Field type based on `mat-input` to capture text, numbers, and formatted values.
  */
 export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>> {
   private static _SELF: StackFieldInput;

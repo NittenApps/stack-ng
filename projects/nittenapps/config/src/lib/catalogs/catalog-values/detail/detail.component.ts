@@ -37,7 +37,7 @@ import { ValueComponent } from '../../value/value.component';
     styleUrl: './detail.component.scss'
 })
 /**
- * Componente de detalle para un catálogo, encargado de mostrar su información y permitir la edición de sus atributos.
+ * Detail component for a catalog, responsible for displaying its information and allowing the editing of its attributes.
  *
 */
 export class DetailComponent implements AfterViewInit, OnInit {

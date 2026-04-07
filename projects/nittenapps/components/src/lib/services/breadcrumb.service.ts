@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Breadcrumb, BreadcrumbConfig } from '../types/breadcrumb';
 
-/** Servicio que construye el breadcrumb actual a partir de las rutas activas. */
+/** Service that builds the current breadcrumb from the active routes. */
 @Injectable({
   providedIn: 'root',
 })

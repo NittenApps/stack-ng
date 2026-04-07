@@ -19,7 +19,7 @@ import {
 } from '../../utils';
 
 /**
- * Extensión base que normaliza cada campo y prepara las opciones compartidas del formulario.
+ * Base extension that normalizes each field and prepares the shared form options.
  */
 export class CoreExtension implements StackFormsExtension {
   private formId = 0;

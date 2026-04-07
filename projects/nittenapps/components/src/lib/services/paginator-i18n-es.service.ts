@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 
-/** Traduce al español los textos de la paginacion */
+/** Translates the pagination texts into Spanish */
 @Injectable()
 export class ESPaginatorIntl implements MatPaginatorIntl {
   changes = new Subject<void>();

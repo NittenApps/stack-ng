@@ -6,10 +6,10 @@ import { GoogleMapsService } from '../../services';
 import { PlaceAutocompleteComponent } from '../place-autocomplete/place-autocomplete.component';
 
 /**
- * Componente de autocompletado de direcciones usando Google Places.
+ * Address autocomplete component using Google Places.
  *
- * Permite establecer una dirección inicial y emite el lugar
- * y la ubicación seleccionados.
+ * Allows setting an initial address and emits the selected place
+ * and location.
  */
 @Component({
   selector: 'nas-select-address',

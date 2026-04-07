@@ -58,8 +58,8 @@ export interface StackDatetimepickerFieldConfig extends StackFieldConfig<FieldTy
   standalone: false,
 })
 /**
- * Tipo de campo para fecha y hora usando `@mat-datetimepicker`.
- * Se usa cuando el formulario necesita capturar fecha, hora o ambas con una sola configuración.
+ * Field type for date and time using `@mat-datetimepicker`.
+ * It is used when the form needs to capture date, time, or both with a single configuration.
  */
 export class StackFieldDatetimepicker
   extends FieldType<FieldTypeConfig<DatetimepickerProps>>

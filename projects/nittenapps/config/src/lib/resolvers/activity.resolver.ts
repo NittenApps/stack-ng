@@ -4,9 +4,9 @@ import { ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
 import { Activity } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
-/** Resuelve los datos iniciales de la ruta para una actividad mediante el activity enviado en la ruta.
- * Si el id es __NEW__, marca la actividad como nueva y no muestra nada en caso de que sea un id valido,
- * obtiene el objeto correspondiente.
+/** Resolves the initial route data for an activity through the activity sent in the route.
+ * If the id is __NEW__, it marks the activity as new and shows nothing; if it is a valid id,
+ * it gets the corresponding object.
  * */
 export const activityResolver: ResolveFn<Activity> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);

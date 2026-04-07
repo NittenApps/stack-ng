@@ -1,4 +1,4 @@
-/** Cuerpo esperado para respuestas de tipo listado paginado. */
+/** Expected body for paginated list responses. */
 export type ListBody<T> = {
   items: T[];
   page: number;

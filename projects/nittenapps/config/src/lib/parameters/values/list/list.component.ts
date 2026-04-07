@@ -8,7 +8,7 @@ import { Column, Filter, ListComponent as StackListComponent, ListToolbarCompone
     imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
     templateUrl: './list.component.html'
 })
-/** Componente de listado para los parametros de un catálogo, encargado de mostrar una tabla con sus valores y permitir la aplicación de filtros. */
+/** List component for the parameters of a catalog, responsible for displaying a table with its values and allowing filters to be applied. */
 export class ListComponent {
   columns: Column[];
   filter: Filter = {};

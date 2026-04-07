@@ -12,10 +12,10 @@ export interface FieldGroupTypeConfig<T = StackFieldConfig['props']> extends Sta
   props: NonNullable<T>;
 }
 
-/** Clase base para los tipos de campo que expone acceso al estado del formulario. */
+/** Base class for field types that exposes access to the form state. */
 @Directive()
 export abstract class FieldType<F extends StackFieldConfig = StackFieldConfig> {
-  /** Sincroniza los controles locales usados por el campo para soportar expresiones y wrappers. */
+  /** Synchronizes the local controls used by the field to support expressions and wrappers. */
   @ViewChildren(NgControl) set _formControls(controls: QueryList<NgControl>) {
     const f = this.field as StackFieldConfigCache;
     f._localFields = controls

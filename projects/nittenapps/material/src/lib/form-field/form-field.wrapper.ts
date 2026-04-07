@@ -47,8 +47,8 @@ export interface StackFieldProps extends CoreStackFieldProps {
   standalone: false,
 })
 /**
- * Wrapper que envuelve un campo de Stack Forms dentro de `mat-form-field`.
- * Se usa para unificar label, hints, errores, prefijos y sufijos con el estilo de Angular Material.
+ * Wrapper that wraps a Stack Forms field inside `mat-form-field`.
+ * It is used to unify label, hints, errors, prefixes, and suffixes with the Angular Material style.
  */
 export class StackFormsWrapperFormField
   extends FieldWrapper<MatStackFieldConfig>

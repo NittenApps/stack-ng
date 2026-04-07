@@ -18,8 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './selection.component.html',
 })
 /**
- * Modal que muestra opciones seleccionables con checkboxes para el campo multi-select.
- * Se usa para confirmar la selección final antes de devolverla al control principal.
+ * Modal that displays selectable options with checkboxes for the multi-select field.
+ * It is used to confirm the final selection before returning it to the main control.
  */
 export class SelectionComponent {
   form: FormGroup;

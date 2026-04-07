@@ -20,8 +20,8 @@ type ProgressType = {
   templateUrl: './file-upload.component.html',
 })
 /**
- * Modal encargado de seleccionar archivos, subirlos a la API y devolver los adjuntos cargados.
- * Se usa como apoyo del campo `file` para centralizar el flujo de carga.
+ * Modal responsible for selecting files, uploading them to the API, and returning the uploaded attachments.
+ * It is used as support for the `file` field to centralize the upload flow.
  */
 export class FileUploadComponent {
   @ViewChild('file') file: any;

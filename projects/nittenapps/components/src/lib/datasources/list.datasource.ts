@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 import { Filter } from '../types';
 
 /**
- * DataSource para cargar y exponer registros paginados de una actividad.
+ * DataSource to load and expose paginated records of an activity.
  */
 export class ListDataSource<T> extends DataSource<T> {
   totalItems = 0;
@@ -27,11 +27,11 @@ export class ListDataSource<T> extends DataSource<T> {
   }
 
   /**
-   * Carga los registros de la actividad y actualiza la lista actual.
-   * @param page Número de página a consultar.
-   * @param pageSize Cantidad de registros por página.
-   * @param sort Criterio de ordenamiento.
-   * @param filter Filtros aplicados a la consulta.
+   * Loads the activity records and updates the current list.
+   * @param page Page number to query.
+   * @param pageSize Number of records per page.
+   * @param sort Sorting criterion.
+   * @param filter Filters applied to the query.
    */
   loadItems(page?: number, pageSize?: number, sort?: string, filter?: Filter): void {
     this.activityService

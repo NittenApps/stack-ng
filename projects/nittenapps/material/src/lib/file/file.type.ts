@@ -23,8 +23,8 @@ export interface StackFileConfig extends StackFieldConfig<FileProps> {
   standalone: false,
 })
 /**
- * Tipo de campo para cargar uno o varios archivos
- * Se usa cuando el formulario necesita adjuntos
+ * Field type for uploading one or more files
+ * It is used when the form needs attachments
  */
 export class StackMatFile extends FieldArrayType<FieldArrayTypeConfig<FileProps>> {
   readonly faPencil = faPencil;

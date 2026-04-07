@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { COMPONENTS_COMPONENTS } from './components/index';
 
-/** Módulo que agrupa y exporta los componentes reutilizables de la librería. */
+/** Module that groups and exports the reusable components of the library. */
 @NgModule({
   imports: [COMPONENTS_COMPONENTS],
   exports: [COMPONENTS_COMPONENTS],

@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject, Observable, Subscription, interval } from 'rxjs';
 
-/** Servicio que consulta periódicamente si existe una nueva versión publicada de la aplicación. */
+/** Service that periodically checks whether a new published version of the application exists. */
 @Injectable({ providedIn: 'root' })
 export class NewVersionCheckerService {
   intervalSource = interval(30 * 60000);
@@ -10,7 +10,7 @@ export class NewVersionCheckerService {
 
   private isNewVersionAvailable$ = new BehaviorSubject<boolean>(false);
 
-  /** Emite `true` cuando el service worker detecta una actualización disponible. */
+  /** Emits `true` when the service worker detects an available update. */
   get newVersionAvailable(): Observable<boolean> {
     return this.isNewVersionAvailable$;
   }
@@ -19,7 +19,7 @@ export class NewVersionCheckerService {
     this.checkForUpdate();
   }
 
-  /** Activa la nueva versión descargada y recarga la aplicación. */
+  /** Activates the downloaded new version and reloads the application. */
   applyUpdate(): void {
     this.swUpdate
       .activateUpdate()

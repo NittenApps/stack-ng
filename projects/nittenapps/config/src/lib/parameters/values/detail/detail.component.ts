@@ -25,7 +25,7 @@ import {
     ],
     templateUrl: './detail.component.html'
 })
-/** Componente de detalle para parametros encargado de mostrar su información y permitir la edición de sus atributos. */
+/** Detail component for parameters, responsible for displaying their information and allowing the editing of their attributes. */
 export class DetailComponent extends BaseDetailComponent<any> {
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [

@@ -5,7 +5,7 @@ import { StackFieldConfig, StackFieldConfigCache, StackFormOptions } from '../ty
 import { defineHiddenProp, disableTreeValidityCall, isHiddenField, isSignalRequired, observe } from '../utils';
 
 /**
- * Servicio encargado de construir la estructura interna del formulario y ejecutar las extensiones registradas.
+ * Service responsible for building the internal structure of the form and executing the registered extensions.
  */
 @Injectable({ providedIn: 'root' })
 export class StackFormBuilder {
@@ -17,19 +17,19 @@ export class StackFormBuilder {
   ) {}
 
   /**
-   * Construye un formulario raíz a partir del grupo de campos y el modelo recibido.
-   * @param form Instancia de formulario que contendrá los controles.
-   * @param fieldGroup Configuración de campos raíz.
-   * @param model Modelo inicial del formulario.
-   * @param options Opciones compartidas del formulario.
+   * Builds a root form from the field group and the received model.
+   * @param form Form instance that will contain the controls.
+   * @param fieldGroup Root field configuration.
+   * @param model Initial form model.
+   * @param options Shared form options.
    */
   buildForm(form: FormGroup | FormArray, fieldGroup: StackFieldConfig[] = [], model: any, options: StackFormOptions) {
     this.build({ fieldGroup, model, form, options });
   }
 
   /**
-   * Ejecuta el pipeline de extensiones sobre un campo y sus hijos.
-   * @param field Campo raíz o parcial que se debe construir.
+   * Executes the extension pipeline on a field and its children.
+   * @param field Root or partial field to build.
    */
   build(field: StackFieldConfig) {
     if (!this.config.extensions['core']) {

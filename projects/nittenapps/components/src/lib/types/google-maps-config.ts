@@ -1,4 +1,4 @@
-/** Configuración mínima para cargar Google Maps. */
+/** Minimum configuration to load Google Maps. */
 export type GoogleMapsConfig = {
   apiKey: string;
   libraries?: string[];

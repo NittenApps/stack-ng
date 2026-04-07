@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
   selector: '[uppercase]',
   standalone: true,
 })
-/** Normaliza a mayúsculas el valor de un control al inicializar y al perder foco. */
+/** Normalizes the value of a control to uppercase when initializing and when losing focus. */
 export class UppercaseDirective implements AfterViewInit, OnDestroy {
   @Input() set uppercase(apply: BooleanInput) {
     this._apply = !(apply === false);

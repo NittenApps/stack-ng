@@ -47,7 +47,7 @@ export interface StackDatepickerFieldConfig extends StackFieldConfig<FieldTypeCo
   standalone: false,
 })
 /**
- * Tipo de campo basado en `mat-datepicker` para capturar fechas con opciones de calendario configurables.
+ * Field type based on `mat-datepicker` to capture dates with configurable calendar options.
  */
 export class StackFieldDatepicker
   extends FieldType<FieldTypeConfig<DatepickerProps>>

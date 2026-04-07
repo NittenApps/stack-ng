@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 
 @Directive()
 /**
- * Clase base para el tipado de los componentes integrados con `mat-form-field`.
- * Expone el contrato que Angular Material necesita para foco, errores, placeholder y prefijos.
+ * Base class for typing components integrated with `mat-form-field`.
+ * It exposes the contract that Angular Material needs for focus, errors, placeholder, and prefixes.
  */
 export abstract class FieldType<F extends StackFieldConfig> extends CoreFieldType<F>
   implements OnDestroy, MatFormFieldControl<any> {

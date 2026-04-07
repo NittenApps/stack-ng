@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { GoogleMapsConfig } from '../types';
 import { GOOGLE_MAPS_CONFIG } from './google-maps-config.service';
 
-/** Servicio encargado de cargar y reutilizar el SDK de Google Maps. */
+/** Service responsible for loading and reusing the Google Maps SDK. */
 @Injectable({ providedIn: 'root' })
 export class GoogleMapsService {
   private static googleMapsPromise: Promise<typeof google.maps> | null = null;
@@ -12,8 +12,8 @@ export class GoogleMapsService {
   constructor(@Inject(GOOGLE_MAPS_CONFIG) private config: GoogleMapsConfig) {}
 
   /**
-   * Devuelve la API de Google Maps, cargando el script una sola vez.
-   * @returns Promesa con la referencia a `google.maps`.
+   * Returns the Google Maps API, loading the script only once.
+   * @returns Promise with the reference to `google.maps`.
    */
   public getGoogleMaps(): Promise<typeof google.maps> {
     if (GoogleMapsService.googleMapsPromise) {

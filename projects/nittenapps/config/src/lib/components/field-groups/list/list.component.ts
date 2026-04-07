@@ -8,7 +8,7 @@ import { ListComponent as StackListComponent, ListToolbarComponent, Column, Filt
     imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
     templateUrl: './list.component.html'
 })
-/** Componente de listado para los grupos de campos, encargado de mostrar una tabla con sus valores y permitir la aplicación de filtros. */
+/** List component for field groups, responsible for displaying a table with their values and allowing filters to be applied. */
 export class ListComponent {
   columns: Column[];
   filter: Filter = {};

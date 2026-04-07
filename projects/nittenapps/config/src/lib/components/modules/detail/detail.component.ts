@@ -32,7 +32,7 @@ import { PickListModule } from 'primeng/picklist';
     templateUrl: './detail.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-/** Componente de detalle para un modulo que pertenece a configuracion, encargado de mostrar su información y permitir la edición. */
+/** Detail component for a module that belongs to configuration, responsible for displaying its information and allowing editing. */
 export class DetailComponent extends BaseDetailComponent<Module> {
   definitionFields: StackFieldConfig[];
   sourceActivities: Activity[] = [];

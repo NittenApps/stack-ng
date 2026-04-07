@@ -6,7 +6,7 @@ import { clone, defineHiddenProp, hasKey, isObject, isPromise, observe, STACK_VA
 import { updateValidity } from '../field-form/utils';
 
 /**
- * Transforma y gestiona toda la lógica de validación de cada campo, tanto validaciones predefinidas como personalizadas.
+ * Transforms and manages all validation logic for each field, both predefined and custom validations.
  */
 export class FieldValidationExtension implements StackFormsExtension {
   constructor(private config: StackFormsConfig) {}

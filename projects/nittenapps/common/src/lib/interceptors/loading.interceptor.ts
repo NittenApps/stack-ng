@@ -5,7 +5,7 @@ import { finalize } from 'rxjs';
 
 export const SkipLoading = new HttpContextToken<boolean>(() => false);
 
-/** Activa el loading global durante la ejecución de una petición HTTP */
+/** Activates the global loading state during the execution of an HTTP request */
 export const loadingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const loadingService = inject(LoadingService);
 

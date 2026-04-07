@@ -29,7 +29,7 @@ export {
 
 export { BaseDetailComponent } from './detail';
 
-/** Componentes expuestos por la librería para importación centralizada. */
+/** Components exposed by the library for centralized import. */
 export const COMPONENTS_COMPONENTS: Provider[] = [
   BreadcrumbComponent,
   DetailToolbarComponent,

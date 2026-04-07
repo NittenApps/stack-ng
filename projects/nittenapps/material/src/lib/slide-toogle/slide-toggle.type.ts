@@ -18,8 +18,8 @@ export interface StackToggleFieldConfig extends StackFieldConfig<ToggleProps> {
   standalone: false,
 })
 /**
- * Tipo de campo basado en `mat-slide-toggle` para valores booleanos.
- * Se usa cuando el formulario necesita activar o desactivar opciones.
+ * Field type based on `mat-slide-toggle` for boolean values.
+ * It is used when the form needs to enable or disable options.
  */
 export class StackFieldToggle extends FieldType<FieldTypeConfig<ToggleProps>> {
   @ViewChild(MatSlideToggle, { static: true }) slideToggle!: MatSlideToggle;

@@ -16,7 +16,7 @@ export interface StackEditorConfig extends StackFieldConfig<EditorProps> {
   standalone: false,
 })
 /**
- * Tipo de campo que integra un editor enriquecido basado en Quill.
- * Se usa para capturar contenido con formato dentro de formularios Material.
+ * Field type that integrates a rich text editor based on Quill.
+ * It is used to capture formatted content within Material forms.
  */
 export class StackMatEditor extends FieldType<FieldTypeConfig<EditorProps>> {}

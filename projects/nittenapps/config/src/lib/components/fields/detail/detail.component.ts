@@ -31,7 +31,7 @@ import { map } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-/** Componente de detalle para un campo utilizado en formualario, encargado de mostrar su información y permitir la edición de sus atributos. */
+/** Detail component for a field used in a form, responsible for displaying its information and allowing the editing of its attributes. */
 export class DetailComponent extends BaseDetailComponent<Field> {
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [

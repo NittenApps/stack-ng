@@ -1,6 +1,6 @@
 import { CatalogValue } from '../types/catalog-value';
 
-/** Compara dos valores de catálogo por id o por sus códigos equivalentes. */
+/** Compares two catalog values by id or by their equivalent codes. */
 export function compareCatalogValueFn(v1: CatalogValue, v2: any): boolean {
   return (
     v1 &&
