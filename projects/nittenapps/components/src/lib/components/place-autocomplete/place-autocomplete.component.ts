@@ -47,8 +47,9 @@ export class PlaceAutocompleteComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const maps = await this.googleMapsService.getGoogleMaps();
     this.placeAutocomplete = new maps.places.PlaceAutocompleteElement({
-      componentRestrictions: { country: 'MX' },
-      types: ['geocode'],
+      includedRegionCodes: ['mx'],
+      requestedLanguage: 'es-419',
+      requestedRegion: 'mx',
     });
     this.placeAutocomplete.name = 'address';
 
