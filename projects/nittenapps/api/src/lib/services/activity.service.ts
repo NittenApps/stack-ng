@@ -1,27 +1,32 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { FieldGroup } from '@nittenapps/common';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
+import { FieldGroup, SKIP_LOADING } from '@nittenapps/common';
 import { map, Observable } from 'rxjs';
 
 import { ApiConfig, ApiResponse, ListBody, ObjectBody } from '../types';
 
 export class ActivityService<T> {
-  constructor(private config: ApiConfig, private http: HttpClient, private activity: string) {}
+  constructor(
+    private config: ApiConfig,
+    private http: HttpClient,
+    private activity: string,
+  ) {}
 
   get<R = any>(
     method: string,
-    params: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> }
+    params: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> },
+    skipIndicator = false,
   ): Observable<ApiResponse<R, ListBody<R> | ObjectBody<R>>> {
     return this.http.get<ApiResponse<R, ListBody<R> | ObjectBody<R>>>(
       `${this.config.baseUrl}/activity/v1/${this.activity}/${method}`,
-      { params: this.removeNullishValues(params) }
+      { params: this.removeNullishValues(params), context: new HttpContext().set(SKIP_LOADING, skipIndicator) },
     );
   }
 
   getFieldGroups(): Observable<FieldGroup[]> {
     return this.http
-      .get<ApiResponse<FieldGroup, ListBody<FieldGroup>>>(
-        `${this.config.baseUrl}/activity/v1/${this.activity}/fieldGroups`
-      )
+      .get<
+        ApiResponse<FieldGroup, ListBody<FieldGroup>>
+      >(`${this.config.baseUrl}/activity/v1/${this.activity}/fieldGroups`)
       .pipe(map((response) => response.body.items));
   }
 
@@ -29,7 +34,7 @@ export class ActivityService<T> {
     page?: number,
     pageSize?: number,
     sort?: string,
-    filter?: { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> }
+    filter?: { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> },
   ): Observable<ApiResponse<T, ListBody<T>>> {
     const params = this.removeNullishValues(filter) || {};
     if (page) {
@@ -53,12 +58,13 @@ export class ActivityService<T> {
   post<R = any>(
     method: string,
     params: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> },
-    body: any
+    body: any,
+    skipIndicator = false,
   ): Observable<ApiResponse<R, ListBody<R> | ObjectBody<R>>> {
     return this.http.post<ApiResponse<R, ListBody<R> | ObjectBody<R>>>(
       `${this.config.baseUrl}/activity/v1/${this.activity}/${method}`,
       body,
-      { params: this.removeNullishValues(params) }
+      { params: this.removeNullishValues(params), context: new HttpContext().set(SKIP_LOADING, skipIndicator) },
     );
   }
 

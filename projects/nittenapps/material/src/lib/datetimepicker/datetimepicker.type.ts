@@ -5,9 +5,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  TemplateRef,
   Type,
-  ViewChild,
 } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatCalendarView, MatDatetimepickerComponent } from '@mat-datetimepicker/core';
