@@ -11,6 +11,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  output,
   Output,
   SimpleChanges,
   ViewChild,
@@ -29,19 +30,19 @@ import { ListStateService } from '../../services/list-state.service';
 import { Column, Filter } from '../../types';
 
 @Component({
-    selector: 'nas-list',
-    imports: [
-        DatePipe,
-        DecimalPipe,
-        FaIconComponent,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        NgClass,
-        PercentPipe,
-    ],
-    templateUrl: './list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'nas-list',
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    FaIconComponent,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgClass,
+    PercentPipe,
+  ],
+  templateUrl: './list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -66,6 +67,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   displayedColumns: string[] = [];
   pageIndex: number = 0;
   pageSize: number = 15;
+  refreshData = output<void>();
 
   private _filterChange = new EventEmitter<void>();
   private _subscription$?: Subscription;
@@ -75,7 +77,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private stateService: ListStateService
+    private stateService: ListStateService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -99,13 +101,8 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
         .pipe(
           startWith({}),
           tap(() => {
-            this.dataSource.loadItems(
-              this.paginator.pageIndex,
-              this.paginator.pageSize,
-              this.sort.active ? `${this.sort.active} ${this.sort.direction}` : undefined,
-              this.filter
-            );
-          })
+            this.loadData();
+          }),
         )
         .subscribe();
     });
@@ -126,7 +123,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sortToString(),
-      this.filter
+      this.filter,
     );
   }
 
@@ -190,6 +187,16 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
       return;
     }
     this.router.navigate([(item as any)[this.objectId]], { relativeTo: this.route });
+  }
+
+  private loadData(): void {
+    this.dataSource.loadItems(
+      this.paginator.pageIndex,
+      this.paginator.pageSize,
+      this.sort.active ? `${this.sort.active} ${this.sort.direction}` : undefined,
+      this.filter,
+    );
+    this.refreshData.emit();
   }
 
   private sortToString(): string[] {
