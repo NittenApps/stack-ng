@@ -1,2 +1,2 @@
 export { httpErrorInterceptor } from './http-error.interceptor';
-export { loadingInterceptor } from './loading.interceptor';
+export { loadingInterceptor, SKIP_LOADING } from './loading.interceptor';

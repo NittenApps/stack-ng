@@ -3,16 +3,16 @@ import { inject } from '@angular/core';
 import { LoadingService } from '../services/loading.service';
 import { finalize } from 'rxjs';
 
-export const SkipLoading = new HttpContextToken<boolean>(() => false);
+export const SKIP_LOADING = new HttpContextToken<boolean>(() => false);
 
 export const loadingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const loadingService = inject(LoadingService);
 
-  if (req.context.get(SkipLoading)) {
+  if (req.context.get(SKIP_LOADING)) {
     return next(req);
   }
 
-  loadingService.loadingOn();
+  loadingService.show();
 
-  return next(req).pipe(finalize(() => loadingService.loadingOff()));
+  return next(req).pipe(finalize(() => loadingService.hide()));
 };

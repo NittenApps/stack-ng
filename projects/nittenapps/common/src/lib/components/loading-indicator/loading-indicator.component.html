@@ -1,4 +1,4 @@
-@if(loading$ | async) {
+@if(loadingService.isLoading()) {
 <div class="spinner-container">
   @if (customLoadingIndicator) {
   <ng-container *ngTemplateOutlet="customLoadingIndicator" />
