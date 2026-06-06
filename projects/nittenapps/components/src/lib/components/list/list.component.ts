@@ -11,11 +11,11 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  output,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
@@ -23,11 +23,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ApiConfig, NAS_API_CONFIG } from '@nittenapps/api';
-import { interval, merge, Observable, startWith, Subscription, tap } from 'rxjs';
+import { concatMap, delay, merge, Observable, of, repeat, Subject, switchMap, takeUntil, tap, timer } from 'rxjs';
 
 import { ListDataSource } from '../../datasources/list.datasource';
 import { ListStateService } from '../../services/list-state.service';
-import { Column, Filter } from '../../types';
+import { AsyncEvent, Column, Filter } from '../../types';
 
 @Component({
   selector: 'nas-list',
@@ -67,10 +67,12 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   displayedColumns: string[] = [];
   pageIndex: number = 0;
   pageSize: number = 15;
-  refreshData = output<void>();
 
   private _filterChange = new EventEmitter<void>();
-  private _subscription$?: Subscription;
+  private destroy$ = new Subject<void>();
+  private refreshDataSource$ = new Subject<AsyncEvent>();
+
+  refreshData = outputFromObservable<AsyncEvent>(this.refreshDataSource$);
 
   constructor(
     @Inject(NAS_API_CONFIG) private apiConfig: ApiConfig,
@@ -90,19 +92,28 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
 
       merge(this.sort.sortChange, this._filterChange).subscribe(() => (this.paginator.pageIndex = 0));
 
-      let merged: Observable<unknown>;
-      if (this.autorefresh) {
-        merged = merge(interval(this.autorefresh), this.sort.sortChange, this.paginator.page, this._filterChange);
-      } else {
-        merged = merge(this.sort.sortChange, this.paginator.page, this._filterChange);
-      }
+      const merged: Observable<unknown> = merge(
+        timer(0),
+        this.sort.sortChange,
+        this.paginator.page,
+        this._filterChange,
+      );
 
-      this._subscription$ = merged
+      merged
         .pipe(
-          startWith({}),
-          tap(() => {
-            this.loadData();
+          switchMap(() => {
+            const taskStep$ = of(null).pipe(
+              concatMap(() => this.loadData()),
+              concatMap(() => this.refreshParentData()),
+            );
+
+            if (this.autorefresh && this.autorefresh > 0) {
+              return taskStep$.pipe(delay(this.autorefresh), repeat());
+            } else {
+              return taskStep$;
+            }
           }),
+          takeUntil(this.destroy$),
         )
         .subscribe();
     });
@@ -117,7 +128,9 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   }
 
   ngOnDestroy(): void {
-    this._subscription$?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
+
     this.stateService.save(
       this.activity,
       this.paginator.pageIndex,
@@ -189,14 +202,24 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     this.router.navigate([(item as any)[this.objectId]], { relativeTo: this.route });
   }
 
-  private loadData(): void {
-    this.dataSource.loadItems(
+  private loadData(): Observable<any> {
+    return this.dataSource.loadItems(
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active ? `${this.sort.active} ${this.sort.direction}` : undefined,
       this.filter,
     );
-    this.refreshData.emit();
+  }
+
+  private refreshParentData(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      if (!this.refreshDataSource$.observed) {
+        resolve();
+        return;
+      }
+
+      this.refreshDataSource$.next({ resolve });
+    });
   }
 
   private sortToString(): string[] {
