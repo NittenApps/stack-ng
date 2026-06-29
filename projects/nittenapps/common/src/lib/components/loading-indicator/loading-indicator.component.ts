@@ -1,5 +1,16 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  DOCUMENT,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
 import { tap } from 'rxjs';
@@ -10,17 +21,23 @@ import { LoadingService } from '../../services';
   imports: [MatProgressSpinnerModule, NgTemplateOutlet],
   templateUrl: './loading-indicator.component.html',
   styleUrl: './loading-indicator.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
-export class LoadingIndicatorComponent {
+export class LoadingIndicatorComponent implements OnDestroy, OnInit {
   @Input() detectRouteTransitions = false;
   @ContentChild('loading') customLoadingIndicator: TemplateRef<any> | null = null;
 
   constructor(
     protected loadingService: LoadingService,
+    @Inject(DOCUMENT) private document: Document,
+    private el: ElementRef,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    // Moves the entire component element directly under <body> when it initializes
+    this.document.body.appendChild(this.el.nativeElement);
+
     if (this.detectRouteTransitions) {
       this.router.events
         .pipe(
@@ -33,6 +50,12 @@ export class LoadingIndicatorComponent {
           }),
         )
         .subscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.el.nativeElement.parentNode) {
+      this.el.nativeElement.parentNode.removeChild(this.el.nativeElement);
     }
   }
 }
