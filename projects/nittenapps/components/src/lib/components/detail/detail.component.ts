@@ -98,7 +98,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
                 onInit: (fld: StackFieldConfig) => {
                   const c = fld.parent?.get?.(`attributes.${r}.0.catalogValue`);
                   if (c) {
-                    c!.props!.change = (f: StackFieldConfig, event: any) => {
+                    c.props!.change = (_f: StackFieldConfig, event: any) => {
                       if (event?.value?.code) {
                         fld.props!.options =
                           this.configService.getCatalogValues(field.definition!.catalog!, { [p]: event.value.code }) ||
@@ -106,6 +106,12 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
                       } else {
                         fld.props!.options = of([]);
                       }
+                      fld.formControl?.setValue(null);
+                      fld.props?.change?.(fld, { value: null });
+                    };
+                    c.props!['optionSelected'] = (f: StackFieldConfig, value: any) => {
+                      f.props?.change?.(f, { value });
+
                       fld.formControl?.setValue(null);
                     };
                   }
