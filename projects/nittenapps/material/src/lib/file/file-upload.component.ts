@@ -31,6 +31,7 @@ export class FileUploadComponent {
   uploadSuccessful = false;
   uploading = false;
   validMIMETypes: string;
+  withError = false;
 
   private readonly filesService;
   private uploadedFiles: {
@@ -152,6 +153,10 @@ export class FileUploadComponent {
         },
         error: (err) => {
           (<any>this.progress!)[file.name].error = err.error?.message || 'Error subiendo archivo';
+          this.canBeClosed = true;
+          this.dialogRef.disableClose = false;
+          this.uploadSuccessful = false;
+          this.withError = true;
         },
       });
     });

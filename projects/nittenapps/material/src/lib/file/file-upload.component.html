@@ -17,7 +17,7 @@
         }
         @if (progress?.[file.name]?.error) {
         <span class="error">
-          {{progress?.[file.name]?.error}}
+          {{progress![file.name].error}}
         </span>
         }
       </mat-list-item>
@@ -27,7 +27,8 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
+  <button mat-raised-button [disabled]="!canBeClosed || withError"
+    (click)="closeDialog()">{{primaryButtonText}}</button>
   @if (showCancelButton) {
   <button mat-button mat-dialog-close [disabled]="!canBeClosed">Cancelar</button>
   }
