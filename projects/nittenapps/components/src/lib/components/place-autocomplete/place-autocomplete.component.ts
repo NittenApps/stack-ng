@@ -77,40 +77,4 @@ export class PlaceAutocompleteComponent implements OnInit {
     });
     return inputElement;
   }
-
-  /*async ngAfterViewInit(): Promise<void> {
-    const googleMaps = await this.googleMapsService.getGoogleMaps();
-    await this.importPlacesLibrary(googleMaps);
-    this.getPlaceAutocomplete(googleMaps);
-  }
-
-  ngOnDestroy(): void {
-    if (this.autocomplete) {
-      google.maps.event.clearInstanceListeners(this.autocomplete);
-    }
-  }
-
-  private async importPlacesLibrary(maps: typeof google.maps): Promise<void> {
-    await maps.importLibrary('places');
-  }
-
-  private getPlaceAutocomplete(maps: typeof google.maps): void {
-    this.autocomplete = new maps.places.Autocomplete(this.addressInput.nativeElement, {
-      componentRestrictions: { country: 'MX' },
-      types: ['geocode'],
-      fields: ['address_components', 'geometry'],
-    });
-
-    this.autocomplete.addListener('place_changed', () => {
-      this.ngZone.run(() => {
-        const place: PlaceResult = this.autocomplete!.getPlace();
-
-        if (!place.geometry?.location) {
-          return;
-        }
-        this.onAutocompleteSelected.emit(place);
-        this.onLocationSelected.emit({ lat: place.geometry?.location?.lat(), lng: place.geometry?.location?.lng() });
-      });
-    });
-  }*/
 }

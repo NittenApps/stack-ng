@@ -5,8 +5,9 @@
   <div class="container">
     <div style="text-align: right;">
       <button mat-raised-button class="add-files-btn" color="primary"
-        [disabled]="uploading || uploadSuccessful || (!multiple && files.size > 0)" (click)="addFiles()">Agregar
-        Archivos</button>
+        [disabled]="uploading || uploadSuccessful || (!multiple && files.size > 0)" (click)="addFiles()">
+        Agregar Archivos
+      </button>
     </div>
     <mat-list>
       @for (file of files; track file) {

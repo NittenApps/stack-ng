@@ -139,6 +139,7 @@ export class FileUploadComponent {
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
       formData.append('filename', file.name);
+      formData.append('staging', 'true');
       this.filesService.uploadFile(formData).subscribe({
         next: (event) => {
           if (event.type === HttpEventType.UploadProgress) {
