@@ -5,7 +5,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ActivityService, ApiConfig, ApiResponse, ConfigService, NAS_API_CONFIG, ObjectBody } from '@nittenapps/api';
 import { DirtyAware, Field, FieldGroup } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nittenapps/forms';
-import { map, Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
 
 @Component({
   template: '',
@@ -54,16 +54,6 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return !this.saved && this.form.dirty;
   }
 
-  save(): void {
-    this.activityService.save(this.prepareValue()).subscribe((response) => {
-      if (response.success) {
-        this.afterSaved(response);
-        this.saved = true;
-        this.back();
-      }
-    });
-  }
-
   protected afterSaved(_response: ApiResponse<T, ObjectBody<T>>): void {}
 
   protected back(): void {
@@ -94,27 +84,33 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
             fieldConfig.type = 'autocomplete';
             if (field.definition?.reference) {
               const [p, r] = field.definition.reference.split('=');
+              if (!p || !r) return;
+
               fieldConfig.hooks = {
                 onInit: (fld: StackFieldConfig) => {
-                  const c = fld.parent?.get?.(`attributes.${r}.0.catalogValue`);
-                  if (c) {
-                    c.formControl?.valueChanges.subscribe((value) => {
-                      if (value?.code) {
-                        fld.props!.options =
-                          this.configService.getCatalogValues(field.definition!.catalog!, { [p]: value.code }) ||
-                          of([]);
-                      } else {
-                        fld.props!.options = of([]);
-                      }
-                      fld.formControl?.setValue(undefined);
-                      fld.props?.change?.(fld, { value: undefined });
-                    });
-                    c.props!['optionSelected'] = (f: StackFieldConfig, value: any) => {
-                      f.props?.change?.(f, { value });
+                  const c = fld.parent?.get?.(`${base}attributes.${r}.0.catalogValue`);
+                  if (!c) return;
 
-                      fld.formControl?.setValue(undefined);
-                    };
-                  }
+                  fld.props!.options = c.formControl?.valueChanges.pipe(
+                    startWith(c.formControl?.value),
+                    map((val) => (val && typeof val === 'object' ? val.code : val)),
+                    filter((valueCode) => !!valueCode),
+                    distinctUntilChanged(),
+                    tap(() => {
+                      if (c.formControl?.dirty) {
+                        fld.formControl?.setValue(undefined);
+                      }
+                    }),
+                    switchMap((value) => {
+                      if (value) {
+                        return (
+                          this.configService.getCatalogValues(field.definition!.catalog!, { [p]: value }) || of([])
+                        );
+                      } else {
+                        return of([]);
+                      }
+                    }),
+                  );
                 },
               };
             } else {
@@ -251,5 +247,15 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
 
   protected prepareValue(): any {
     return { ...this.model };
+  }
+
+  protected save(): void {
+    this.activityService.save(this.prepareValue()).subscribe((response) => {
+      if (response.success) {
+        this.afterSaved(response);
+        this.saved = true;
+        this.back();
+      }
+    });
   }
 }
