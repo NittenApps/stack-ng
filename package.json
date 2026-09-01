@@ -1,6 +1,6 @@
 {
   "name": "stack",
-  "version": "21.2.6-next.0",
+  "version": "21.2.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
