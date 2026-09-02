@@ -1,13 +1,15 @@
 @if (type === 'number') {
 <input matInput [id]="id" class="number" [name]="field.name || ''" type="text" autocomplete="off"
-  [readonly]="!!props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl"
-  [nasFormsAttributes]="field" [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [mask]="format"
-  thousandSeparator="," [allowNegativeNumbers]="allowNegative" [leadZero]="props.format === 'decimal'">
+  [readonly]="!!props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher"
+  [formControl]="formControl" [nasFormsAttributes]="field" [tabIndex]="props.tabindex"
+  [placeholder]="props.placeholder || ''" [mask]="format" [max]="props.max" [min]="props.min" thousandSeparator=","
+  [allowNegativeNumbers]="allowNegative" [leadZero]="props.format === 'decimal'">
 } @else if (type === 'percent') {
 <input matInput [id]="id" class="number" [name]="field.name || ''" type="text" autocomplete="off"
-  [readonly]="!!props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl"
-  [nasFormsAttributes]="field" [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [mask]="format"
-  thousandSeparator="," [allowNegativeNumbers]="allowNegative" [leadZero]="true" suffix=" %">
+  [readonly]="!!props.readonly" [required]="required" [errorStateMatcher]="errorStateMatcher"
+  [formControl]="formControl" [max]="props.max" [min]="props.min" [nasFormsAttributes]="field"
+  [tabIndex]="props.tabindex" [placeholder]="props.placeholder || ''" [mask]="format" thousandSeparator=","
+  [allowNegativeNumbers]="allowNegative" [leadZero]="true" suffix=" %">
 } @else if (type === 'date') {
 <input matInput [id]="id" [name]="field.name || ''" type="text" autocomplete="off" [readonly]="!!props.readonly"
   [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
