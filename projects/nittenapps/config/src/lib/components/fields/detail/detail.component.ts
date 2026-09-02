@@ -14,21 +14,21 @@ import {
 import { map } from 'rxjs';
 
 @Component({
-    selector: 'nas-field-detail',
-    imports: [
-        AsyncPipe,
-        CommonModule,
-        DetailToolbarComponent,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatAutocompleteModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTabsModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'nas-field-detail',
+  imports: [
+    AsyncPipe,
+    CommonModule,
+    DetailToolbarComponent,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatAutocompleteModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTabsModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent extends BaseDetailComponent<Field> {
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
@@ -171,42 +171,34 @@ export class DetailComponent extends BaseDetailComponent<Field> {
               },
               {
                 key: 'definition.min',
-                type: 'number',
+                type: 'input',
                 props: {
                   label: 'Valor mínimo',
-                  format: 'decimal',
                 },
                 expressions: {
-                  hide: '!["NM"].includes(model.type)',
+                  hide: '!["DO","DT","NM"].includes(model.type)',
                 },
               },
               {
                 key: 'definition.max',
-                type: 'number',
+                type: 'input',
                 props: {
                   label: 'Valor máximo',
-                  format: 'decimal',
                 },
                 expressions: {
-                  hide: '!["NM"].includes(model.type)',
+                  hide: '!["DO","DT","NM"].includes(model.type)',
                 },
               },
               {
                 key: 'definition.catalog',
-                type: 'select',
+                type: 'autocomplete',
                 props: {
                   label: 'Catálogo',
-                  options: this.configService
-                    .getCatalogs()
-                    .pipe(
-                      map((items: Catalog[]) =>
-                        items.map((catalog) => ({ value: catalog.code, label: `${catalog.code} - ${catalog.name}` }))
-                      )
-                    ),
+                  options: this.configService.getCatalogs(),
                 },
                 expressions: {
                   hide: '!["AC","CT"].includes(model.type)',
-                  'props.required': '["AC","CT"].includes(model.type)',
+                  'props.required': 'model.type === "CT"',
                 },
               },
               {
@@ -228,5 +220,25 @@ export class DetailComponent extends BaseDetailComponent<Field> {
 
   protected override getActivity(): string {
     return 'configFields';
+  }
+
+  protected override initModel(data: any): void {
+    super.initModel(data);
+    if (this.model.definition?.catalog) {
+      this.configService.getCatalogs().subscribe((values) => {
+        const catalog = values.find((v) => v.code === this.model.definition?.catalog);
+        if (catalog) {
+          this.form.get('definition.catalog')?.setValue(catalog);
+        }
+      });
+    }
+  }
+
+  protected override prepareValue(): any {
+    const value = super.prepareValue();
+    if (value.definition?.catalog) {
+      value.definition.catalog = (<Catalog>value.definition.catalog).code;
+    }
+    return value;
   }
 }

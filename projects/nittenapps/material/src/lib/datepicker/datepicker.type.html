@@ -5,7 +5,7 @@
   (dateInput)="props.datepickerOptions!.dateInput!(field, $event)"
   (dateChange)="props.datepickerOptions!.dateChange!(field, $event)" />
 <ng-template #datepickerToggle>
-  <mat-datepicker-toggle (click)="detectChanges()" [disabled]="props.disabled" [for]="picker" />
+  <mat-datepicker-toggle (click)="detectChanges()" [disabled]="props.disabled || props.readonly" [for]="picker" />
 </ng-template>
 <mat-datepicker #picker [color]="props.color" [dateClass]="props.datepickerOptions!.dateClass!"
   [disabled]="props.datepickerOptions!.disabled" [opened]="props.datepickerOptions!.opened"

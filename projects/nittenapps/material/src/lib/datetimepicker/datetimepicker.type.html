@@ -2,7 +2,7 @@
   [required]="required" [errorStateMatcher]="errorStateMatcher" [formControl]="formControl" [nasFormsAttributes]="field"
   [tabindex]="props.tabindex" [placeholder]="props.placeholder || ''" [matDatetimepicker]="picker"
   [max]="props.datetimepickerOptions?.max" [min]="props.datetimepickerOptions?.min" style="width: calc(100% - 40px);">
+<mat-datetimepicker-toggle [disabled]="!!props.disabled || !!props.readonly" [for]="picker" />
 <mat-datetimepicker #picker [disabled]="props.datetimepickerOptions?.disabled || false" [touchUi]="true"
   [type]="props.datetimepickerOptions?.type || 'datetime'" [openOnFocus]="(!props.disabled && !props.readonly)"
   [timeInterval]="5" />
-<mat-datetimepicker-toggle [disabled]="!!props.disabled || !!props.readonly" [for]="picker" />

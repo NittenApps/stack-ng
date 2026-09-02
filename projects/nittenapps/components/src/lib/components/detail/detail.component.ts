@@ -82,6 +82,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
           case 'AC':
             fieldConfig.key = `${base}attributes.${field.code}.0.catalogValue`;
             fieldConfig.type = 'autocomplete';
+            fieldConfig.props!['filterMethod'] = this.getFilterMethod(field);
             if (field.definition?.reference) {
               const [p, r] = field.definition.reference.split('=');
               if (!p || !r) return;
@@ -104,7 +105,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
                     switchMap((value) => {
                       if (value) {
                         return (
-                          this.configService.getCatalogValues(field.definition!.catalog!, { [p]: value }) || of([])
+                          this.configService.getCatalogValues(field.definition!.catalog! as string, { [p]: value }) || of([])
                         );
                       } else {
                         return of([]);
@@ -147,8 +148,6 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
           case 'NM':
             fieldConfig.key = `${base}attributes.${field.code}.0.numberValue`;
             fieldConfig.type = 'number';
-            fieldConfig.props!.max = field.definition?.max ? +field.definition.max : undefined;
-            fieldConfig.props!.min = field.definition?.min ? +field.definition.min : undefined;
             break;
           case 'TX':
             fieldConfig.key = `${base}attributes.${field.code}.0.textValue`;
@@ -186,7 +185,27 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
           fieldConfig.expressions!['props.required'] = field.definition?.required;
         }
 
-        fieldConfig.hooks = fieldConfig.hooks || this.createHooks(field);
+        if (field.definition?.max) {
+          const max = field.definition.max;
+          if (Number.isFinite(Number(max))) {
+            fieldConfig.props!.max = +max;
+          } else {
+            const p = field.type === 'DO' ? 'datepickerOptions.' : field.type === 'DT' ? 'datetimepickerOptions.' : '';
+            fieldConfig.expressions![`props.${p}max`] = max;
+          }
+        }
+
+        if (field.definition?.min) {
+          const min = field.definition.min;
+          if (Number.isFinite(Number(min))) {
+            fieldConfig.props!.min = +min;
+          } else {
+            const p = field.type === 'DO' ? 'datepickerOptions.' : field.type === 'DT' ? 'datetimepickerOptions.' : '';
+            fieldConfig.expressions![`props.${p}min`] = min;
+          }
+        }
+
+        fieldConfig.hooks = { ...(fieldConfig.hooks || {}), ...this.createHooks(field) };
 
         fg.push(fieldConfig);
       });
@@ -208,14 +227,14 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
     return fields;
   }
 
-  protected createHooks(field: Field): StackFormsHookConfig | undefined {
-    return undefined;
+  protected createHooks(_: Field): StackFormsHookConfig {
+    return {};
   }
 
   protected abstract getActivity(): string;
 
-  protected getFilterMethod(field: Field): (field: StackFieldConfig, term: string) => Observable<any> {
-    return (field: StackFieldConfig, term: string): Observable<any> => of([]);
+  protected getFilterMethod(_: Field): ((field: StackFieldConfig, term: string) => Observable<any>) | undefined {
+    return undefined;
   }
 
   protected getOptions(
@@ -226,7 +245,7 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
           [param: string]: string | number | boolean | readonly (string | number | boolean)[];
         },
   ): Observable<any> {
-    return this.configService.getCatalogValues(field.definition!.catalog!, params);
+    return this.configService.getCatalogValues(field.definition!.catalog! as string, params);
   }
 
   protected initFields(): void {

@@ -1,3 +1,5 @@
+import { Catalog } from '../common';
+
 export interface Definition {
   required?: string;
   multiple?: boolean;
@@ -7,9 +9,9 @@ export interface Definition {
   pattern?: string;
   minLength?: number;
   maxLength?: number;
-  min?: number;
-  max?: number;
-  catalog?: string;
+  min?: string;
+  max?: string;
+  catalog?: string | Catalog;
   reference?: string;
   base?: string;
   viewerRoles: string[];
