@@ -105,7 +105,8 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
                     switchMap((value) => {
                       if (value) {
                         return (
-                          this.configService.getCatalogValues(field.definition!.catalog! as string, { [p]: value }) || of([])
+                          this.configService.getCatalogValues(field.definition!.catalog! as string, { [p]: value }) ||
+                          of([])
                         );
                       } else {
                         return of([]);
@@ -245,7 +246,10 @@ export abstract class BaseDetailComponent<T = any> implements AfterViewInit, Dir
           [param: string]: string | number | boolean | readonly (string | number | boolean)[];
         },
   ): Observable<any> {
-    return this.configService.getCatalogValues(field.definition!.catalog! as string, params);
+    if (field.definition?.catalog) {
+      return this.configService.getCatalogValues(field.definition!.catalog! as string, params);
+    }
+    return of([]);
   }
 
   protected initFields(): void {
