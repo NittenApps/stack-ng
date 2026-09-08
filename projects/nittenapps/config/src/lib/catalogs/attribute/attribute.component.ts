@@ -8,10 +8,16 @@ import { Catalog } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsModule } from '@nittenapps/forms';
 import { map } from 'rxjs';
 
+/**
+ * Displays the dialog used to create or edit a catalog attribute.
+ *
+ * Builds the reactive attribute form and loads the available catalogs for
+ * attributes whose type is `CT` (catalog).
+ */
 @Component({
-    selector: 'nas-attribute',
-    imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule],
-    templateUrl: './attribute.component.html'
+  selector: 'nas-attribute',
+  imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule],
+  templateUrl: './attribute.component.html',
 })
 export class AttributeComponent {
   fields!: StackFieldConfig[];
@@ -96,8 +102,8 @@ export class AttributeComponent {
                   .getCatalogs()
                   .pipe(
                     map((items: Catalog[]) =>
-                      items.map((catalog) => ({ value: catalog.code, label: `${catalog.code} - ${catalog.name}` }))
-                    )
+                      items.map((catalog) => ({ value: catalog.code, label: `${catalog.code} - ${catalog.name}` })),
+                    ),
                   ),
               },
               expressions: {

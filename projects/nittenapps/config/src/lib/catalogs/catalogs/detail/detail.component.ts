@@ -12,28 +12,45 @@ import {
   StackMatToggleModule,
 } from '@nittenapps/material';
 import { Observable } from 'rxjs';
-
 import { AttributeComponent } from '../../attribute/attribute.component';
 
+/**
+ * Detail form for managing catalog metadata and its attributes.
+ *
+ * This component extends the base detail pattern and provides the field configuration
+ * needed to create or edit a catalog, as well as the actions to add or edit catalog
+ * attribute records through an attribute dialog.
+ */
 @Component({
-    selector: 'nas-catalogs-detail',
-    imports: [
-        AsyncPipe,
-        DetailToolbarComponent,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTableModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html'
+  selector: 'nas-catalogs-detail',
+  imports: [
+    AsyncPipe,
+    DetailToolbarComponent,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTableModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseDetailComponent<Catalog> {
+  /**
+   * Creates a detail component instance.
+   *
+   * @param dialog Material dialog service used to open the attribute editor.
+   */
   constructor(private dialog: MatDialog) {
     super();
   }
 
+  /**
+   * Builds the form configuration for the catalog details and attributes table.
+   *
+   * @param _fieldGroups Available field groups from the parent detail component.
+   * @returns The stack field configuration used to render the form.
+   */
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [
       {
@@ -106,14 +123,31 @@ export class DetailComponent extends BaseDetailComponent<Catalog> {
     ];
   }
 
+  /**
+   * Returns the activity key used by the base detail component for auditing and permissions.
+   *
+   * @returns The activity identifier for catalog management.
+   */
   protected override getActivity(): string {
     return 'configCatalogs';
   }
 
+  /**
+   * Opens the attribute creation dialog.
+   *
+   * @returns An observable that resolves when the dialog is closed.
+   */
   private addAttribute(): Observable<any> {
     return this.dialog.open(AttributeComponent, { data: {}, width: '90%' }).afterClosed();
   }
 
+  /**
+   * Opens the attribute editing dialog for an existing attribute.
+   *
+   * @param _ Field metadata for the attribute entry.
+   * @param value Current attribute values to edit.
+   * @returns An observable that resolves when the dialog is closed.
+   */
   private editAttribute(_: StackFieldConfig, value: any): Observable<any> {
     return this.dialog.open(AttributeComponent, { data: { ...value }, width: '90%' }).afterClosed();
   }

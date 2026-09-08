@@ -13,10 +13,16 @@ import { genericResolver } from '@nittenapps/api';
 import { NavItem } from '@nittenapps/components';
 import { activityResolver } from '../resolvers/activity.resolver';
 import { catalogResolver } from '../resolvers/catalog.resolver';
-import { fieldResolver } from '../resolvers/field.resolver';
 import { fieldGroupResolver } from '../resolvers/field-group.resolver';
+import { fieldResolver } from '../resolvers/field.resolver';
 import { moduleResolver } from '../resolvers/module.resolver';
 
+/**
+ * Navigation items exposed in the configuration and administration sections.
+ *
+ * These entries define the available menu groups and their route destinations
+ * for the application shell, including role-based access control.
+ */
 export const CONFIG_ITEMS: NavItem[] = [
   {
     label: 'Configuración',
@@ -84,6 +90,12 @@ export const CONFIG_ITEMS: NavItem[] = [
   },
 ];
 
+/**
+ * Admin route configuration.
+ *
+ * Registers the routes used by the administration section, including list and
+ * detail pages for catalogs and parameter values.
+ */
 export const ADMIN_ROUTES: Routes = [
   {
     path: 'catalogs',
@@ -138,6 +150,12 @@ export const ADMIN_ROUTES: Routes = [
   },
 ];
 
+/**
+ * Configuration route configuration.
+ *
+ * Defines the Angular routes for configuration entities such as activities,
+ * catalogs, fields, field groups, modules, and parameters.
+ */
 export const CONFIG_ROUTES: Routes = [
   {
     path: 'activities',

@@ -8,16 +8,31 @@ import { Catalog, CatalogValue } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsModule } from '@nittenapps/forms';
 import { StackMaterialModule } from '@nittenapps/material';
 
+/**
+ * Dialog used to create or edit a value in a catalog.
+ *
+ * The form combines the standard value fields with fields generated from the
+ * catalog's configured attributes.
+ */
 @Component({
-    selector: 'nas-value',
-    imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule, StackMaterialModule],
-    templateUrl: './value.component.html'
+  selector: 'nas-value',
+  imports: [MatButtonModule, MatDialogModule, ReactiveFormsModule, StackFormsModule, StackMaterialModule],
+  templateUrl: './value.component.html',
 })
 export class ValueComponent {
+  /** Catalog to which the value belongs. */
   catalog: Catalog;
+
+  /** Field definitions used to render the value form. */
   fields: StackFieldConfig[] = [];
+
+  /** Reactive form associated with the rendered fields. */
   form: FormGroup = new FormGroup({});
+
+  /** Value being edited or created. */
   model: any = {};
+
+  /** Options used when rendering the form. */
   options: StackFormOptions = {};
 
   private activityService: ActivityService<CatalogValue>;
@@ -37,10 +52,17 @@ export class ValueComponent {
     this.initFields(this.catalog.attributes || []);
   }
 
+  /** Saves the current value and closes the dialog after completion. */
   save(): void {
     this.activityService.save(this.model).subscribe((result) => this.dialog.close(this.model));
   }
 
+  /**
+   * Initializes the standard fields and the fields defined by catalog
+   * attributes.
+   *
+   * @param attributes Catalog attributes used to build dynamic fields.
+   */
   private initFields(attributes: any[]): void {
     const fields: StackFieldConfig[] = [
       {

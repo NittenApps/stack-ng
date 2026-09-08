@@ -11,8 +11,18 @@ import {
   StackMatTabsModule,
   StackMatToggleModule,
 } from '@nittenapps/material';
-import { map } from 'rxjs';
 
+/**
+ * Detail editor for field configuration metadata.
+ *
+ * This component extends the base detail form used by the configuration module
+ * and defines the editable structure for a field definition, including its basic
+ * metadata, validation rules, and display options.
+ *
+ * It configures the form fields for the main field properties and a tabbed set of
+ * definition properties, initializes a catalog value when needed, and serializes
+ * the selected catalog back to its code before saving.
+ */
 @Component({
   selector: 'nas-field-detail',
   imports: [

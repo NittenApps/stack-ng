@@ -15,22 +15,31 @@ import {
 } from '@nittenapps/material';
 import { PickListModule } from 'primeng/picklist';
 
+/**
+ * Detail view for managing an activity and its associated field groups.
+ *
+ * This component extends the base detail flow to provide the activity form,
+ * definition metadata, and a picklist-based configuration for assigning
+ * field groups to the current activity.
+ *
+ * @extends BaseDetailComponent<Activity>
+ */
 @Component({
-    selector: 'nas-activities-detail',
-    imports: [
-        CommonModule,
-        DetailToolbarComponent,
-        MatTabsModule,
-        PickListModule,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTabsModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'nas-activities-detail',
+  imports: [
+    CommonModule,
+    DetailToolbarComponent,
+    MatTabsModule,
+    PickListModule,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTabsModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent extends BaseDetailComponent<Activity> {
   definitionFields: StackFieldConfig[];
@@ -116,7 +125,7 @@ export class DetailComponent extends BaseDetailComponent<Activity> {
 
         const ids = this.targetFieldGroups.map((fieldGroup) => fieldGroup.id);
         this.sourceFieldGroups = (fieldGroups.body as ListBody<FieldGroup>).items.filter(
-          (item) => !ids.includes(item.id)
+          (item) => !ids.includes(item.id),
         );
       },
     });

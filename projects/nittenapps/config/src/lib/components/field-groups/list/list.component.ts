@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { ListComponent as StackListComponent, ListToolbarComponent, Column, Filter } from '@nittenapps/components';
+import { Column, Filter, ListToolbarComponent, ListComponent as StackListComponent } from '@nittenapps/components';
 
+/**
+ * Displays and filters the list of field groups.
+ */
 @Component({
-    selector: 'nas-field-groups-list',
-    imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
-    templateUrl: './list.component.html'
+  selector: 'nas-field-groups-list',
+  imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
+  templateUrl: './list.component.html',
 })
 export class ListComponent {
   columns: Column[];

@@ -12,21 +12,33 @@ import {
 } from '@nittenapps/material';
 import { map } from 'rxjs';
 
+/**
+ * Detail form for managing catalog parameter definitions.
+ *
+ * This component renders the editable fields for a Catalog record and configures
+ * the form metadata used by the base detail flow.
+ */
 @Component({
-    selector: 'nas-catalogs-detail',
-    imports: [
-        AsyncPipe,
-        DetailToolbarComponent,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTableModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html'
+  selector: 'nas-catalogs-detail',
+  imports: [
+    AsyncPipe,
+    DetailToolbarComponent,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTableModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseDetailComponent<Catalog> {
+  /**
+   * Builds the field configuration for the catalog detail form.
+   *
+   * @param _fieldGroups Unused group definitions available from the base detail flow.
+   * @returns The list of stack field definitions used by the form renderer.
+   */
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [
       {
@@ -93,8 +105,8 @@ export class DetailComponent extends BaseDetailComponent<Catalog> {
                 .getCatalogs()
                 .pipe(
                   map((items: Catalog[]) =>
-                    items.map((catalog) => ({ value: catalog.code, label: `${catalog.code} - ${catalog.name}` }))
-                  )
+                    items.map((catalog) => ({ value: catalog.code, label: `${catalog.code} - ${catalog.name}` })),
+                  ),
                 ),
             },
             expressions: {
