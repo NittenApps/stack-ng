@@ -1,0 +1,16 @@
+.invisible {
+  visibility: hidden;
+}
+.mat-tree-node {
+  min-height: 36px;
+}
+
+.readonly-checkbox {
+  pointer-events: none;
+}
+
+.tree-node-text {
+  padding-left: 8px;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+}
