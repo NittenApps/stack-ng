@@ -15,26 +15,33 @@ import {
 } from '@nittenapps/material';
 import { PickListModule } from 'primeng/picklist';
 
+/**
+ * Displays and edits the configuration details of a module, including its
+ * definition fields and associated activities.
+ */
 @Component({
-    selector: 'nas-activities-detail',
-    imports: [
-        CommonModule,
-        DetailToolbarComponent,
-        MatTabsModule,
-        PickListModule,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTabsModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'nas-activities-detail',
+  imports: [
+    CommonModule,
+    DetailToolbarComponent,
+    MatTabsModule,
+    PickListModule,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTabsModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent extends BaseDetailComponent<Module> {
+  /** Fields used to edit the module definition. */
   definitionFields: StackFieldConfig[];
+  /** Activities available for selection in the source list. */
   sourceActivities: Activity[] = [];
+  /** Activities currently associated with the module. */
   targetActivities: Activity[] = [];
 
   constructor() {
@@ -56,10 +63,12 @@ export class DetailComponent extends BaseDetailComponent<Module> {
     ];
   }
 
+  /** Returns the stable identifier used to track an activity in the view. */
   trackBy(_index: number, item: Activity): any {
     return item.id;
   }
 
+  /** Builds the fields used to edit the module's general configuration. */
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {
     return [
       {
@@ -103,10 +112,12 @@ export class DetailComponent extends BaseDetailComponent<Module> {
     ];
   }
 
+  /** Returns the activity key used to load module configuration data. */
   protected override getActivity(): string {
     return 'configModules';
   }
 
+  /** Loads the module activities and separates selected from available items. */
   protected override initModel(data: Data): void {
     super.initModel(data);
 
@@ -120,6 +131,7 @@ export class DetailComponent extends BaseDetailComponent<Module> {
     });
   }
 
+  /** Adds the selected activities to the value submitted by the form. */
   protected override prepareValue(): any {
     const value = super.prepareValue();
     value.activities = this.targetActivities;

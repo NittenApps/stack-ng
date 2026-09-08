@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Type, ViewChild } from '@angular/core';
-import { FieldType, StackFieldProps } from '../form-field';
-import { FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
+import { FieldType, StackFieldProps } from '../form-field';
 
 interface ToggleProps extends StackFieldProps {
   labelPosition?: 'before' | 'after';

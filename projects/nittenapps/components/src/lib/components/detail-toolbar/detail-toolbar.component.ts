@@ -8,18 +8,24 @@ import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fo
 import { faFloppyDisk } from '@fortawesome/pro-duotone-svg-icons';
 import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons';
 
+/**
+ * Provides navigation, save, and projected action controls for a detail view.
+ *
+ * The toolbar navigates to the parent route when the back action is triggered
+ * and emits a save event when saving is allowed and requested by its template.
+ */
 @Component({
-    selector: 'nas-detail-toolbar',
-    imports: [
-        FaDuotoneIconComponent,
-        FaIconComponent,
-        MatButtonModule,
-        MatToolbarModule,
-        MatTooltipModule,
-        NgTemplateOutlet,
-    ],
-    templateUrl: './detail-toolbar.component.html',
-    styleUrl: './detail-toolbar.component.scss'
+  selector: 'nas-detail-toolbar',
+  imports: [
+    FaDuotoneIconComponent,
+    FaIconComponent,
+    MatButtonModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    NgTemplateOutlet,
+  ],
+  templateUrl: './detail-toolbar.component.html',
+  styleUrl: './detail-toolbar.component.scss',
 })
 export class DetailToolbarComponent {
   readonly faArrowLeft = faArrowLeft;
@@ -33,7 +39,10 @@ export class DetailToolbarComponent {
 
   @Output() save = new EventEmitter<void>();
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   _back(): void {
     this.router.navigate(['..'], { relativeTo: this.route });

@@ -1,0 +1,37 @@
+<div class="flex flex-col gap-4 p-4">
+  @if (treeData().length > 0) {
+  <mat-tree [dataSource]="treeData()" [childrenAccessor]="childrenAccessor" #tree="matTree" class="mt-2">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+      <button mat-icon-button disabled class="invisible"></button>
+      @if (node.selectable) {
+      <mat-checkbox [checked]="checklistSelection.isSelected(node)"
+        (click)="node.disabled ? $event.preventDefault() : null"
+        (keydown.space)="node.disabled ? $event.preventDefault() : null" (change)="!node.disabled && toggleNode(node)"
+        [class.readonly-checkbox]="node.disabled">
+        {{ node.label }}
+      </mat-checkbox>
+      } @else {
+      <span class="tree-node-text">{{ node.label }}</span>
+      }
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.label">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+      @if (node.selectable) {
+      <mat-checkbox [checked]="descendantsAllSelected(node)" [indeterminate]="descendantsPartiallySelected(node)"
+        (click)="node.disabled ? $event.preventDefault() : null"
+        (keydown.space)="node.disabled ? $event.preventDefault() : null"
+        (change)="!node.disabled && toggleParentNode(node)" [class.readonly-checkbox]="node.disabled">
+        {{ node.label }}
+      </mat-checkbox>
+      } @else {
+      <span class="tree-node-text">{{ node.label }}</span>
+      }
+    </mat-tree-node>
+  </mat-tree>
+  }
+</div>

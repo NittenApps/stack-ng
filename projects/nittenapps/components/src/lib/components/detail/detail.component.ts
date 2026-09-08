@@ -7,6 +7,18 @@ import { DirtyAware, Field, FieldGroup } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsHookConfig } from '@nittenapps/forms';
 import { distinctUntilChanged, filter, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
 
+/**
+ * Base component for detail pages that load, edit, and persist a single domain model.
+ *
+ * Subclasses are expected to define the field configuration, form options, and the
+ * activity metadata used by the detail workflow. The class coordinates route data,
+ * model initialization, dirty tracking, and save flow for Angular forms.
+ *
+ * @template T The domain type managed by the detail form.
+ * @implements {AfterViewInit}
+ * @implements {DirtyAware}
+ * @implements {OnInit}
+ */
 @Component({
   template: '',
   standalone: false,

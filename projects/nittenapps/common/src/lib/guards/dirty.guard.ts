@@ -6,6 +6,18 @@ import { lastValueFrom } from 'rxjs';
 import { ConfirmDialog } from '../dialogs';
 import { DirtyAware } from '../types';
 
+/**
+ * Prevents navigation away from the current route when the component has unsaved data.
+ *
+ * If the component is considered dirty, a confirmation dialog is displayed. When the user
+ * cancels the action, the previous URL is restored; otherwise the navigation continues.
+ *
+ * @param component The component instance implementing the DirtyAware contract.
+ * @param _route The route being deactivated.
+ * @param state The current router state before navigation.
+ * @param _nextState The target router state after navigation.
+ * @returns A promise resolving to true when navigation is allowed, or false when it is cancelled.
+ */
 export const dirtyGuard: CanDeactivateFn<DirtyAware> = async (component, _route, state, _nextState) => {
   if (!component.isDirty()) {
     return true;

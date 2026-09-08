@@ -1,0 +1,155 @@
+<table mat-table #masterTable [dataSource]="dataSource" multiTemplateDataRows>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef style="width: 40px">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      @if (showDetailIf()(element)) {
+      <button mat-icon-button type="button" (click)="toggleRow(element, $event)">
+        <mat-icon>{{ isExpanded(element) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+      </button>
+      }
+    </td>
+  </ng-container>
+
+  @for (col of masterColumns(); track col.key) {
+  <ng-container [matColumnDef]="col.key">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="{number: col.type === 'number'}">{{ col.label }}</th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{number: col.type === 'number'}">
+      @if (col.type === 'number') {
+      {{ (col.transform ? col.transform(element) : element[col.key]) | number: col.format || '1.2-2' }}
+      } @else {
+      {{ col.transform ? col.transform(element) : element[col.key] }}
+      }
+    </td>
+  </ng-container>
+  }
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef style="width: 100px; text-align: right"></th>
+    <td mat-cell *matCellDef="let element; let i = dataIndex" style="text-align: right !important">
+      <div class="flex flex-row justify-end items-center whitespace-nowrap">
+        @if (props['onEditMaster'] && (!props['canEditMaster'] || props['canEditMaster'](element))) {
+        <button mat-icon-button type="button" color="primary" (click)="onEditMaster(i, element)" matTooltip="Editar">
+          <mat-icon>edit</mat-icon>
+        </button>
+        }
+        @if (props['onCancelMaster'] && (!props['canCancelMaster'] || props['canCancelMaster'](element))) {
+        <button mat-icon-button type="button" color="warn" (click)="onCancelMaster(i, element)" matTooltip="Cancelar">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        }
+        @if (props['onDeleteMaster'] && (!props['canDeleteMaster'] || props['canDeleteMaster'](element))) {
+        <button mat-icon-button type="button" color="warn" (click)="onDeleteMaster(i)" matTooltip="Eliminar">
+          <mat-icon>delete</mat-icon>
+        </button>
+        }
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let masterElement; let mIndex = dataIndex"
+      [attr.colspan]="masterDisplayedColumns().length">
+
+      <div class="detail-transition-wrapper" [class.expanded]="isExpanded(masterElement)">
+        <div class="detail-content">
+
+          <div class="detail-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <h4 style="margin:0">{{ detailLabel() }}</h4>
+              @if (props['onAddDetail'] && (!props['canAddDetail'] || props['canAddDetail'](masterElement))) {
+              @if (addDetailMenu()) {
+              <button mat-button type="button" color="primary" [matMenuTriggerFor]="detailMenu"
+                [matMenuTriggerData]="{mIndex}">
+                <mat-icon>add</mat-icon>{{ addDetailLabel() }}
+              </button>
+              } @else {
+              <button mat-button type="button" color="primary" (click)="onAddDetail(mIndex)">
+                <mat-icon>add</mat-icon>{{ addDetailLabel() }}
+              </button>
+              }
+              }
+            </div>
+
+            @if (masterElement[detailKey()]?.length > 0) {
+            <table mat-table [dataSource]="getDetailDataSource(mIndex)" class="">
+
+              @for (dCol of detailColumns(); track dCol.key) {
+              <ng-container [matColumnDef]="dCol.key">
+                <th mat-header-cell *matHeaderCellDef [ngClass]="{number: dCol.type === 'number'}">{{ dCol.label }}</th>
+                <td mat-cell *matCellDef="let detailElement" [ngClass]="{number: dCol.type === 'number'}">
+                  @if (dCol.type === 'number') {
+                  {{ (dCol.transform ? dCol.transform(detailElement) : detailElement[dCol.key]) | number: dCol.format ||
+                  '1.2-2' }}
+                  } @else {
+                  {{ dCol.transform ? dCol.transform(detailElement) : detailElement[dCol.key] }}
+                  }
+                </td>
+              </ng-container>
+              }
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef style="text-align: right"></th>
+                <td mat-cell *matCellDef="let detailElement; let dIndex = index" style="text-align: right !important">
+                  @if (props['onEditDetail'] && (!props['canEditDetail'] || props['canEditDetail'](detailElement))) {
+                  <button mat-icon-button type="button" color="primary"
+                    (click)="onEditDetail(mIndex, dIndex, detailElement)" matTooltip="Editar">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  }
+                  @if (props['onCancelDetail'] && (!props['canCancelDetail'] ||
+                  props['canCancelDetail'](detailElement))) {
+                  <button mat-icon-button type="button" color="warn"
+                    (click)="onCancelDetail(mIndex, dIndex, detailElement)" matTooltip="Cancelar">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                  }
+                  @if (props['onDeleteDetail'] && (!props['canDeleteDetail'] ||
+                  props['canDeleteDetail'](detailElement))) {
+                  <button mat-icon-button type="button" color="warn" (click)="onDeleteDetail(mIndex, dIndex)"
+                    matTooltip="Eliminar">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  }
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="detailDisplayedColumns()"></tr>
+              <tr mat-row *matRowDef="let detailElement; columns: detailDisplayedColumns();"
+                [ngClass]="detailRowClass()(detailElement)"></tr>
+            </table>
+            } @else {
+            <p style="color: gray; font-style: italic; margin-top: 16px;">
+              No hay registros
+            </p>
+            }
+          </div>
+
+        </div>
+      </div>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="masterDisplayedColumns()"></tr>
+  <tr mat-row *matRowDef="let element; columns: masterDisplayedColumns();" class="element-row"
+    [ngClass]="masterRowClass()(element)"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+</table>
+
+@if (props['onAddMaster'] && (!props['canAddMaster'] || props['canAddMaster']())) {
+<div class="d-flex justify-content-end" style="padding: 8px 4px;">
+  <button (click)="onAddMaster()" color="primary" mat-fab matTooltip="Agregar" type="button" aria-label="Agregar">
+    <fa-icon [icon]="faPlus"></fa-icon>
+  </button>
+</div>
+}
+
+<mat-menu #detailMenu="matMenu">
+  <ng-template matMenuContent let-mIndex="mIndex">
+    @for (option of addDetailMenu(); track option.value) {
+    <button mat-menu-item (click)="onAddDetail(mIndex, option.value)">
+      <span>{{ option.label }}</span>
+    </button>
+    }
+  </ng-template>
+</mat-menu>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { StackFieldDatepicker } from './datepicker.type';
-import { CommonModule } from '@nittenapps/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@nittenapps/common';
 import { StackFormsModule } from '@nittenapps/forms';
 import { StackMatFormFieldModule } from '../form-field';
+import { StackFieldDatepicker } from './datepicker.type';
 
 @NgModule({
   declarations: [StackFieldDatepicker],

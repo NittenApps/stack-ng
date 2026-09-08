@@ -15,22 +15,30 @@ import {
 } from '@nittenapps/material';
 import { PickListModule } from 'primeng/picklist';
 
+/**
+ * Detail view for configuring a field group.
+ *
+ * This component manages the definition data for a field group and lets the user
+ * select which available fields belong to the group. It extends the base detail
+ * flow with custom field configuration, dirty-state handling, and payload
+ * preparation for the API request.
+ */
 @Component({
-    selector: 'nas-field-groups-detail',
-    imports: [
-        CommonModule,
-        DetailToolbarComponent,
-        MatTabsModule,
-        PickListModule,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTabsModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'nas-field-groups-detail',
+  imports: [
+    CommonModule,
+    DetailToolbarComponent,
+    MatTabsModule,
+    PickListModule,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTabsModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent extends BaseDetailComponent<FieldGroup> {
   definitionFields: StackFieldConfig[];

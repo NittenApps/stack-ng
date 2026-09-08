@@ -459,7 +459,7 @@ describe('Service: StackFormsJsonSchema', () => {
           uniqueItemsValidator([
             { a: 2, b: 1 },
             { b: 1, a: 2 },
-          ])
+          ]),
         ).toBeFalse();
 
         expect(uniqueItemsValidator([{ foo: { a: 2, b: 1 } }, { foo: { b: 1, a: 2 } }])).toBeFalse();
@@ -589,7 +589,7 @@ describe('Service: StackFormsJsonSchema', () => {
                 }
               }
             }
-          }`)
+          }`),
           );
           const childField = field.fieldGroup?.[0];
 
@@ -1986,10 +1986,10 @@ describe('Service: StackFormsJsonSchema', () => {
   selector: 'nas-form-array-type',
   template: `
     @for (field of field.fieldGroup; track field; let i = $index) {
-    <div>
-      <nas-form-group [field]="field"></nas-form-group>
-      <button [id]="'remove-' + i" type="button" (click)="remove(i)">Remove</button>
-    </div>
+      <div>
+        <nas-form-group [field]="field"></nas-form-group>
+        <button [id]="'remove-' + i" type="button" (click)="remove(i)">Remove</button>
+      </div>
     }
     <button id="add" type="button" (click)="add()">Add</button>
   `,

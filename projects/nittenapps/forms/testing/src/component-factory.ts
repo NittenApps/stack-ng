@@ -2,9 +2,9 @@ import { Component, DebugElement, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { StackFormsModule } from '../../src/lib/forms.module';
 import { StackFormBuilder } from '../../src/lib/services';
 import { ConfigOption, StackFieldConfig } from '../../src/lib/types';
-import { StackFormsModule } from '../../src/lib/forms.module';
 
 interface IComponentOptions<T> extends NgModule {
   template?: string;
@@ -57,7 +57,7 @@ export function createComponent<T>({
 
   type FixtureUtils = T & {
     fixture: ComponentFixture<T>;
-    detectChanges: typeof fixture['detectChanges'];
+    detectChanges: (typeof fixture)['detectChanges'];
     setInputs: (inputs: Partial<T>) => void;
     query: <E extends Element = Element>(selector: string) => IStackDebugElement<E>;
     queryAll: <E extends Element = Element>(selector: string) => IStackDebugElement<E>;
@@ -82,7 +82,7 @@ export function createComponent<T>({
 
 export function createFieldComponent(
   field: StackFieldConfig | null,
-  config: IComponentOptions<{ field: StackFieldConfig }> = {}
+  config: IComponentOptions<{ field: StackFieldConfig }> = {},
 ) {
   const model = field?.model || {};
   const options = field?.options || {};
@@ -113,10 +113,10 @@ export function createFieldComponent(
 }
 
 @Component({
-    selector: 'nas-form-test-component',
-    template: '',
-    providers: [StackFormBuilder],
-    standalone: false
+  selector: 'nas-form-test-component',
+  template: '',
+  providers: [StackFormBuilder],
+  standalone: false,
 })
 class TestComponent {
   constructor(public builder?: StackFormBuilder) {}

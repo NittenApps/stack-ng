@@ -3,6 +3,13 @@ import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnDestroy, R
 import { NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
+/**
+ * Forces the value of a bound Angular form control to lowercase when enabled.
+ *
+ * This directive is intended for text inputs managed through `NgControl`. When
+ * active, it adds the `lowercase` CSS class to the host element and normalizes
+ * the current value on initialization and whenever the host element loses focus.
+ */
 @Directive({
   selector: '[lowercase]',
   standalone: true,
@@ -19,7 +26,11 @@ export class LowercaseDirective implements AfterViewInit, OnDestroy {
   private _apply = true;
   private destroy$ = new Subject<void>();
 
-  constructor(private element: ElementRef, @Self() private ngControl: NgControl, private renderer: Renderer2) {}
+  constructor(
+    private element: ElementRef,
+    @Self() private ngControl: NgControl,
+    private renderer: Renderer2,
+  ) {}
 
   ngAfterViewInit(): void {
     if (!this._apply) {

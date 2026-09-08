@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { StackFormsModule } from '@nittenapps/forms';
 import { StackFieldTabs } from './tabs.type';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [StackFieldTabs],

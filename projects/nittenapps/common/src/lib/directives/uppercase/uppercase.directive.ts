@@ -3,6 +3,17 @@ import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnDestroy, R
 import { NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
+/**
+ * Directive that automatically uppercases the value of an Angular form control.
+ *
+ * The directive can be applied to any form field bound to a `NgControl` and will
+ * normalize the model value to uppercase when the view initializes and whenever the
+ * input loses focus. It also adds the `uppercase` CSS class to the host element
+ * while enabled.
+ *
+ * @example
+ * <input [formControl]="nameControl" uppercase>
+ */
 @Directive({
   selector: '[uppercase]',
   standalone: true,
@@ -18,7 +29,11 @@ export class UppercaseDirective implements AfterViewInit, OnDestroy {
   private _apply = true;
   private destroy$ = new Subject<void>();
 
-  constructor(private element: ElementRef, @Self() private ngControl: NgControl, private renderer: Renderer2) {}
+  constructor(
+    private element: ElementRef,
+    @Self() private ngControl: NgControl,
+    private renderer: Renderer2,
+  ) {}
 
   ngAfterViewInit(): void {
     if (!this._apply) {

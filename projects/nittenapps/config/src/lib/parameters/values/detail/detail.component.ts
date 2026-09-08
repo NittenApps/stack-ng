@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Catalog, FieldGroup } from '@nittenapps/common';
+import { FieldGroup } from '@nittenapps/common';
 import { BaseDetailComponent, DetailToolbarComponent } from '@nittenapps/components';
 import { StackFieldConfig, StackFormsModule } from '@nittenapps/forms';
 import {
@@ -11,19 +11,24 @@ import {
   StackMatToggleModule,
 } from '@nittenapps/material';
 
+/**
+ * Displays and configures the detail form for a parameter value.
+ *
+ * The editable value field is selected according to the parameter type.
+ */
 @Component({
-    selector: 'nas-catalogs-detail',
-    imports: [
-        AsyncPipe,
-        DetailToolbarComponent,
-        ReactiveFormsModule,
-        StackFormsModule,
-        StackMatInputModule,
-        StackMatSelectModule,
-        StackMatTableModule,
-        StackMatToggleModule,
-    ],
-    templateUrl: './detail.component.html'
+  selector: 'nas-catalogs-detail',
+  imports: [
+    AsyncPipe,
+    DetailToolbarComponent,
+    ReactiveFormsModule,
+    StackFormsModule,
+    StackMatInputModule,
+    StackMatSelectModule,
+    StackMatTableModule,
+    StackMatToggleModule,
+  ],
+  templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseDetailComponent<any> {
   protected override configFields(_fieldGroups: FieldGroup[]): StackFieldConfig[] {

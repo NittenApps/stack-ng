@@ -16,6 +16,10 @@ import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/route
 import { tap } from 'rxjs';
 import { LoadingService } from '../../services';
 
+/**
+ * Displays the application's loading indicator and optionally tracks lazy
+ * route configuration loading.
+ */
 @Component({
   selector: 'nas-loading-indicator',
   imports: [MatProgressSpinnerModule, NgTemplateOutlet],
@@ -24,7 +28,10 @@ import { LoadingService } from '../../services';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoadingIndicatorComponent implements OnDestroy, OnInit {
+  /** Whether to show the indicator while route configurations are loading. */
   @Input() detectRouteTransitions = false;
+
+  /** Custom loading-indicator template projected into the component. */
   @ContentChild('loading') customLoadingIndicator: TemplateRef<any> | null = null;
 
   constructor(
@@ -34,6 +41,7 @@ export class LoadingIndicatorComponent implements OnDestroy, OnInit {
     private router: Router,
   ) {}
 
+  /** Moves the component under the document body and subscribes to router events when enabled. */
   ngOnInit(): void {
     // Moves the entire component element directly under <body> when it initializes
     this.document.body.appendChild(this.el.nativeElement);
@@ -53,6 +61,7 @@ export class LoadingIndicatorComponent implements OnDestroy, OnInit {
     }
   }
 
+  /** Removes the component element from its parent when the component is destroyed. */
   ngOnDestroy(): void {
     if (this.el.nativeElement.parentNode) {
       this.el.nativeElement.parentNode.removeChild(this.el.nativeElement);

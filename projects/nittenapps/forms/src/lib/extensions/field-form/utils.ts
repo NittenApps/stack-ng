@@ -27,7 +27,7 @@ export function findControl(field: StackFieldConfigCache): AbstractControl | nul
 export function registerControl(
   field: StackFieldConfigCache,
   control?: StackFieldConfigCache['formControl'],
-  emitEvent = false
+  emitEvent = false,
 ): void {
   control = control || field.formControl;
 

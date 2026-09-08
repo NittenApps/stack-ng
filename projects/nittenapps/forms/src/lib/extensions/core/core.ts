@@ -83,7 +83,7 @@ export class CoreExtension implements StackFormsExtension {
         new Proxy({} as StackFormsExtension, {
           get: (_, prop) => componentRefInstance()?.[prop],
           set: (_, prop, value) => (componentRefInstance()[prop] = value),
-        })
+        }),
       );
     }
 

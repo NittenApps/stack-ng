@@ -5,8 +5,10 @@ import { FieldType as CoreFieldType, StackFieldConfig, ɵobserve as observe } fr
 import { Subject } from 'rxjs';
 
 @Directive()
-export abstract class FieldType<F extends StackFieldConfig> extends CoreFieldType<F>
-  implements OnDestroy, MatFormFieldControl<any> {
+export abstract class FieldType<F extends StackFieldConfig>
+  extends CoreFieldType<F>
+  implements OnDestroy, MatFormFieldControl<any>
+{
   @ViewChild('matPrefix') set matPrefix(prefix: TemplateRef<any>) {
     if (prefix) {
       this.props['prefix'] = prefix;
@@ -140,8 +142,8 @@ export abstract class FieldType<F extends StackFieldConfig> extends CoreFieldTyp
             currentValue &&
             Promise.resolve().then(() => {
               this.options?.detectChanges!(this.field);
-            })
-        )
+            }),
+        ),
       );
 
       // https://github.com/angular/components/issues/16209

@@ -5,6 +5,13 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { GoogleMapsService } from '../../services';
 import { PlaceAutocompleteComponent } from '../place-autocomplete/place-autocomplete.component';
 
+/**
+ * Component used to select and edit an address on a Google Map.
+ *
+ * It displays a map centered on a provided location, supports dragging the marker
+ * to update the selected address, and allows the user to choose a place from the
+ * autocomplete control.
+ */
 @Component({
   selector: 'nas-select-address',
   imports: [GoogleMapsModule, MatButtonModule, MatDialogModule, PlaceAutocompleteComponent],

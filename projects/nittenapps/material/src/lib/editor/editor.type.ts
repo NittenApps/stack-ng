@@ -1,7 +1,6 @@
-import { Component, Type, ViewChild } from '@angular/core';
-import { FieldType, StackFieldProps } from '../form-field';
+import { Component, Type } from '@angular/core';
 import { FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
-import { QuillEditorComponent } from 'ngx-quill';
+import { FieldType, StackFieldProps } from '../form-field';
 
 interface EditorProps extends StackFieldProps {}
 

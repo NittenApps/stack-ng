@@ -5,6 +5,14 @@ import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
 import { Catalog } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
 
+/**
+ * Resolves a catalog by route id, or creates a temporary active catalog when
+ * creating a new one.
+ *
+ * @param route The activated route snapshot containing the catalog id.
+ * @returns The resolved catalog object, or an observable that completes after
+ * redirecting when the catalog does not exist.
+ */
 export const catalogResolver: ResolveFn<Catalog> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const id = route.paramMap.get('id')!;
@@ -24,6 +32,6 @@ export const catalogResolver: ResolveFn<Catalog> = (route: ActivatedRouteSnapsho
       }
       router.navigate(['..']);
       return EMPTY;
-    })
+    }),
   );
 };

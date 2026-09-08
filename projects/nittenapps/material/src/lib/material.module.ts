@@ -4,6 +4,7 @@ import { StackMatAutocompleteModule } from './autocomplete';
 import { StackMatButtonModule } from './button';
 import { StackMatDatepickerModule } from './datepicker';
 import { StackMatDatetimepickerModule } from './datetimepicker';
+import { StackMatDynamicTableModule } from './master-detail-table';
 import { StackMatEditorModule } from './editor';
 import { StackMatFileModule } from './file';
 import { StackMatFormFieldModule } from './form-field';
@@ -14,6 +15,7 @@ import { StackMatSelectModule } from './select';
 import { StackMatToggleModule } from './slide-toogle';
 import { StackMatTableModule } from './table';
 import { StackMatTabsModule } from './tabs';
+import { StackMatTreeModule } from './tree';
 
 @NgModule({
   imports: [
@@ -22,6 +24,7 @@ import { StackMatTabsModule } from './tabs';
     StackMatButtonModule,
     StackMatDatepickerModule,
     StackMatDatetimepickerModule,
+    StackMatDynamicTableModule,
     StackMatEditorModule,
     StackMatFileModule,
     StackMatFormFieldModule,
@@ -32,6 +35,7 @@ import { StackMatTabsModule } from './tabs';
     StackMatTableModule,
     StackMatTabsModule,
     StackMatToggleModule,
+    StackMatTreeModule,
   ],
 })
 export class StackMaterialModule {}

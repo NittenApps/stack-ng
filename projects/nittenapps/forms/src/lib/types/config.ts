@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { StackFieldConfig } from './field-config';
 import { FieldType, FieldWrapper } from '../directives';
+import { StackFieldConfig } from './field-config';
 
 export interface ConfigOption {
   types?: TypeOption[];
@@ -58,7 +58,7 @@ export interface ExtensionOption {
 export type FieldValidatorFn = (
   c: AbstractControl,
   field: StackFieldConfig,
-  options?: { [id: string]: any }
+  options?: { [id: string]: any },
 ) => ValidationErrors | null;
 
 export interface PresetOption {

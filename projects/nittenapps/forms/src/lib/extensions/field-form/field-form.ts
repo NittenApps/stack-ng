@@ -6,10 +6,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { of } from 'rxjs';
 import { StackFieldConfigCache, StackFormsExtension } from '../../types';
 import { defineHiddenProp, getFieldValue, getKeyPath, hasKey } from '../../utils';
 import { findControl, registerControl, updateValidity } from './utils';
-import { of } from 'rxjs';
 
 export class FieldFormExtension implements StackFormsExtension {
   private root: StackFieldConfigCache | null = null;
@@ -68,7 +68,7 @@ export class FieldFormExtension implements StackFormsExtension {
         const value = hasKey(field) ? getFieldValue(field) : field.defaultValue;
         control = new FormControl(
           { value, disabled: !!field.props?.disabled },
-          { ...controlOptions, initialValueIsDefault: true }
+          { ...controlOptions, initialValueIsDefault: true },
         );
       }
     } else {

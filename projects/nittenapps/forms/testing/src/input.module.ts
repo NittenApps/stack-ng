@@ -17,7 +17,7 @@ export class StackFieldInput extends FieldType<FieldTypeConfig> {}
     <label [attr.for]="id">{{ props.label }}</label>
     <ng-template #fieldComponent></ng-template>
     @if (showError) {
-    <nas-validation-message [field]="field" />
+      <nas-validation-message [field]="field" />
     }
   `,
   standalone: false,

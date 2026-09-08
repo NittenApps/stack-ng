@@ -68,7 +68,7 @@ export class StackMatTable extends FieldArrayType<TableConfig> implements OnInit
           (!['_edit', '_cancel', '_delete'].includes(f.key) && f.hidden !== true) ||
           (f.key === '_edit' && this.props.editable) ||
           (f.key === '_cancel' && this.props.cancelable) ||
-          (f.key === '_delete' && this.props.removable)
+          (f.key === '_delete' && this.props.removable),
       )
       .map((f) => f.key);
     return this._displayedColumns;

@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { CommonModule } from '@angular/common';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { FormArray, FormGroup } from '@angular/forms';
 import { createComponent, StackInputModule, ɵCustomEvent } from '@nittenapps/forms/testing';
@@ -185,7 +184,7 @@ describe('StackForm Component', () => {
         },
         {
           template: '<nas-form [form]="form" [fields]="fields" [model]="model" (modelChange)="model = $event" />',
-        }
+        },
       );
 
       form?.get('test')?.setValue('1');
@@ -310,7 +309,7 @@ describe('StackForm Component', () => {
             },
           ],
         },
-        { extras: { checkExpressionOn: 'modelChange' } }
+        { extras: { checkExpressionOn: 'modelChange' } },
       );
 
       const app = fixture.componentInstance;
@@ -359,7 +358,7 @@ describe('StackForm Component', () => {
             },
           ],
         },
-        { extras: { checkExpressionOn: 'modelChange' } }
+        { extras: { checkExpressionOn: 'modelChange' } },
       );
 
       form?.reset();
@@ -438,7 +437,7 @@ describe('StackForm Component', () => {
         },
         {
           extras: { checkExpressionOn: 'modelChange' },
-        }
+        },
       );
 
       model.title = '***';
@@ -454,7 +453,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'foo', type: 'input' }],
         },
-        { extras: { immutable: true } }
+        { extras: { immutable: true } },
       );
 
       expect(query(STACK_FORM_SELECTOR)).not.toBeNull();
@@ -466,7 +465,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'city', defaultValue: 'test' }],
         },
-        { extras: { immutable: true } }
+        { extras: { immutable: true } },
       );
 
       expect(options).toEqual({});
@@ -479,7 +478,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'title', type: 'input' }],
         },
-        { extras: { immutable: true } }
+        { extras: { immutable: true } },
       );
 
       const app = fixture.componentInstance;
@@ -498,7 +497,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'title', type: 'input' }],
         },
-        { extras: { immutable: true } }
+        { extras: { immutable: true } },
       );
 
       let titleField!: StackFieldConfig;
@@ -520,7 +519,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'foo', defaultValue: 'test' }],
         },
-        { extras: { resetFieldOnHide: true } }
+        { extras: { resetFieldOnHide: true } },
       );
 
       expect(model).toEqual({ foo: 'test' });
@@ -531,7 +530,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'foo', defaultValue: 'test', hide: true }],
         },
-        { extras: { resetFieldOnHide: true } }
+        { extras: { resetFieldOnHide: true } },
       );
 
       expect(model).toEqual({});
@@ -542,7 +541,7 @@ describe('StackForm Component', () => {
         {
           fields: [{ key: 'foo', defaultValue: 'test' }],
         },
-        { extras: { resetFieldOnHide: true } }
+        { extras: { resetFieldOnHide: true } },
       );
 
       fields![0].hide = true;
@@ -564,7 +563,7 @@ describe('StackForm Component', () => {
             { key: 'bar', defaultValue: undefined },
           ],
         },
-        { extras: { resetFieldOnHide: true } }
+        { extras: { resetFieldOnHide: true } },
       );
 
       expect(model).toEqual({ foo: null });
@@ -580,7 +579,7 @@ describe('StackForm Component', () => {
             },
           ],
         },
-        { extras: { resetFieldOnHide: true } }
+        { extras: { resetFieldOnHide: true } },
       );
 
       fields![0].hide = true;
@@ -667,7 +666,7 @@ describe('StackForm Component', () => {
               </ng-template>
             </nas-form>
           `,
-        }
+        },
       );
 
       expect(query('#inline-type')).not.toBeNull();
@@ -687,7 +686,7 @@ describe('StackForm Component', () => {
               </ng-template>
             </nas-form>
           `,
-        }
+        },
       );
 
       expect(query('#inline-input')).not.toBeNull();
@@ -713,7 +712,7 @@ describe('StackForm Component', () => {
               </ng-template>
             </nas-form>
           `,
-        }
+        },
       );
 
       expect(queryAll('.inline-group')).toHaveLength(3);
@@ -732,7 +731,7 @@ describe('StackForm Component', () => {
           },
         ],
       },
-      { extras: { checkExpressionOn: 'modelChange' } }
+      { extras: { checkExpressionOn: 'modelChange' } },
     );
 
     expect(fields?.[0].hide).toBeFalse();
@@ -757,7 +756,7 @@ describe('StackForm Component', () => {
           },
         ],
       },
-      { extras: { immutable: true } }
+      { extras: { immutable: true } },
     );
 
     const input = query('input');
@@ -812,7 +811,7 @@ describe('StackForm Component', () => {
             <button type="submit" [disabled]="!form.valid">Submit</button>
           </form>
         `,
-      }
+      },
     );
 
     fields?.[0].fieldGroup?.push({ key: 'foo', type: 'input', props: { required: true } });

@@ -1,9 +1,9 @@
 import { Directive } from '@angular/core';
 import { FormArray } from '@angular/forms';
-import { StackFieldConfig, StackFieldConfigCache, StackFormsExtension } from '../types';
-import { FieldType } from './field-type.directive';
-import { assignFieldValue, clone, getFieldValue, hasKey } from '../utils';
 import { findControl, registerControl, unregisterControl } from '../extensions/field-form/utils';
+import { StackFieldConfig, StackFieldConfigCache, StackFormsExtension } from '../types';
+import { assignFieldValue, clone, getFieldValue, hasKey } from '../utils';
+import { FieldType } from './field-type.directive';
 
 export interface FieldArrayTypeConfig<T = StackFieldConfig['props']> extends StackFieldConfig<T> {
   formControl: FormArray;

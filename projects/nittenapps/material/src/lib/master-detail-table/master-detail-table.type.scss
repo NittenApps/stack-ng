@@ -1,0 +1,48 @@
+tr.detail-row {
+  height: 0;
+
+  td {
+    border-bottom-width: 0;
+    padding: 0;
+  }
+}
+
+.detail-transition-wrapper {
+  display: grid;
+  grid-template-rows: 0fr; // Estado colapsado
+  transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.expanded {
+    grid-template-rows: 1fr; // Estado expandido
+  }
+}
+
+.detail-content {
+  overflow: hidden; // Crucial para que el contenido no desborde mientras crece el Grid
+  padding: 0 16px; // El padding debe estar dentro del overflow, no en el wrapper
+}
+
+.detail-card {
+  margin: 16px 0;
+  padding: 16px;
+  background: transparent;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+
+  table {
+    th.mat-mdc-header-cell,
+    td.mat-mdc-cell {
+      padding: 0 16px !important;
+    }
+
+    th.mat-mdc-header-cell:first-of-type,
+    td.mat-mdc-cell:first-of-type {
+      padding-left: 24px !important;
+    }
+
+    th.mat-mdc-header-cell:last-of-type,
+    td.mat-mdc-cell:last-of-type {
+      padding-right: 24px !important;
+    }
+  }
+}

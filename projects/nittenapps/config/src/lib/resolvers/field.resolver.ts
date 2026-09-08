@@ -5,6 +5,14 @@ import { ActivityService, NAS_API_CONFIG } from '@nittenapps/api';
 import { Field } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
 
+/**
+ * Resolves a field from the route parameter or creates a new active field.
+ *
+ * Navigates to the parent route when an existing field cannot be found.
+ *
+ * @param route The activated route containing the field identifier.
+ * @returns The resolved field or an observable containing the existing field.
+ */
 export const fieldResolver: ResolveFn<Field> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const id = route.paramMap.get('id')!;
@@ -24,6 +32,6 @@ export const fieldResolver: ResolveFn<Field> = (route: ActivatedRouteSnapshot) =
       }
       router.navigate(['..']);
       return EMPTY;
-    })
+    }),
   );
 };

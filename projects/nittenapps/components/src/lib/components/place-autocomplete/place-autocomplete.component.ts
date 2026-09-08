@@ -11,16 +11,26 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { GoogleMapsService } from '../../services';
 import LatLng = google.maps.LatLng;
 import Place = google.maps.places.Place;
-import { GoogleMapsService } from '../../services';
 
+/**
+ * Angular component that renders a Google Places autocomplete restricted to Mexico.
+ *
+ * It binds an optional address value into the autocomplete element, renders the
+ * Google Place Autocomplete element, and emits the selected place details and
+ * coordinates when a user picks an address.
+ */
 @Component({
   selector: 'nas-place-autocomplete',
   imports: [FormsModule, MatInputModule],
   templateUrl: './place-autocomplete.component.html',
 })
 export class PlaceAutocompleteComponent implements OnInit {
+  /**
+   * The address to preload into the autocomplete field.
+   */
   address = input<string | undefined>(undefined);
   readonly addressGroupContainer = viewChild<ElementRef<HTMLDivElement>>('addressGroupContainer');
 

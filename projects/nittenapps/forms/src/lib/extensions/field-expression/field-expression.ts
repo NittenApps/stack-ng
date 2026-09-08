@@ -1,3 +1,4 @@
+import { FormArray } from '@angular/forms';
 import { isObservable, Observable, tap } from 'rxjs';
 import { StackFieldConfigCache, StackFormsExtension, StackFormValueChangeEvent } from '../../types';
 import {
@@ -11,9 +12,8 @@ import {
   isUndefined,
   observe,
 } from '../../utils';
-import { evalExpression, evalStringExpression } from './utils';
-import { FormArray } from '@angular/forms';
 import { registerControl, unregisterControl, updateValidity } from '../field-form/utils';
+import { evalExpression, evalStringExpression } from './utils';
 
 export class FieldExpressionExtension implements StackFormsExtension {
   onPopulate(field: StackFieldConfigCache) {
@@ -41,7 +41,7 @@ export class FieldExpressionExtension implements StackFormsExtension {
             tap((v) => {
               this.evalExpr(field, key, v);
               field.options?._detectChanges?.(field);
-            })
+            }),
           ),
         };
       }
@@ -258,7 +258,7 @@ export class FieldExpressionExtension implements StackFormsExtension {
           const exprValue = evalExpression(
             parentExpression ? (...args: any) => parentExpression(field) || expr(...args) : expr,
             { field },
-            [field.model, field.options?.formState, field, ignoreCache]
+            [field.model, field.options?.formState, field, ignoreCache],
           );
 
           if (

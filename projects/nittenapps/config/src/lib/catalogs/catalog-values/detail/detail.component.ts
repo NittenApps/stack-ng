@@ -16,25 +16,31 @@ import { ActivityService, ListBody, NAS_API_CONFIG } from '@nittenapps/api';
 import { Catalog, CatalogValue } from '@nittenapps/common';
 import { DetailToolbarComponent, Filter } from '@nittenapps/components';
 import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rxjs';
-
 import { ValueComponent } from '../../value/value.component';
 
+/**
+ * Displays and manages the catalog values for a selected catalog.
+ *
+ * The component loads paginated and sortable catalog value records, supports
+ * filtering by code and name, and opens the value editor dialog for creation or
+ * updates. It also refreshes the list when a value is added or edited.
+ */
 @Component({
-    selector: 'nas-catalog-values-detail',
-    imports: [
-        DatePipe,
-        DetailToolbarComponent,
-        FaDuotoneIconComponent,
-        FormsModule,
-        MatButtonModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        MatTooltipModule,
-    ],
-    templateUrl: './detail.component.html',
-    styleUrl: './detail.component.scss'
+  selector: 'nas-catalog-values-detail',
+  imports: [
+    DatePipe,
+    DetailToolbarComponent,
+    FaDuotoneIconComponent,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule,
+  ],
+  templateUrl: './detail.component.html',
+  styleUrl: './detail.component.scss',
 })
 export class DetailComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -91,14 +97,14 @@ export class DetailComponent implements AfterViewInit, OnInit {
               this.sort.direction,
               this.paginator.pageIndex,
               this.paginator.pageSize,
-              this.filter
+              this.filter,
             )
             .pipe(catchError(() => of({ total: 0, items: [] })));
         }),
         map((data) => {
           this.totalItems = data.total;
           return data.items;
-        })
+        }),
       )
       .subscribe((data) => (this.data = data));
   }
@@ -153,7 +159,7 @@ class CatalogValueDatabase {
     order: SortDirection,
     page: number,
     pageSize: number,
-    filter?: Filter
+    filter?: Filter,
   ): Observable<ListBody<CatalogValue>> {
     return this.activityService
       .get<CatalogValue>('getValues', { catalogId, page, pageSize, sort: `${sort} ${order}`, ...filter })
