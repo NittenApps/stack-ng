@@ -1,6 +1,6 @@
 import { DATE_PIPE_DEFAULT_OPTIONS, DatePipeConfig, formatDate } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, LOCALE_ID, Optional, Type } from '@angular/core';
-import { FieldTypeConfig, StackFieldConfig, StackFieldProps as CoreStackFieldProps } from '@nittenapps/forms';
+import { StackFieldProps as CoreStackFieldProps, FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
 import { FieldType } from '../form-field';
 
 export interface StackFieldProps extends CoreStackFieldProps {
@@ -60,7 +60,7 @@ export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>>
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
-    @Inject(DATE_PIPE_DEFAULT_OPTIONS) @Optional() private datePipeOptions?: DatePipeConfig | null
+    @Inject(DATE_PIPE_DEFAULT_OPTIONS) @Optional() private datePipeOptions?: DatePipeConfig | null,
   ) {
     super();
 
@@ -72,7 +72,7 @@ export class StackFieldInput extends FieldType<FieldTypeConfig<StackFieldProps>>
       value,
       StackFieldInput._SELF.format,
       StackFieldInput._SELF.locale,
-      StackFieldInput._SELF.datePipeOptions?.timezone
+      StackFieldInput._SELF.datePipeOptions?.timezone,
     );
   }
 

@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { StackFormsModule } from '@nittenapps/forms';
 import { FaDuotoneIconComponent, FaIconComponent } from '@fortawesome/angular-fontawesome';
-
+import { StackFormsModule } from '@nittenapps/forms';
 import { StackMatButton } from './button.type';
 
 @NgModule({
@@ -17,9 +16,7 @@ import { StackMatButton } from './button.type';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    StackFormsModule.forChild({
-      types: [{ name: 'button', component: StackMatButton }],
-    }),
+    StackFormsModule.forChild({ types: [{ name: 'button', component: StackMatButton }] }),
   ],
 })
 export class StackMatButtonModule {}

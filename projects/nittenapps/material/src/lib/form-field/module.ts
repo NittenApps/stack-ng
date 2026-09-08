@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { StackFormsWrapperFormField } from './form-field.wrapper';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StackFormsModule } from '@nittenapps/forms';
+import { StackFormsWrapperFormField } from './form-field.wrapper';
 
 @NgModule({
   declarations: [StackFormsWrapperFormField],

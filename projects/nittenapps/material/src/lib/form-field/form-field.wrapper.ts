@@ -13,9 +13,9 @@ import {
 import { ThemePalette } from '@angular/material/core';
 import { FloatLabelType, MatFormField, MatFormFieldAppearance, SubscriptSizing } from '@angular/material/form-field';
 import {
-  StackFieldConfig,
   StackFieldProps as CoreStackFieldProps,
   FieldWrapper,
+  StackFieldConfig,
   ɵdefineHiddenProp as defineHiddenProp,
 } from '@nittenapps/forms';
 
@@ -52,7 +52,11 @@ export class StackFormsWrapperFormField
 {
   @ViewChild(MatFormField, { static: true }) formField!: MatFormField;
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef, private focusMonitor: FocusMonitor) {
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private focusMonitor: FocusMonitor,
+  ) {
     super();
   }
 

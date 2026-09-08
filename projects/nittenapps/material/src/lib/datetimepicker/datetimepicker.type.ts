@@ -1,12 +1,4 @@
-import { ComponentType } from '@angular/cdk/portal';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  Type,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, Type } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatCalendarView, MatDatetimepickerComponent } from '@mat-datetimepicker/core';
 import { FieldTypeConfig, StackFieldConfig, StackFormsConfig, ɵobserve as observe } from '@nittenapps/forms';
@@ -31,12 +23,12 @@ interface DatetimepickerProps extends StackFieldProps {
     monthSelected: (
       field: FieldTypeConfig<DatetimepickerProps>,
       event: any,
-      picker: MatDatetimepickerComponent<any>
+      picker: MatDatetimepickerComponent<any>,
     ) => void;
     yearSelected: (
       field: FieldTypeConfig<DatetimepickerProps>,
       event: any,
-      picker: MatDatetimepickerComponent<any>
+      picker: MatDatetimepickerComponent<any>,
     ) => void;
 
     dateClass: MatCalendarCellClassFunction<any>;
@@ -80,7 +72,10 @@ export class StackFieldDatetimepicker
 
   private fieldErrorsObserver!: ReturnType<typeof observe>;
 
-  constructor(private config: StackFormsConfig, private cdRef: ChangeDetectorRef) {
+  constructor(
+    private config: StackFormsConfig,
+    private cdRef: ChangeDetectorRef,
+  ) {
     super();
   }
 

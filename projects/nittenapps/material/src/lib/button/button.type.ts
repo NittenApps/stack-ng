@@ -1,7 +1,7 @@
 import { Component, Type } from '@angular/core';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
 import { FieldType, FieldTypeConfig, StackFieldConfig } from '@nittenapps/forms';
 import { StackFieldProps } from '../form-field';
-import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 interface ButtonProps extends StackFieldProps {
   icon?: string | IconDefinition;

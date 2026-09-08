@@ -72,7 +72,10 @@ export class StackFieldDatepicker
 
   private fieldErrorsObserver!: ReturnType<typeof observe>;
 
-  constructor(private config: StackFormsConfig, private cdRef: ChangeDetectorRef) {
+  constructor(
+    private config: StackFormsConfig,
+    private cdRef: ChangeDetectorRef,
+  ) {
     super();
   }
 

@@ -22,9 +22,7 @@ import { StackMatTable } from './table.type';
     NgClass,
     PercentPipe,
     StackMatButtonModule,
-    StackFormsModule.forChild({
-      types: [{ name: 'table', component: StackMatTable }],
-    }),
+    StackFormsModule.forChild({ types: [{ name: 'table', component: StackMatTable }] }),
   ],
 })
 export class StackMatTableModule {}
