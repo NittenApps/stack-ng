@@ -1,4 +1,4 @@
-import { NgClass, DecimalPipe, DatePipe, PercentPipe } from '@angular/common';
+import { DatePipe, DecimalPipe, NgClass, PercentPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
@@ -23,12 +23,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ApiConfig, NAS_API_CONFIG } from '@nittenapps/api';
-import { concatMap, delay, merge, Observable, of, repeat, Subject, switchMap, takeUntil, tap, timer } from 'rxjs';
-
+import { concatMap, delay, merge, Observable, of, repeat, Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { ListDataSource } from '../../datasources/list.datasource';
 import { ListStateService } from '../../services/list-state.service';
 import { AsyncEvent, Column, Filter } from '../../types';
 
+/**
+ * Displays a configurable, paginated, sortable, and filterable data table.
+ *
+ * The component loads records through {@link ListDataSource}, persists the
+ * table state by activity, and can optionally refresh its data automatically.
+ *
+ * @typeParam T The type of records displayed by the table.
+ */
 @Component({
   selector: 'nas-list',
   imports: [
@@ -82,6 +89,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     private stateService: ListStateService,
   ) {}
 
+  /** Initializes table state and subscribes to sorting, paging, and filtering changes. */
   ngAfterViewInit(): void {
     setTimeout(() => {
       const state = this.stateService.get(this.activity);
@@ -119,6 +127,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     });
   }
 
+  /** Emits a filter change when the filter input is updated. */
   ngOnChanges(changes: SimpleChanges): void {
     for (const prop in changes) {
       if (prop === 'filter') {
@@ -127,6 +136,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     }
   }
 
+  /** Stops active subscriptions and persists the current table state. */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -140,11 +150,13 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     );
   }
 
+  /** Creates the data source and derives the displayed columns from the column definitions. */
   ngOnInit(): void {
     this.dataSource = new ListDataSource(this.apiConfig, this.http, this.activity);
     this.displayedColumns = this.columns.map((column) => column.id);
   }
 
+  /** Returns the CSS class configured for a column and record. */
   getClass(column: Column, item: T): string | string[] {
     if (typeof column.class === 'function') {
       return column.class(column.id, item);
@@ -152,6 +164,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     return column.class || '';
   }
 
+  /** Returns the icon configured for a column and record. */
   getIcon(column: Column, item: T): IconProp | undefined {
     if (typeof column.icon === 'function') {
       return column.icon(column.id, item);
@@ -159,10 +172,12 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     return column.icon;
   }
 
+  /** Returns the numeric value configured for a column and record. */
   getNumberValue(column: Column, item: T): number | undefined {
     return this.getValue(column, item) as number;
   }
 
+  /** Returns the CSS class configured for a table row. */
   getRowClass(item: T): string | string[] | undefined {
     if (typeof this.rowClass === 'function') {
       return this.rowClass(item);
@@ -170,6 +185,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     return this.rowClass;
   }
 
+  /** Resolves a column value from its value function, literal value, or field path. */
   getValue(column: Column, item: T): string | number | Date | undefined {
     if (typeof column.value === 'function') {
       return column.value(column.id, item);
@@ -194,6 +210,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     }
   }
 
+  /** Opens the record URL or navigates to the record details route. */
   showItem(item: T): void {
     if (this.openUrl) {
       window.open((item as any).url, '_blank');

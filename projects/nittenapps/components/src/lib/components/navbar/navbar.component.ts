@@ -1,5 +1,5 @@
-import { NgClass } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NgClass } from '@angular/common';
 import { Component, Input, Optional, ViewEncapsulation } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
@@ -21,52 +21,103 @@ const checkRoles = (roles: string[], navItem: NavItem): boolean => {
   return true;
 };
 
+/**
+ * Displays a single navigation item and decides whether it is accessible for the current user.
+ *
+ * @remarks
+ * This component renders the leaf node for a navigation menu entry and checks the item roles
+ * against the current user roles before enabling its actions.
+ */
 @Component({
-    selector: 'nas-navbar-item',
-    imports: [IconComponent, MatRippleModule, RouterModule, TypeofPipe],
-    templateUrl: './navbar-item.component.html'
+  selector: 'nas-navbar-item',
+  imports: [IconComponent, MatRippleModule, RouterModule, TypeofPipe],
+  templateUrl: './navbar-item.component.html',
 })
 export class NavigationItemComponent {
+  /** The navigation item definition to render. */
   @Input() item!: NavItem;
+  /** Roles available to the current user. */
   @Input() roles!: string[];
 
+  /**
+   * Checks whether the provided navigation item is allowed for the current user.
+   *
+   * @param navItem The item whose role requirements should be validated.
+   * @returns True when the item is visible to the current user, otherwise false.
+   */
   isAllowed(navItem: NavItem): boolean {
     return checkRoles(this.roles, navItem);
   }
 }
 
+/**
+ * Renders a collapsible navigation section and delegates interaction to the parent navigation tree.
+ *
+ * @remarks
+ * This component supports nested menu entries and ensures that child nodes respect the role
+ * checks and visibility rules defined by its parent navigation component.
+ */
 @Component({
-    selector: 'nas-navbar-collapsible',
-    imports: [IconComponent, MatRippleModule, NavigationItemComponent, NgClass, RouterModule, TypeofPipe],
-    templateUrl: './navbar-collapsible.component.html',
-    animations: [trigger('children', [state('hidden', style({ height: 0 })), transition('* => *', [animate('0.2s')])])]
+  selector: 'nas-navbar-collapsible',
+  imports: [IconComponent, MatRippleModule, NavigationItemComponent, NgClass, RouterModule, TypeofPipe],
+  templateUrl: './navbar-collapsible.component.html',
+  animations: [trigger('children', [state('hidden', style({ height: 0 })), transition('* => *', [animate('0.2s')])])],
 })
 export class NavigationCollapsibleComponent {
+  /** The collapsible navigation item definition. */
   @Input() item!: NavItem;
+  /** Parent navigation component used for shared click and visibility behavior. */
   @Input() navigation!: NavigationComponent;
+  /** Roles available to the current user. */
   @Input() roles!: string[];
 
+  /**
+   * Delegates a click event to the parent navigation controller.
+   *
+   * @param event The DOM event emitted by the clicked item.
+   * @param navItem The clicked navigation item.
+   */
   handleClick(event: any, navItem: NavItem): void {
     this.navigation.handleClick(event, navItem);
   }
 
+  /**
+   * Checks whether the provided navigation item is allowed for the current user.
+   *
+   * @param navItem The item whose role requirements should be validated.
+   * @returns True when the item is allowed, otherwise false.
+   */
   isAllowed(navItem: NavItem): boolean {
     return checkRoles(this.roles, navItem);
   }
 
+  /**
+   * Determines whether the provided item is visible to the current user.
+   *
+   * @param navItem The item to evaluate.
+   * @returns True when the item should be displayed, otherwise false.
+   */
   visible(navItem: NavItem): boolean {
     return this.navigation.visible(navItem);
   }
 }
 
+/**
+ * Root navigation component that renders and manages the application menu tree.
+ *
+ * @remarks
+ * This component is responsible for building the top-level menu structure, handling expansion/collapse
+ * interaction, and filtering items based on the authenticated user's roles and visibility rules.
+ */
 @Component({
-    selector: 'nas-navbar-navigation',
-    imports: [MatRippleModule, NavigationCollapsibleComponent, NavigationItemComponent, NgClass, RouterModule],
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss'],
-    encapsulation: ViewEncapsulation.None
+  selector: 'nas-navbar-navigation',
+  imports: [MatRippleModule, NavigationCollapsibleComponent, NavigationItemComponent, NgClass, RouterModule],
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class NavigationComponent {
+  /** The list of navigation items displayed in the menu. */
   @Input() items!: NavItem[];
 
   userRoles: string[];

@@ -6,13 +6,20 @@ import { Observable } from 'rxjs';
 import { BreadcrumbService } from '../../services';
 import { Breadcrumb } from '../../types/breadcrumb';
 
+/**
+ * Displays the breadcrumb trail for the current route.
+ *
+ * The breadcrumb data is provided by {@link BreadcrumbService} and exposed to
+ * the template as an observable.
+ */
 @Component({
-    selector: 'nas-breadcrumb',
-    imports: [AsyncPipe, MatIconModule, RouterModule],
-    templateUrl: './breadcrumb.component.html',
-    styleUrls: ['./breadcrumb.component.scss']
+  selector: 'nas-breadcrumb',
+  imports: [AsyncPipe, MatIconModule, RouterModule],
+  templateUrl: './breadcrumb.component.html',
+  styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent {
+  /** The current breadcrumb items to display. */
   breadcrumbs$: Observable<Breadcrumb[]>;
 
   constructor(breadcrumbService: BreadcrumbService) {
