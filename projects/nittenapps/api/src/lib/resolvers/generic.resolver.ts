@@ -5,6 +5,15 @@ import { snakeToCamel } from '@nittenapps/common';
 import { EMPTY, map, mergeMap, of } from 'rxjs';
 import { ActivityService, NAS_API_CONFIG } from '../services';
 
+/**
+ * Resolves an activity object for the current route.
+ *
+ * Handles new-object routes, loads existing objects through the activity
+ * service, and redirects to the parent route when an object is not found.
+ *
+ * @param route The activated route containing the activity and object ID.
+ * @returns The resolved object, a new-object marker, or an empty observable.
+ */
 export const genericResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const id = route.paramMap.get('id')!;
