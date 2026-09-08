@@ -1,5 +1,12 @@
 import { CatalogValue } from '../types/catalog-value';
 
+/**
+ * Compares a catalog value with another value by identifier or code.
+ *
+ * @param v1 The catalog value to compare.
+ * @param v2 The value to compare against.
+ * @returns Whether the values represent the same catalog value.
+ */
 export function compareCatalogValueFn(v1: CatalogValue, v2: any): boolean {
   return (
     v1 &&

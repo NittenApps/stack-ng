@@ -1,6 +1,14 @@
 import { Renderer2 } from '@angular/core';
 import { NumberFormatService } from './number-format.service';
 
+/**
+ * Handles keyboard, input, focus, and model events for a formatted number
+ * input element.
+ *
+ * The handler applies the configured number format, maintains the caret when
+ * separators are inserted or removed, and synchronizes the input with an
+ * Angular forms model.
+ */
 export class InputHandler {
   private _nfs: NumberFormatService;
   private _onModelChange!: Function;
@@ -33,22 +41,27 @@ export class InputHandler {
     this._renderer = renderer;
   }
 
+  /** Returns the callback used to notify the Angular forms model of changes. */
   getOnModelChange(): Function {
     return this._onModelChange;
   }
 
+  /** Sets the callback used to notify the Angular forms model of changes. */
   setOnModelChange(callbackFunction: Function): void {
     this._onModelChange = callbackFunction;
   }
 
+  /** Returns the callback used to notify the Angular forms model that the input was touched. */
   getOnModelTouched(): Function {
     return this._onModelTouched;
   }
 
+  /** Sets the callback used to notify the Angular forms model that the input was touched. */
   setOnModelTouched(callbackFunction: Function): void {
     this._onModelTouched = callbackFunction;
   }
 
+  /** Configures the number format and derives its digit and decimal limits. */
   setFormat(format: string): void {
     if (!format) {
       return;
@@ -59,6 +72,7 @@ export class InputHandler {
     this.setMaxDigitAndMaxDecimal(this._nfs.removeComma(format));
   }
 
+  /** Enables or disables negative values and updates validation accordingly. */
   setAllowNegative(allowNegative: boolean): void {
     this._allowNegative = allowNegative;
     if (this._rawFormat) {
@@ -66,6 +80,7 @@ export class InputHandler {
     }
   }
 
+  /** Processes keyboard input before the browser updates the input value. */
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key !== ',' && event.key !== '-') {
       this._triggerBackspace = this.manageBackspaceKey(event);
@@ -132,10 +147,12 @@ export class InputHandler {
     }
   }
 
+  /** Stores the current value and caret position before a click changes them. */
   handleClick(event: Event): void {
     this.setPastValue(event);
   }
 
+  /** Validates and formats a value after the browser has updated the input. */
   handleInput(event: Event): void {
     let value = (<HTMLInputElement>event.target).value;
     if (
@@ -155,6 +172,7 @@ export class InputHandler {
     }
   }
 
+  /** Completes the decimal value and marks the input as touched. */
   handleBlur(event: Event): void {
     let value = (<HTMLInputElement>event.target).value;
     if (value.length > 0 && value !== '-') {
@@ -168,6 +186,7 @@ export class InputHandler {
     }
   }
 
+  /** Writes and formats an external model value into the input element. */
   handleWriteValue(value: string | number): void {
     if (value != null && value !== '') {
       let valStr = '';
@@ -182,6 +201,7 @@ export class InputHandler {
     }
   }
 
+  /** Applies the configured number mask and updates the input element. */
   applyMask(value: string): string {
     if (value) {
       value = this._nfs.getRawValue(value);

@@ -4,6 +4,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs';
 import { ErrorDialog } from '../dialogs/error/error.dialog';
 
+/**
+ * Intercepts HTTP errors and presents an appropriate error dialog.
+ *
+ * Authentication errors reload the page after the dialog is closed so the
+ * user can sign in again.
+ *
+ * @param req The outgoing HTTP request.
+ * @param next The handler used to continue processing the request.
+ * @returns The HTTP response observable with error handling attached.
+ */
 export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const dialog = inject(MatDialog);
 
@@ -39,6 +49,6 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown
             }
           });
       },
-    })
+    }),
   );
 };

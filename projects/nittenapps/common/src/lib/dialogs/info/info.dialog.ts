@@ -5,10 +5,13 @@ import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
 import { faSquareInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { DialogData } from '../../types';
 
+/**
+ * Displays informational content in a Material dialog.
+ */
 @Component({
-    selector: 'nas-info-dialog',
-    imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
-    templateUrl: './info.dialog.html'
+  selector: 'nas-info-dialog',
+  imports: [FaDuotoneIconComponent, MatButtonModule, MatDialogModule],
+  templateUrl: './info.dialog.html',
 })
 export class InfoDialog {
   faSquareInfo = faSquareInfo;
