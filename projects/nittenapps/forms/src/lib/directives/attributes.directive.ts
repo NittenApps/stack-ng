@@ -1,6 +1,7 @@
 import {
   Directive,
   DoCheck,
+  DOCUMENT,
   ElementRef,
   Inject,
   Input,
@@ -8,7 +9,6 @@ import {
   OnDestroy,
   Renderer2,
   SimpleChanges,
-  DOCUMENT,
 } from '@angular/core';
 import { StackFieldConfig, StackFieldConfigCache } from '../types';
 import { defineHiddenProp, IObserver, observe, STACK_VALIDATORS } from '../utils';

@@ -24,8 +24,8 @@ type ITransformOption = {
 };
 
 @Pipe({
-    name: 'stackSelectOptions',
-    standalone: false
+  name: 'stackSelectOptions',
+  standalone: false,
 })
 export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
   private _subscription?: Subscription;
@@ -71,7 +71,7 @@ export class StackSelectOptionsPipe implements PipeTransform, OnDestroy {
               !!this._options
             );
           }),
-          tap(() => this._options?.next(f.props?.options as any))
+          tap(() => this._options?.next(f.props?.options as any)),
         )
         .subscribe();
     }

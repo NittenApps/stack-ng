@@ -239,7 +239,7 @@ export class StackFormsJsonSchema {
           this.addValidator(
             field,
             'exclusiveMinimum',
-            ({ value }: AbstractControl) => isEmpty(value) || value > schema.exclusiveMinimum!
+            ({ value }: AbstractControl) => isEmpty(value) || value > schema.exclusiveMinimum!,
           );
         }
 
@@ -248,7 +248,7 @@ export class StackFormsJsonSchema {
           this.addValidator(
             field,
             'exclusiveMaximum',
-            ({ value }: AbstractControl) => isEmpty(value) || value < schema.exclusiveMaximum!
+            ({ value }: AbstractControl) => isEmpty(value) || value < schema.exclusiveMaximum!,
           );
         }
 
@@ -340,7 +340,7 @@ export class StackFormsJsonSchema {
                 field.fieldGroup!.push({
                   ...this._toFieldConfig(
                     { ...oneOfSchemaItem, properties },
-                    { ...options, shareFormControl: false, resetOnHide: true }
+                    { ...options, shareFormControl: false, resetOnHide: true },
                   ),
                   expressions: {
                     hide: (f) => !f.model || getConstValue(constSchema as JSONSchema7) !== f.model[property],
@@ -360,7 +360,7 @@ export class StackFormsJsonSchema {
 
         if (schema.oneOf) {
           field.fieldGroup.push(
-            this.resolveMultiSchema('oneOf', <JSONSchema7[]>schema.oneOf, { ...options, shareFormControl: false })
+            this.resolveMultiSchema('oneOf', <JSONSchema7[]>schema.oneOf, { ...options, shareFormControl: false }),
           );
         }
 
@@ -406,9 +406,9 @@ export class StackFormsJsonSchema {
                     }
 
                     return o;
-                  })
-                )
-              )
+                  }),
+                ),
+              ),
             );
 
             return uniqueItems.length === value.length;
@@ -435,7 +435,7 @@ export class StackFormsJsonSchema {
               // When items is a single schema, the additionalItems keyword is meaningless, and it should not be used.
               const f = this._toFieldConfig(
                 items,
-                isMultiSchema ? { ...options, key: `${length}`, isOptional: false } : { ...options, isOptional: false }
+                isMultiSchema ? { ...options, key: `${length}`, isOptional: false } : { ...options, isOptional: false },
               );
 
               if (isMultiSchema && !hasKey(f)) {
@@ -555,7 +555,7 @@ export class StackFormsJsonSchema {
     root: StackFieldConfig & { _schemasFields?: { [key: number]: StackFieldConfig } },
     i: number,
     schemas: JSONSchema7[],
-    options: IOptions
+    options: IOptions,
   ): boolean {
     const schema = schemas[i] as JSONSchema7 & { _field?: StackFieldConfig };
     if (!schema._field) {
@@ -620,26 +620,18 @@ export class StackFormsJsonSchema {
       }
 
       // resolve to min value
-      ([
-        'maxLength',
-        'maximum',
-        'exclusiveMaximum',
-        'maxItems',
-        'maxProperties',
-      ] as (keyof StackFormsJSONSchema7)[]).forEach((prop) => {
+      (
+        ['maxLength', 'maximum', 'exclusiveMaximum', 'maxItems', 'maxProperties'] as (keyof StackFormsJSONSchema7)[]
+      ).forEach((prop) => {
         if (!isEmpty(base[prop]) && !isEmpty(schema[prop])) {
           (base as any)[prop] = base[prop]! < schema[prop]! ? base[prop] : schema[prop];
         }
       });
 
       // resolve to max value
-      ([
-        'minLength',
-        'minimum',
-        'exclusiveMinimum',
-        'minItems',
-        'minProperties',
-      ] as (keyof StackFormsJSONSchema7)[]).forEach((prop) => {
+      (
+        ['minLength', 'minimum', 'exclusiveMinimum', 'minItems', 'minProperties'] as (keyof StackFormsJSONSchema7)[]
+      ).forEach((prop) => {
         if (!isEmpty(base[prop]) && !isEmpty(schema[prop])) {
           (base as any)[prop] = base[prop]! > schema[prop]! ? base[prop] : schema[prop];
         }
@@ -729,7 +721,8 @@ export class StackFormsJsonSchema {
                 if (control?.value === -1 || forceUpdate) {
                   let value = f.parent?.fieldGroup
                     ?.map(
-                      (f, i) => [f, i, this.isFieldValid(f, i, schemas, options)] as [StackFieldConfig, number, boolean]
+                      (f, i) =>
+                        [f, i, this.isFieldValid(f, i, schemas, options)] as [StackFieldConfig, number, boolean],
                     )
                     .sort(([f1, , f1Valid], [f2, , f2Valid]) => {
                       if (f1Valid !== f2Valid) {

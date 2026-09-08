@@ -15,21 +15,21 @@ import {
 import { FormArray, FormGroup } from '@angular/forms';
 import { filter, of, Subscription, switchMap, take } from 'rxjs';
 import { StackFormTemplate } from '../../directives';
+import { clearControl } from '../../extensions/field-form/utils';
 import { StackFieldTemplates, StackFormBuilder, StackFormsConfig } from '../../services';
 import { StackFieldConfig, StackFieldConfigCache, StackFormOptions } from '../../types';
 import { clone, hasKey, isNoopNgZone, isSignalRequired, observeDeep } from '../../utils';
-import { clearControl } from '../../extensions/field-form/utils';
 
 /**
  * The main container of the form, takes care of managing the form state. Delegates
  * the rendering of the fields to each <nas-field> component.
  */
 @Component({
-    selector: 'nas-form',
-    template: '<nas-field [field]="field" />',
-    providers: [StackFormBuilder, StackFieldTemplates],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nas-form',
+  template: '<nas-field [field]="field" />',
+  providers: [StackFormBuilder, StackFieldTemplates],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackForm implements DoCheck, OnChanges, OnDestroy {
   field: StackFieldConfigCache = { type: 'nas-form-group' };
@@ -93,7 +93,7 @@ export class StackForm implements DoCheck, OnChanges, OnDestroy {
     private builder: StackFormBuilder,
     private config: StackFormsConfig,
     private ngZone: NgZone,
-    private fieldTemplates: StackFieldTemplates
+    private fieldTemplates: StackFieldTemplates,
   ) {}
 
   ngDoCheck(): void {
@@ -152,7 +152,7 @@ export class StackForm implements DoCheck, OnChanges, OnDestroy {
     const valueChanges = this.field.options?.fieldChanges
       ?.pipe(
         filter(({ field, type }) => hasKey(field) && type === 'valueChanges'),
-        switchMap(() => (isNoopNgZone(this.ngZone) ? of(null) : this.ngZone.onStable.asObservable().pipe(take(1))))
+        switchMap(() => (isNoopNgZone(this.ngZone) ? of(null) : this.ngZone.onStable.asObservable().pipe(take(1)))),
       )
       .subscribe(() =>
         this.ngZone.runGuarded(() => {
@@ -161,11 +161,11 @@ export class StackForm implements DoCheck, OnChanges, OnDestroy {
           this.checkExpressionChange();
           if (this.field.options) {
             fieldChangesDetection.push(
-              observeDeep(this.field.options, ['formState'], () => this.field.options?.detectChanges?.(this.field))
+              observeDeep(this.field.options, ['formState'], () => this.field.options?.detectChanges?.(this.field)),
             );
           }
           this.modelChange.emit((this._modelChangeValue = clone(this.model)));
-        })
+        }),
       );
 
     return () => {

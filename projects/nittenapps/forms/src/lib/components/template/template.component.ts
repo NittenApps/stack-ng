@@ -4,10 +4,10 @@ import { FieldType } from '../../directives';
 
 /** @internal */
 @Component({
-    selector: 'nas-form-template',
-    template: `<div [innerHtml]="template"></div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nas-form-template',
+  template: `<div [innerHtml]="template"></div>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StackFormsTemplateType extends FieldType {
   get template() {

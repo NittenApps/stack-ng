@@ -1,8 +1,8 @@
 import { Injectable, Injector, Optional, ViewContainerRef } from '@angular/core';
 import { FormArray, FormGroup, FormGroupDirective } from '@angular/forms';
-import { StackFormsConfig } from './config.service';
 import { StackFieldConfig, StackFieldConfigCache, StackFormOptions } from '../types';
 import { defineHiddenProp, disableTreeValidityCall, isHiddenField, isSignalRequired, observe } from '../utils';
+import { StackFormsConfig } from './config.service';
 
 @Injectable({ providedIn: 'root' })
 export class StackFormBuilder {
@@ -10,7 +10,7 @@ export class StackFormBuilder {
     private config: StackFormsConfig,
     private injector: Injector | null,
     @Optional() private viewContainerRef: ViewContainerRef | null,
-    @Optional() private parentForm: FormGroupDirective | null
+    @Optional() private parentForm: FormGroupDirective | null,
   ) {}
 
   buildForm(form: FormGroup | FormArray, fieldGroup: StackFieldConfig[] = [], model: any, options: StackFormOptions) {

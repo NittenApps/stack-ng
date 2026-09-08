@@ -1,12 +1,12 @@
 export { StackField, StackForm, StackFormGroup, StackValidationMessage } from './components';
 export {
-  FieldType,
-  FieldTypeConfig,
   FieldArrayType,
   FieldArrayTypeConfig,
+  FieldType,
+  FieldTypeConfig,
   FieldWrapper,
-  StackFormTemplate as ɵStackFormTemplate,
   StackFormsAttributes as ɵStackFormsAttributes,
+  StackFormTemplate as ɵStackFormTemplate,
 } from './directives';
 export { StackFormsModule } from './forms.module';
 export { STACK_FORMS_CONFIG, StackFormBuilder, StackFormsConfig } from './services';
