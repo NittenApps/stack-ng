@@ -156,24 +156,7 @@ export class StackMatMasterDetailTable extends FieldArrayType<FieldTypeConfig> i
       const masterData = this.model[masterIndex];
       const updatedDetail = await this.props['onCancelDetail'](currentData, detailIndex, masterData);
       if (updatedDetail) {
-        const detailKey = this.props['detailKey'] || 'details';
-        const currentDetails = masterData[detailKey] || [];
-
-        const newDetailsArray = currentDetails.map((item: any, idx: number) =>
-          idx === detailIndex ? { ...item, ...updatedDetail } : item,
-        );
-
-        this.model[masterIndex] = {
-          ...masterData,
-          [detailKey]: newDetailsArray,
-        };
-
-        const masterControl = this.formArray.at(masterIndex);
-        if (masterControl) {
-          masterControl.patchValue(this.model[masterIndex], { emitEvent: false });
-        }
-        this.dataSource.data = [...this.model];
-        this.cd.detectChanges();
+        this.onDetailUpdated(masterIndex, masterData, detailIndex, updatedDetail);
       }
     }
   }
@@ -182,19 +165,7 @@ export class StackMatMasterDetailTable extends FieldArrayType<FieldTypeConfig> i
     if (this.props['onCancelMaster']) {
       const updatedData = await this.props['onCancelMaster'](currentData, index);
       if (updatedData) {
-        this.model[index] = { ...this.model[index], ...updatedData };
-        this.formArray.at(index).patchValue(updatedData, { emitEvent: false });
-        this.dataSource.data = [...this.model];
-
-        const newDataArray = this.model.map((item: any, idx: number) => (idx === index ? { ...item } : item));
-
-        this.dataSource.data = newDataArray;
-
-        if (this.table) {
-          this.table.renderRows();
-        }
-
-        this.cd.markForCheck();
+        this.onMasterUpdated(index, updatedData);
       }
     }
   }
@@ -213,24 +184,7 @@ export class StackMatMasterDetailTable extends FieldArrayType<FieldTypeConfig> i
       const masterData = this.model[masterIndex];
       const updatedDetail = await this.props['onEditDetail'](currentDetail, detailIndex, masterData);
       if (updatedDetail) {
-        const detailKey = this.props['detailKey'] || 'details';
-        const currentDetails = masterData[detailKey] || [];
-
-        const newDetailsArray = currentDetails.map((item: any, idx: number) =>
-          idx === detailIndex ? { ...item, ...updatedDetail } : item,
-        );
-
-        this.model[masterIndex] = {
-          ...masterData,
-          [detailKey]: newDetailsArray,
-        };
-
-        const masterControl = this.formArray.at(masterIndex);
-        if (masterControl) {
-          masterControl.patchValue(this.model[masterIndex], { emitEvent: false });
-        }
-        this.dataSource.data = [...this.model];
-        this.cd.detectChanges();
+        this.onDetailUpdated(masterIndex, masterData, detailIndex, updatedDetail);
       }
     }
   }
@@ -239,19 +193,7 @@ export class StackMatMasterDetailTable extends FieldArrayType<FieldTypeConfig> i
     if (this.props['onEditMaster']) {
       const updatedData = await this.props['onEditMaster'](currentData, index);
       if (updatedData) {
-        this.model[index] = { ...this.model[index], ...updatedData };
-        this.formArray.at(index).patchValue(updatedData, { emitEvent: false });
-        this.dataSource.data = [...this.model];
-
-        const newDataArray = this.model.map((item: any, idx: number) => (idx === index ? { ...item } : item));
-
-        this.dataSource.data = newDataArray;
-
-        if (this.table) {
-          this.table.renderRows();
-        }
-
-        this.cd.markForCheck();
+        this.onMasterUpdated(index, updatedData);
       }
     }
   }
@@ -296,5 +238,42 @@ export class StackMatMasterDetailTable extends FieldArrayType<FieldTypeConfig> i
     }
 
     return detailControl as FormArray;
+  }
+
+  private onDetailUpdated(masterIndex: number, masterData: any, detailIndex: number, updatedDetail: any): void {
+    const detailKey = this.props['detailKey'] || 'details';
+    const currentDetails = masterData[detailKey] || [];
+
+    const newDetailsArray = currentDetails.map((item: any, idx: number) =>
+      idx === detailIndex ? { ...item, ...updatedDetail } : item,
+    );
+
+    this.model[masterIndex] = {
+      ...masterData,
+      [detailKey]: newDetailsArray,
+    };
+
+    const masterControl = this.formArray.at(masterIndex);
+    if (masterControl) {
+      masterControl.patchValue(this.model[masterIndex], { emitEvent: false });
+    }
+    this.dataSource.data = [...this.model];
+    this.cd.detectChanges();
+  }
+
+  private onMasterUpdated(index: number, updatedData: any): void {
+    this.model[index] = { ...this.model[index], ...updatedData };
+    this.formArray.at(index).patchValue(updatedData, { emitEvent: false });
+    this.dataSource.data = [...this.model];
+
+    const newDataArray = this.model.map((item: any, idx: number) => (idx === index ? { ...item } : item));
+
+    this.dataSource.data = newDataArray;
+
+    if (this.table) {
+      this.table.renderRows();
+    }
+
+    this.cd.markForCheck();
   }
 }
