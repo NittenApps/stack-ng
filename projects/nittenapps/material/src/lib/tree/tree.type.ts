@@ -162,7 +162,6 @@ export class StackFieldTree extends FieldType<FieldTypeConfig> implements OnInit
   }
 
   private evaluateTree(model: any) {
-    console.debug(model);
     const nodes = this.treeData();
 
     this.applyConditionToNodes(nodes, model, 0);
