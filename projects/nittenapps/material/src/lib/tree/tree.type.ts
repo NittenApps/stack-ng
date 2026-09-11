@@ -13,7 +13,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTree } from '@angular/material/tree';
 import { FieldType, FieldTypeConfig } from '@nittenapps/forms';
-import { merge } from 'rxjs';
+import { merge, startWith, switchMap, take } from 'rxjs';
 
 export interface TreeNode {
   key: string;
@@ -73,11 +73,15 @@ export class StackFieldTree extends FieldType<FieldTypeConfig> implements OnInit
 
       if (observables.length > 0) {
         merge(...observables)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((value) => {
-            this.evaluateTree(this.form?.root.value);
+          .pipe(startWith(this.model), takeUntilDestroyed(this.destroyRef))
+          .subscribe((_) => {
+            this.evaluateTree(this.form?.root.getRawValue());
           });
+      } else {
+        this.evaluateTree(this.form?.root.value);
       }
+    } else {
+      this.evaluateTree(this.form?.root.value);
     }
 
     if (this.formControl.value) {
@@ -158,6 +162,7 @@ export class StackFieldTree extends FieldType<FieldTypeConfig> implements OnInit
   }
 
   private evaluateTree(model: any) {
+    console.debug(model);
     const nodes = this.treeData();
 
     this.applyConditionToNodes(nodes, model, 0);
@@ -182,5 +187,6 @@ export class StackFieldTree extends FieldType<FieldTypeConfig> implements OnInit
       this.checklistSelection.selected.map((node) => node.key),
       { emitEvent },
     );
+    if (emitEvent) this.form?.markAsDirty();
   }
 }
