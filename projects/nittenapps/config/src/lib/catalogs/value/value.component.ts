@@ -7,6 +7,7 @@ import { ActivityService, ConfigService, NAS_API_CONFIG } from '@nittenapps/api'
 import { Catalog, CatalogValue } from '@nittenapps/common';
 import { StackFieldConfig, StackFormOptions, StackFormsModule } from '@nittenapps/forms';
 import { StackMaterialModule } from '@nittenapps/material';
+import { of } from 'rxjs';
 
 /**
  * Dialog used to create or edit a value in a catalog.
@@ -106,7 +107,10 @@ export class ValueComponent {
           } else {
             fieldConfig.key = `attributes.${attribute.code}.0.catalogValue`;
           }
-          fieldConfig.props!.options = this.configService.getCatalogValues(attribute.definition.catalog);
+          fieldConfig.props!.options =
+            !!attribute.definition && !!attribute.definition?.catalog
+              ? this.configService.getCatalogValues(attribute.definition?.catalog)
+              : of([]);
           fieldConfig.props!['multiple'] = attribute.definition?.multiple;
           break;
         case 'DO':
