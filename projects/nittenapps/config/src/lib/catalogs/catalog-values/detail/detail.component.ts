@@ -14,7 +14,7 @@ import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
 import { faPencil, faPlus } from '@fortawesome/pro-duotone-svg-icons';
 import { ActivityService, ListBody, NAS_API_CONFIG } from '@nittenapps/api';
 import { Catalog, CatalogValue } from '@nittenapps/common';
-import { DetailToolbarComponent, Filter } from '@nittenapps/components';
+import { DetailToolbarComponent, Filters } from '@nittenapps/components';
 import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rxjs';
 import { ValueComponent } from '../../value/value.component';
 
@@ -58,7 +58,7 @@ export class DetailComponent implements AfterViewInit, OnInit {
   private activityService: ActivityService<CatalogValue>;
   private catalog!: Catalog;
   private database!: CatalogValueDatabase;
-  private filter: Filter = {};
+  private filters: Filters = {};
   private route: ActivatedRoute;
 
   private dataChange = new EventEmitter<void>();
@@ -97,7 +97,7 @@ export class DetailComponent implements AfterViewInit, OnInit {
               this.sort.direction,
               this.paginator.pageIndex,
               this.paginator.pageSize,
-              this.filter,
+              this.filters,
             )
             .pipe(catchError(() => of({ total: 0, items: [] })));
         }),
@@ -124,14 +124,14 @@ export class DetailComponent implements AfterViewInit, OnInit {
   }
 
   applyFilter(): void {
-    const filter: Filter = {};
+    const filter: Filters = {};
     if (this._filter.code) {
       filter['code'] = '%' + this._filter.code.toUpperCase() + '%';
     }
     if (this._filter.name) {
       filter['name'] = '%' + this._filter.name + '%';
     }
-    this.filter = filter;
+    this.filters = filter;
     this.filterChange.emit();
   }
 
@@ -159,7 +159,7 @@ class CatalogValueDatabase {
     order: SortDirection,
     page: number,
     pageSize: number,
-    filter?: Filter,
+    filter?: Filters,
   ): Observable<ListBody<CatalogValue>> {
     return this.activityService
       .get<CatalogValue>('getValues', { catalogId, page, pageSize, sort: `${sort} ${order}`, ...filter })

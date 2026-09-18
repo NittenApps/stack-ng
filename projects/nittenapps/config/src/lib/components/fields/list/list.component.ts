@@ -1,31 +1,33 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { Column, Filter, ListToolbarComponent, ListComponent as StackListComponent } from '@nittenapps/components';
+import { CommonModule } from '@nittenapps/common';
+import {
+  BaseListComponent,
+  Column,
+  ListToolbarComponent,
+  ListComponent as StackListComponent
+} from '@nittenapps/components';
 
 /**
- * Displays and filters the list of configured fields.
+ * Represents the fields list view used to display and filter fields.
  *
- * Provides sortable columns for field codes and names, along with a
- * description column and a filter form for searching by code or name.
+ * The component configures the list columns and applies the current filters to the
+ * data source before rendering the table.
  */
 @Component({
   selector: 'nas-fields-list',
-  imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
+  imports: [CommonModule, FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
   templateUrl: './list.component.html',
 })
-export class ListComponent {
-  /** Columns displayed in the fields list. */
-  columns: Column[];
+export class ListComponent extends BaseListComponent {
+  protected readonly columns: Column[];
 
-  /** Filter applied to the fields list. */
-  filter: Filter = {};
+  protected override readonly filters: { code?: string; name?: string } = {};
 
-  /** Values entered in the filter form. */
-  _filter: { code?: string; name?: string } = {};
-
-  /** Creates the fields list component and configures its columns. */
   constructor() {
+    super();
+
     this.columns = [
       {
         id: 'code',
@@ -44,15 +46,7 @@ export class ListComponent {
     ];
   }
 
-  /** Applies the entered code and name values to the list filter. */
-  applyFilter(): void {
-    const filter: Filter = {};
-    if (!!this._filter.code) {
-      filter['code'] = '%' + this._filter.code.toUpperCase() + '%';
-    }
-    if (!!this._filter.name) {
-      filter['name'] = '%' + this._filter.name + '%';
-    }
-    this.filter = filter;
+  protected override getActivity(): string {
+    return 'configFields';
   }
 }
