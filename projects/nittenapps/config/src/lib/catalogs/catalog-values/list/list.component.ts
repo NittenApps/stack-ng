@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { Column, Filter, ListToolbarComponent, ListComponent as StackListComponent } from '@nittenapps/components';
+import { CommonModule } from '@nittenapps/common';
+import {
+  BaseListComponent,
+  Column,
+  ListToolbarComponent,
+  ListComponent as StackListComponent
+} from '@nittenapps/components';
 
 /**
  * Represents the catalog values list view used to display and filter catalog values.
@@ -11,26 +17,17 @@ import { Column, Filter, ListToolbarComponent, ListComponent as StackListCompone
  */
 @Component({
   selector: 'nas-catalog-values-list',
-  imports: [FormsModule, ListToolbarComponent, StackListComponent, MatInputModule],
+  imports: [CommonModule, FormsModule, ListToolbarComponent, StackListComponent, MatInputModule],
   templateUrl: './list.component.html',
 })
-export class ListComponent {
-  /**
-   * Column definitions displayed in the catalog values list.
-   */
-  columns: Column[];
+export class ListComponent extends BaseListComponent {
+  protected readonly columns: Column[];
 
-  /**
-   * Active filter object applied to the list.
-   */
-  filter: Filter = {};
-
-  /**
-   * Local form state for the filter inputs.
-   */
-  _filter: { code?: string; name?: string } = {};
+  protected override readonly filters: { code?: string; name?: string } = {};
 
   constructor() {
+    super();
+
     this.columns = [
       {
         id: 'code',
@@ -49,14 +46,7 @@ export class ListComponent {
     ];
   }
 
-  applyFilter(): void {
-    const filter: Filter = {};
-    if (!!this._filter.code) {
-      filter['code'] = '%' + this._filter.code.toUpperCase() + '%';
-    }
-    if (!!this._filter.name) {
-      filter['name'] = '%' + this._filter.name + '%';
-    }
-    this.filter = filter;
+  protected override getActivity(): string {
+    return 'configCatalogValues';
   }
 }

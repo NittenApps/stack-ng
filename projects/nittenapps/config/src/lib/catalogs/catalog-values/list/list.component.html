@@ -4,13 +4,17 @@
     <div class="row row-cols-2 row-cols-md-4">
       <mat-form-field>
         <mat-label>Código</mat-label>
-        <input matInput name="code" autocomplete="off" [(ngModel)]="_filter.code" (change)="applyFilter()">
+        <input matInput name="code" autocomplete="off" [(ngModel)]="filters.code" (change)="applyFilters()"
+          normalizeValue>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Nombre</mat-label>
-        <input matInput name="name" autocomplete="off" [(ngModel)]="_filter.name" (change)="applyFilter()">
+        <input matInput name="name" autocomplete="off" [(ngModel)]="filters.name" (change)="applyFilters()"
+          normalizeValue>
       </mat-form-field>
     </div>
-    <nas-list activity="configCatalogValues" activeSort="code" [columns]="columns" [filter]="filter" />
+    <nas-list [activity]="getActivity()" activeSort="code" [columns]="columns" [filters]="currentFilters"
+      [initialPagination]="currentPagination" [initalSort]="currentSort" (stateChange)="onListStateChange($event)"
+      (rowClick)="onRowClick($event)" />
   </div>
 </div>

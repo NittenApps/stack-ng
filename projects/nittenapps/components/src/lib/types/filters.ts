@@ -4,4 +4,4 @@
  * Values may be scalar strings, numbers, or booleans, or readonly arrays of
  * strings and numbers for criteria that accept multiple values.
  */
-export type Filter = { [key: string]: string | number | boolean | readonly (string | number)[] };
+export type Filters = { [key: string]: string | number | boolean | readonly (string | number)[] };

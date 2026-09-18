@@ -1,8 +1,8 @@
 import { DataSource } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 import { ActivityService, ApiConfig } from '@nittenapps/api';
-import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
-import { Filter } from '../types';
+import { BehaviorSubject, Observable, Subject, catchError, finalize, of, switchMap } from 'rxjs';
+import { TableRequestParams } from '../types';
 
 /**
  * Data source for paginated list data backed by an activity endpoint.
@@ -15,13 +15,16 @@ import { Filter } from '../types';
  * @template T The type of the items contained in the list.
  */
 export class ListDataSource<T> extends DataSource<T> {
-  /**
-   * Total number of items available across all pages.
-   */
-  totalItems = 0;
+  private readonly activityService: ActivityService<T>;
+  private readonly dataSubject = new BehaviorSubject<T[]>([]);
+  private readonly loadSubject = new Subject<{ params: TableRequestParams; silent: boolean }>();
+  private readonly totalSubject = new BehaviorSubject<number>(0);
 
-  private activityService: ActivityService<T>;
-  private listSubject = new BehaviorSubject<T[]>([]);
+  /** Emits when a data-loading operation finishes. */
+  onLoaded$ = new Subject<void>();
+
+  /** Emits the total number of items reported by the API. */
+  total$ = this.totalSubject.asObservable();
 
   /**
    * Creates a list data source bound to a specific API activity.
@@ -32,7 +35,25 @@ export class ListDataSource<T> extends DataSource<T> {
    */
   constructor(config: ApiConfig, http: HttpClient, activity: string) {
     super();
+
     this.activityService = new ActivityService<T>(config, http, activity);
+
+    this.loadSubject
+      .pipe(
+        switchMap(({ params, silent }) => {
+          const sort = !!params.sort ? `${params.sort} ${params.direction || ''}` : undefined;
+          return this.activityService.getList(params.pageIndex, params.pageSize, sort, params.filters as any).pipe(
+            catchError(() => of({ code: 500, body: { items: [], page: 0, total: 0 } })),
+            finalize(() => {
+              this.onLoaded$.next();
+            }),
+          );
+        }),
+      )
+      .subscribe((response) => {
+        this.dataSubject.next(response.body.items);
+        this.totalSubject.next(response.body.total);
+      });
   }
 
   /**
@@ -41,36 +62,26 @@ export class ListDataSource<T> extends DataSource<T> {
    * @returns An observable of the list items.
    */
   connect(): Observable<T[]> {
-    return this.listSubject.asObservable();
+    return this.dataSubject.asObservable();
   }
 
   /**
    * Completes the internal list subject and releases the underlying stream.
    */
   disconnect(): void {
-    this.listSubject.complete();
+    this.dataSubject.complete();
+    this.totalSubject.complete();
+    this.loadSubject.complete();
+    this.onLoaded$.complete();
   }
 
   /**
-   * Loads a page of items from the configured activity endpoint.
+   * Loads a page of list data using the supplied table parameters.
    *
-   * The response is normalized to a `{ code, body: { items, page, total } }`
-   * shape in case of error, and the local `totalItems` value as well as the
-   * internal subject are updated with the successful response payload.
-   *
-   * @param page Optional page number to request.
-   * @param pageSize Optional number of items per page.
-   * @param sort Optional sort expression.
-   * @param filter Optional filter criteria.
-   * @returns Observable with the API response.
+   * @param params Pagination, sorting, and filtering parameters for the request.
+   * @param silent Whether the request should be treated as silent by consumers.
    */
-  loadItems(page?: number, pageSize?: number, sort?: string, filter?: Filter): Observable<any> {
-    return this.activityService.getList(page, pageSize, sort, filter as any).pipe(
-      catchError(() => of({ code: 500, body: { items: [], page: 0, total: 0 } })),
-      tap((response) => {
-        this.totalItems = response.body.total;
-        this.listSubject.next(response.body.items);
-      }),
-    );
+  loadData(params: TableRequestParams, silent = false): void {
+    this.loadSubject.next({ params, silent });
   }
 }

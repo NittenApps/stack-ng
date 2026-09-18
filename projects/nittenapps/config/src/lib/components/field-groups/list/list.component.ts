@@ -1,23 +1,33 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { Column, Filter, ListToolbarComponent, ListComponent as StackListComponent } from '@nittenapps/components';
+import { CommonModule } from '@nittenapps/common';
+import {
+  BaseListComponent,
+  Column,
+  ListToolbarComponent,
+  ListComponent as StackListComponent,
+} from '@nittenapps/components';
 
 /**
- * Displays and filters the list of field groups.
+ * Represents the field groups list view used to display and filter field groups.
+ *
+ * The component configures the list columns and applies the current filters to the
+ * data source before rendering the table.
  */
 @Component({
   selector: 'nas-field-groups-list',
-  imports: [FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
+  imports: [CommonModule, FormsModule, ListToolbarComponent, MatInputModule, StackListComponent],
   templateUrl: './list.component.html',
 })
-export class ListComponent {
-  columns: Column[];
-  filter: Filter = {};
+export class ListComponent extends BaseListComponent {
+  protected readonly columns: Column[];
 
-  _filter: { code?: string; name?: string } = {};
+  protected override readonly filters: { code?: string; name?: string } = {};
 
   constructor() {
+    super();
+
     this.columns = [
       {
         id: 'code',
@@ -36,14 +46,7 @@ export class ListComponent {
     ];
   }
 
-  applyFilter(): void {
-    const filter: Filter = {};
-    if (!!this._filter.code) {
-      filter['code'] = '%' + this._filter.code.toUpperCase() + '%';
-    }
-    if (!!this._filter.name) {
-      filter['name'] = '%' + this._filter.name + '%';
-    }
-    this.filter = filter;
+  protected override getActivity(): string {
+    return 'configFieldGroups';
   }
 }

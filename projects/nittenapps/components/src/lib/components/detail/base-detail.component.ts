@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Directive, inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ActivityService, ApiConfig, ApiResponse, ConfigService, NAS_API_CONFIG, ObjectBody } from '@nittenapps/api';
@@ -19,10 +19,7 @@ import { distinctUntilChanged, filter, map, Observable, of, startWith, switchMap
  * @implements {DirtyAware}
  * @implements {OnInit}
  */
-@Component({
-  template: '',
-  standalone: false,
-})
+@Directive()
 export abstract class BaseDetailComponent<T = any> implements AfterViewInit, DirtyAware, OnInit {
   fields!: Observable<StackFieldConfig[]>;
   form: FormGroup = new FormGroup({});

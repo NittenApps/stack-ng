@@ -31,7 +31,7 @@ export class ActivityService<T> {
    * @template R Response payload type returned by the API.
    * @param method Activity method name to call.
    * @param params Query parameters to include in the request.
-   * @param skipIndicator Whether the global loading indicator should be skipped.
+   * @param skipIndicator Whether the global loading indicator should be skipped. Defaults to false.
    * @returns Observable emitting the API response.
    */
   get<R = any>(
@@ -65,6 +65,7 @@ export class ActivityService<T> {
    * @param pageSize Optional page size.
    * @param sort Optional sorting expression.
    * @param filter Optional filter values applied to the request.
+   * @param skipIndicator Whether the global loading indicator should be skipped. Defaults to false.
    * @returns Observable emitting the paginated API response.
    */
   getList(
@@ -72,6 +73,7 @@ export class ActivityService<T> {
     pageSize?: number,
     sort?: string,
     filter?: { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> },
+    skipIndicator = false,
   ): Observable<ApiResponse<T, ListBody<T>>> {
     const params = this.removeNullishValues(filter) || {};
     if (page) {
@@ -85,6 +87,7 @@ export class ActivityService<T> {
     }
     return this.http.get<ApiResponse<T, ListBody<T>>>(`${this.config.baseUrl}/activity/v1/${this.activity}`, {
       params,
+      context: new HttpContext().set(SKIP_LOADING, skipIndicator),
     });
   }
 
