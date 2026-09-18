@@ -1,6 +1,6 @@
 <mat-toolbar class="list-toolbar" color="tertiary">
-  @if (allowNew) {
-  <button mat-icon-button matTooltip="Nuevo" aria-label="Nuevo" [routerLink]="['__NEW__']" >
+  @if (allowNew()) {
+  <button mat-icon-button matTooltip="Nuevo" aria-label="Nuevo" [routerLink]="['__NEW__']">
     <fa-duotone-icon [icon]="faPlus" swapOpacity="true" />
   </button>
   }

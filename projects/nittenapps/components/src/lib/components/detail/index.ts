@@ -1,1 +1,1 @@
-export { BaseDetailComponent } from './detail.component';
+export { BaseDetailComponent } from './base-detail.component';

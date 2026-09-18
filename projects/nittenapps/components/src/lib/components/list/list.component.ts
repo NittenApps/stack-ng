@@ -1,32 +1,30 @@
-import { DatePipe, DecimalPipe, NgClass, PercentPipe } from '@angular/common';
+import { AsyncPipe, DatePipe, DecimalPipe, NgClass, PercentPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Inject,
-  Input,
+  computed,
+  effect,
+  inject,
+  input,
   numberAttribute,
-  OnChanges,
   OnDestroy,
   OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
+  output,
+  signal,
+  untracked,
 } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
-import { MatTable, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSortModule, Sort, SortDirection } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { ApiConfig, NAS_API_CONFIG } from '@nittenapps/api';
-import { concatMap, delay, merge, Observable, of, repeat, Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { NAS_API_CONFIG } from '@nittenapps/api';
+import { isEqual } from 'lodash-es';
+import { Subject, Subscription } from 'rxjs';
 import { ListDataSource } from '../../datasources/list.datasource';
-import { ListStateService } from '../../services/list-state.service';
-import { AsyncEvent, Column, Filter } from '../../types';
+import { AsyncEvent, Column, Filters, TableRequestParams } from '../../types';
 
 /**
  * Displays a configurable, paginated, sortable, and filterable data table.
@@ -39,6 +37,7 @@ import { AsyncEvent, Column, Filter } from '../../types';
 @Component({
   selector: 'nas-list',
   imports: [
+    AsyncPipe,
     DatePipe,
     DecimalPipe,
     FaIconComponent,
@@ -51,113 +50,112 @@ import { AsyncEvent, Column, Filter } from '../../types';
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<T>;
+export class ListComponent<T> implements OnDestroy, OnInit {
+  private readonly refreshDataSource$ = new Subject<AsyncEvent>();
 
-  @Input() activeSort?: string;
-  @Input() activeSortDirection: SortDirection = 'asc';
-  @Input({ transform: numberAttribute }) autorefresh?: number;
-  @Input({ required: true }) activity!: string;
-  @Input() baseObject!: T;
-  @Input({ required: true }) columns!: Column[];
-  @Input() emptyMessage: string = 'No se encontraron registros';
-  @Input() filter?: Filter;
-  @Input() objectId: string = 'id';
-  @Input() openUrl: boolean = false;
-  @Input() rowClass?: string | string[] | ((item: any) => string | string[]);
-
-  @Output() filterChange = new EventEmitter<Filter>();
-
+  /** Identifier used by the data source to load and persist this list's state. */
+  activity = input.required<string>();
+  /** Refresh interval in milliseconds; zero disables automatic refreshing. */
+  autoRefresh = input(0, { transform: numberAttribute });
+  /** Data source that provides the records displayed by the table. */
   dataSource!: ListDataSource<T>;
-  displayedColumns: string[] = [];
-  pageIndex: number = 0;
-  pageSize: number = 15;
+  /** Definitions of the columns rendered by the table. */
+  columns = input.required<Column[]>();
+  /** Message displayed when the table contains no records. */
+  emptyMessage = input<string>('No se encontraron registros');
+  /** Filters sent with each data request. */
+  filters = input<Filters>({});
+  /** Initial page index and page size. */
+  initialPagination = input<{ pageIndex: number; pageSize: number } | null>(null);
+  /** Initial sort column and direction. */
+  initalSort = input<{ active: string; direction: SortDirection } | null>(null);
+  /** Static or record-dependent CSS class applied to each table row. */
+  rowClass = input<string | string[] | ((item: any) => string | string[]) | null>(null);
 
-  private _filterChange = new EventEmitter<void>();
-  private destroy$ = new Subject<void>();
-  private refreshDataSource$ = new Subject<AsyncEvent>();
-
+  /** Requests that consumers refresh data used by the list's parent context. */
   refreshData = outputFromObservable<AsyncEvent>(this.refreshDataSource$);
+  /** Emits the record selected by a row click. */
+  rowClick = output<any>();
+  /** Emits the parameters whenever the table state changes. */
+  stateChange = output<TableRequestParams>();
 
-  constructor(
-    @Inject(NAS_API_CONFIG) private apiConfig: ApiConfig,
-    private http: HttpClient,
-    private route: ActivatedRoute,
-    private router: Router,
-    private stateService: ListStateService,
-  ) {}
+  /** Column identifiers used by the table as its displayed column order. */
+  displayedColumns = computed(() => this.columns().map((c) => c.id));
 
-  /** Initializes table state and subscribes to sorting, paging, and filtering changes. */
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      const state = this.stateService.get(this.activity);
-      this.pageIndex = state.p;
-      this.pageSize = state.s;
-      this.filter = state.f || {};
-      this.stringToSort(state.o?.[0] || this.activeSort);
+  /** Currently selected sort column. */
+  activeSort = signal<string>('');
+  /** Zero-based index of the current page. */
+  pageIndex = signal<number>(0);
+  /** Number of records displayed per page. */
+  pageSize = signal<number>(15);
+  /** Direction of the current sort. */
+  sortDirection = signal<SortDirection>('');
 
-      merge(this.sort.sortChange, this._filterChange).subscribe(() => (this.paginator.pageIndex = 0));
+  private readonly apiConfig = inject(NAS_API_CONFIG);
+  private readonly http = inject(HttpClient);
+  private lastFilters: Filters = {};
+  private loadedSub?: Subscription;
+  private refreshTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
-      const merged: Observable<unknown> = merge(
-        timer(0),
-        this.sort.sortChange,
-        this.paginator.page,
-        this._filterChange,
-      );
+  constructor() {
+    effect(() => {
+      const currentFilters = this.filters();
 
-      merged
-        .pipe(
-          switchMap(() => {
-            const taskStep$ = of(null).pipe(
-              concatMap(() => this.loadData()),
-              concatMap(() => this.refreshParentData()),
-            );
+      this.filters();
+      untracked(() => {
+        if (this.dataSource && !isEqual(this.lastFilters, currentFilters)) {
+          this.lastFilters = { ...currentFilters };
 
-            if (this.autorefresh && this.autorefresh > 0) {
-              return taskStep$.pipe(delay(this.autorefresh), repeat());
-            } else {
-              return taskStep$;
-            }
-          }),
-          takeUntil(this.destroy$),
-        )
-        .subscribe();
+          this.pageIndex.set(0);
+          this.triggerLoad(false);
+        }
+      });
+    });
+
+    effect(() => {
+      const interval = this.autoRefresh();
+
+      untracked(() => {
+        if (this.dataSource) {
+          this.scheduleNextRefresh();
+        }
+      });
     });
   }
 
-  /** Emits a filter change when the filter input is updated. */
-  ngOnChanges(changes: SimpleChanges): void {
-    for (const prop in changes) {
-      if (prop === 'filter') {
-        this._filterChange.emit(changes[prop].currentValue);
-      }
+  ngOnInit(): void {
+    const pagination = this.initialPagination();
+    if (pagination) {
+      this.pageIndex.set(pagination.pageIndex);
+      this.pageSize.set(pagination.pageSize);
+    }
+    const sort = this.initalSort();
+    if (sort) {
+      this.activeSort.set(sort.active);
+      this.sortDirection.set(sort.direction);
+    }
+
+    this.lastFilters = { ...(this.filters() || {}) };
+
+    this.dataSource = new ListDataSource(this.apiConfig, this.http, this.activity());
+    this.loadedSub = this.dataSource.onLoaded$.subscribe(() => {
+      this.scheduleNextRefresh();
+    });
+
+    this.triggerLoad(false);
+  }
+
+  /** Releases subscriptions, timers, and the data source. */
+  ngOnDestroy(): void {
+    this.clearRefreshTimer();
+    this.loadedSub?.unsubscribe();
+    if (this.dataSource) {
+      this.dataSource.disconnect();
     }
   }
 
-  /** Stops active subscriptions and persists the current table state. */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-
-    this.stateService.save(
-      this.activity,
-      this.paginator.pageIndex,
-      this.paginator.pageSize,
-      this.sortToString(),
-      this.filter,
-    );
-  }
-
-  /** Creates the data source and derives the displayed columns from the column definitions. */
-  ngOnInit(): void {
-    this.dataSource = new ListDataSource(this.apiConfig, this.http, this.activity);
-    this.displayedColumns = this.columns.map((column) => column.id);
-  }
-
   /** Returns the CSS class configured for a column and record. */
-  getClass(column: Column, item: T): string | string[] {
+  protected getClass(column: Column, item: T): string | string[] {
     if (typeof column.class === 'function') {
       return column.class(column.id, item);
     }
@@ -165,7 +163,7 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   }
 
   /** Returns the icon configured for a column and record. */
-  getIcon(column: Column, item: T): IconProp | undefined {
+  protected getIcon(column: Column, item: T): IconProp | undefined {
     if (typeof column.icon === 'function') {
       return column.icon(column.id, item);
     }
@@ -173,20 +171,21 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
   }
 
   /** Returns the numeric value configured for a column and record. */
-  getNumberValue(column: Column, item: T): number | undefined {
+  protected getNumberValue(column: Column, item: T): number | undefined {
     return this.getValue(column, item) as number;
   }
 
   /** Returns the CSS class configured for a table row. */
-  getRowClass(item: T): string | string[] | undefined {
-    if (typeof this.rowClass === 'function') {
-      return this.rowClass(item);
+  protected getRowClass(item: T): string | string[] | null {
+    const rowClass = this.rowClass();
+    if (typeof rowClass === 'function') {
+      return rowClass(item);
     }
-    return this.rowClass;
+    return rowClass;
   }
 
   /** Resolves a column value from its value function, literal value, or field path. */
-  getValue(column: Column, item: T): string | number | Date | undefined {
+  protected getValue(column: Column, item: T): string | number | Date | undefined {
     if (typeof column.value === 'function') {
       return column.value(column.id, item);
     } else if (!!column.value) {
@@ -210,24 +209,34 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     }
   }
 
-  /** Opens the record URL or navigates to the record details route. */
-  showItem(item: T): void {
-    if (this.openUrl) {
-      window.open((item as any).url, '_blank');
-      return;
+  /** Updates sorting state and reloads the table. */
+  protected onSort(sort: Sort): void {
+    this.activeSort.set(sort.active);
+    this.sortDirection.set(sort.direction);
+    this.triggerLoad(false);
+  }
+
+  /** Updates pagination state and reloads the table. */
+  protected onPage(page: PageEvent): void {
+    this.pageIndex.set(page.pageIndex);
+    this.pageSize.set(page.pageSize);
+    this.triggerLoad(false);
+  }
+
+  /** Emits the selected record when a table row is clicked. */
+  protected onRowClick(row: T): void {
+    this.rowClick.emit(row);
+  }
+
+  /** Cancels any pending automatic refresh. */
+  private clearRefreshTimer(): void {
+    if (this.refreshTimeoutId) {
+      clearTimeout(this.refreshTimeoutId);
+      this.refreshTimeoutId = undefined;
     }
-    this.router.navigate([(item as any)[this.objectId]], { relativeTo: this.route });
   }
 
-  private loadData(): Observable<any> {
-    return this.dataSource.loadItems(
-      this.paginator.pageIndex,
-      this.paginator.pageSize,
-      this.sort.active ? `${this.sort.active} ${this.sort.direction}` : undefined,
-      this.filter,
-    );
-  }
-
+  /** Waits for consumers to finish handling a parent-data refresh request. */
   private refreshParentData(): Promise<void> {
     return new Promise<void>((resolve) => {
       if (!this.refreshDataSource$.observed) {
@@ -239,23 +248,33 @@ export class ListComponent<T> implements AfterViewInit, OnChanges, OnDestroy, On
     });
   }
 
-  private sortToString(): string[] {
-    let sort: string[] = [];
-    if (this.sort.active && this.sort.direction) {
-      sort.push(this.sort.active + ' ' + this.sort.direction);
-    } else if (!!this.activeSort) {
-      sort.push(this.activeSort);
+  /** Schedules the next automatic refresh when enabled. */
+  private scheduleNextRefresh(): void {
+    this.clearRefreshTimer();
+    const interval = this.autoRefresh();
+
+    if (interval > 0) {
+      this.refreshTimeoutId = setTimeout(() => {
+        this.triggerLoad(true);
+      }, interval);
     }
-    return sort;
   }
 
-  private stringToSort(sort?: string): void {
-    if (sort) {
-      const parts = sort.split(' ');
-      this.activeSort = parts[0];
-      if (parts.length > 1) {
-        this.activeSortDirection = parts[1] as SortDirection;
-      }
-    }
+  /** Builds the current table request and loads records from the data source. */
+  private triggerLoad(silent = false): void {
+    this.clearRefreshTimer();
+
+    const params: TableRequestParams = {
+      filters: this.filters(),
+      pageIndex: this.pageIndex(),
+      pageSize: this.pageSize(),
+      sort: this.activeSort(),
+      direction: this.sortDirection(),
+    };
+
+    setTimeout(() => this.stateChange.emit(params));
+
+    this.dataSource.loadData(params, silent);
+    this.refreshParentData();
   }
 }

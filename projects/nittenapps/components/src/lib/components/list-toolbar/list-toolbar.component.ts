@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
+import { booleanAttribute, Component, ContentChild, input, TemplateRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -33,7 +33,7 @@ export class ListToolbarComponent {
   @ContentChild('rightActions') rightActions: TemplateRef<any> | null = null;
 
   /**
-   * Whether the default "new" action button is enabled.
+   * Whether the default "new" action button is shown.
    */
-  @Input() allowNew = true;
+  allowNew = input(true, { transform: booleanAttribute });
 }

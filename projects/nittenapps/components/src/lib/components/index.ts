@@ -2,8 +2,8 @@ import { Provider } from '@angular/core';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { DetailToolbarComponent } from './detail-toolbar/detail-toolbar.component';
 import { IconComponent } from './icon/icon.component';
-import { ListComponent } from './list/list.component';
 import { ListToolbarComponent } from './list-toolbar/list-toolbar.component';
+import { ListComponent } from './list/list.component';
 import { NavbarVerticalComponent } from './navbar/navbar-vertical.component';
 import {
   NavigationCollapsibleComponent,
@@ -20,14 +20,15 @@ export {
   ListComponent,
   ListToolbarComponent,
   NavbarVerticalComponent,
-  NavigationComponent,
   NavigationCollapsibleComponent,
+  NavigationComponent,
   NavigationItemComponent,
   PlaceAutocompleteComponent,
   SelectAddressComponent,
 };
 
 export { BaseDetailComponent } from './detail';
+export { BaseListComponent } from './list';
 
 export const COMPONENTS_COMPONENTS: Provider[] = [
   BreadcrumbComponent,

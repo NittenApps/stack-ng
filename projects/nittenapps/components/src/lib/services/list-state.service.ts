@@ -1,47 +1,51 @@
-import { Injectable } from '@angular/core';
-import { Filter, ListState } from '../types';
+import { inject, Injectable } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 /**
- * Persists and retrieves list view state using browser local storage.
+ * Caches list state while navigating between a list route and its detail
+ * routes, and clears the cache when navigating to an unrelated route.
  */
 @Injectable({ providedIn: 'root' })
 export class ListStateService {
-  /**
-   * Retrieves the saved state for a list.
-   *
-   * @param id Identifier of the list whose state should be retrieved.
-   * @returns The saved list state, or the default first page with 15 items.
-   */
-  get(id: string): ListState {
-    const value = localStorage.getItem('list-state');
-    // If no state is found, return default state
-    if (value) {
-      const state = JSON.parse(value);
-      if (state.i === id) {
-        return state;
+  private readonly router = inject(Router);
+
+  private cache: { baseUrl: string; state: any } | null = null;
+
+  constructor() {
+    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe((event: NavigationStart) => {
+      if (this.cache) {
+        const targetUrl = event.url.split('?')[0];
+        const isSameList = targetUrl === this.cache.baseUrl;
+        const isDetailRoute = targetUrl.startsWith(this.cache.baseUrl + '/');
+
+        if (!isSameList && !isDetailRoute) {
+          this.cache = null;
+        }
       }
-    }
-    return { i: id, p: 0, s: 15 };
+    });
   }
 
   /**
-   * Removes the persisted list state.
-   */
-  remove(): void {
-    localStorage.removeItem('list-state');
-  }
-
-  /**
-   * Saves the current state of a list.
+   * Stores the state for a list route.
    *
-   * @param id Identifier of the list.
-   * @param page Current page number.
-   * @param size Number of items displayed per page.
-   * @param order Optional sort order.
-   * @param filter Optional list filter.
+   * @param baseUrl The base URL identifying the list route.
+   * @param state The state to cache.
    */
-  save(id: string, page: number, size: number, order?: string[], filter?: Filter): void {
-    const state: ListState = { i: id, p: page, s: size, o: order, f: filter };
-    localStorage.setItem('list-state', JSON.stringify(state));
+  setCache(baseUrl: string, state: any): void {
+    this.cache = { baseUrl, state };
+  }
+
+  /**
+   * Retrieves the cached state for a list route.
+   *
+   * @param baseUrl The base URL identifying the list route.
+   * @returns The cached state, or `null` when no matching state exists.
+   */
+  getCache(baseUrl: string): any | null {
+    if (this.cache && this.cache.baseUrl === baseUrl) {
+      return this.cache.state;
+    }
+    return null;
   }
 }

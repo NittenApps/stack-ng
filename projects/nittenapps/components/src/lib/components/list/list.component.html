@@ -1,12 +1,12 @@
 <div class="flex flex-column v-full overflow-y-auto">
-  <table mat-table class="selectable" [dataSource]="dataSource" matSort [matSortActive]="activeSort || ''"
-    [matSortDirection]="activeSortDirection">
-    @for (column of columns; track column.id) {
+  <table mat-table class="selectable" [dataSource]="dataSource" matSort [matSortActive]="activeSort()"
+    [matSortDirection]="sortDirection()" (matSortChange)="onSort($event)">
+    @for (column of columns(); track column.id) {
     <ng-container matColumnDef="{{column.id}}">
       <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!column.sortable"
         [ngClass]="{'date': ['date', 'datetime'].includes(column.type || ''), 'number': ['decimal', 'integer'].includes(column.type || '')}">
         {{column.title}}</th>
-      <td mat-cell *matCellDef="let item" class="{{getClass(column, item)}}"
+      <td mat-cell *matCellDef="let item" class="{{ getClass(column, item) }}"
         [ngClass]="{'date': ['date', 'datetime'].includes(column.type || ''), 'number': ['decimal', 'integer'].includes(column.type || '')}">
         @if (column.type === 'icon') {
           @if (getIcon(column, item)) {
@@ -24,14 +24,16 @@
     </ng-container>
     }
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let item; columns: displayedColumns" (click)="showItem(item)" [ngClass]="getRowClass(item)">
+    <tr mat-header-row *matHeaderRowDef="displayedColumns(); sticky: true"></tr>
+    <tr mat-row *matRowDef="let item; columns: displayedColumns()" (click)="onRowClick(item)"
+      [ngClass]="getRowClass(item)">
     </tr>
 
     <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
-      <td class="mat-mdc-cell mdc-data-table__cell" [attr.colspan]="displayedColumns.length">{{emptyMessage}}</td>
+      <td class="mat-mdc-cell mdc-data-table__cell" [attr.colspan]="displayedColumns().length">{{ emptyMessage() }}</td>
     </tr>
   </table>
 </div>
-<mat-paginator #paginator [length]="dataSource.totalItems" [pageIndex]="pageIndex" [pageSize]="pageSize"
-  [pageSizeOptions]="[10, 15, 20]" [showFirstLastButtons]="true" aria-label="Seleccionar página" />
+<mat-paginator #paginator [length]="(dataSource.total$ | async) || 0" [pageIndex]="pageIndex()" [pageSize]="pageSize()"
+  [pageSizeOptions]="[10, 15, 20]" [showFirstLastButtons]="true" (page)="onPage($event)"
+  aria-label="Seleccionar página" />
